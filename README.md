@@ -22,3 +22,4 @@ git commit -m ""
 
 git push origin hexo
 
+此分支不再更新，涉及到密钥的问题，转移到gitee的私有仓库
