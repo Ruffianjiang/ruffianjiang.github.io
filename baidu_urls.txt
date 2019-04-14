@@ -1,5 +1,4 @@
 https://lossingdawn.top/2018/06/10/github访问不到，登陆不上/
-https://lossingdawn.top/2018/05/30/hello-world/
 https://lossingdawn.top/2018/05/25/jdk安装错误1316，jdk-10.0.1/
 https://lossingdawn.top/2018/05/23/windows安装mongodb/
 https://lossingdawn.top/2018/04/25/Eclipse中Cannot nest src folder解决方法/
