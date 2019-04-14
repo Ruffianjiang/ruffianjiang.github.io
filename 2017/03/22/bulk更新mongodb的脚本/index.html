@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Bulk更新mongodb的脚本 | Hexo</title>
+  <meta name="description" content="摘要: bulk批处理mongodb，比普通的js脚本来的更快一些。 官方网址：https://docs.mongodb.com/manual/reference/method/Bulk/ bulk支持的方法： bulk插入示例： bulk更新示例： 打印字符串： 移除： 替换： 插入并更新： 获得历史： 阅读全文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bulk更新mongodb的脚本">
+<meta property="og:url" content="https://lossingdawn.top/2017/03/22/bulk更新mongodb的脚本/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="摘要: bulk批处理mongodb，比普通的js脚本来的更快一些。 官方网址：https://docs.mongodb.com/manual/reference/method/Bulk/ bulk支持的方法： bulk插入示例： bulk更新示例： 打印字符串： 移除： 替换： 插入并更新： 获得历史： 阅读全文">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-06-13T15:31:22.668Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Bulk更新mongodb的脚本">
+<meta name="twitter:description" content="摘要: bulk批处理mongodb，比普通的js脚本来的更快一些。 官方网址：https://docs.mongodb.com/manual/reference/method/Bulk/ bulk支持的方法： bulk插入示例： bulk更新示例： 打印字符串： 移除： 替换： 插入并更新： 获得历史： 阅读全文">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://lossingdawn.top/2017/03/22/bulk更新mongodb的脚本/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="../../../../css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/Ruffianjiang" target="_blank">
+          <img class="img-circle img-rotate" src="../../../../images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">遗失的拂晓</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">JAVA Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shanghai, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="../../../../.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="../../../../archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="../../../../categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="../../../../tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="../../../../repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="../../../../books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="../../../../links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="../../../../about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Ruffianjiang" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/lossingdawnn" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="../../../../atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+
+    
+      
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2018/06/">六月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2018/05/">五月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2018/04/">四月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2018/03/">三月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2017/04/">四月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2016/06/">六月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2015/09/">九月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2015/08/">八月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2015/06/">六月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2015/04/">四月 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2014/12/">十二月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2014/11/">十一月 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2014/10/">十月 2014</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="../../../../2018/06/10/github访问不到，登陆不上/" class="title">Github访问不到，登陆不上</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-06-10T05:50:00.000Z" itemprop="datePublished">2018-06-10</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="../../../../2018/05/25/jdk安装错误1316，jdk-10.0.1/" class="title">Jdk安装错误1316，jdk-10.0.1</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-05-24T16:50:00.000Z" itemprop="datePublished">2018-05-25</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="../../../../2018/05/23/windows安装mongodb/" class="title">Windows安装mongodb</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-05-23T15:44:00.000Z" itemprop="datePublished">2018-05-23</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="../../../../2018/04/25/Eclipse中Cannot nest src folder解决方法/" class="title">Eclipse中Cannot Nest Src Folder解决方法</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-04-25T01:04:00.000Z" itemprop="datePublished">2018-04-25</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="../../../../2018/04/20/restTemplate重定向问题 &cookie问题/" class="title">restTemplate重定向问题 &amp;Cookie问题</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-04-20T07:44:00.000Z" itemprop="datePublished">2018-04-20</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-bulk更新mongodb的脚本" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Bulk更新mongodb的脚本
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="" class="article-date">
+	  <time datetime="2017-03-22T05:43:00.000Z" itemprop="datePublished">2017-03-22</time>
+	</a>
+</span>
+
+        
+        
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 681(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 4(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>摘要: bulk批处理mongodb，比普通的js脚本来的更快一些。 官方网址：<a href="https://docs.mongodb.com/manual/reference/method/Bulk/" target="_blank" rel="noopener">https://docs.mongodb.com/manual/reference/method/Bulk/</a> bulk支持的方法： bulk插入示例： bulk更新示例： 打印字符串： 移除： 替换： 插入并更新： 获得历史： 阅读全文</p>
+<a id="more"></a>
+<p>bulk批处理mongodb，比普通的js脚本来的更快一些。</p>
+<p>官方网址：<a href="https://docs.mongodb.com/manual/reference/method/Bulk/" target="_blank" rel="noopener">https://docs.mongodb.com/manual/reference/method/Bulk/</a></p>
+<p>bulk支持的方法：<br>
+Name Description <a href="https://docs.mongodb.com/manual/reference/method/Bulk.insert/#Bulk.insert" title="Bulk.insert()" target="_blank" rel="noopener"><br>
+Bulk.insert()<br>
+</a> Adds an insert operation to a list of operations. <a href="https://docs.mongodb.com/manual/reference/method/Bulk.find/#Bulk.find" title="Bulk.find()" target="_blank" rel="noopener"><br>
+Bulk.find()<br>
+</a> Specifies the query condition for an update or a remove operation. <a href="https://docs.mongodb.com/manual/reference/method/Bulk.find.removeOne/#Bulk.find.removeOne" title="Bulk.find.removeOne()" target="_blank" rel="noopener"><br>
+Bulk.find.removeOne()<br>
+</a> Adds a single document remove operation to a list of operations. <a href="https://docs.mongodb.com/manual/reference/method/Bulk.find.remove/#Bulk.find.remove" title="Bulk.find.remove()" target="_blank" rel="noopener"><br>
+Bulk.find.remove()<br>
+</a> Adds a multiple document remove operation to a list of operations. <a href="https://docs.mongodb.com/manual/reference/method/Bulk.find.replaceOne/#Bulk.find.replaceOne" title="Bulk.find.replaceOne()" target="_blank" rel="noopener"><br>
+Bulk.find.replaceOne()<br>
+</a> Adds a single document replacement operation to a list of operations. <a href="https://docs.mongodb.com/manual/reference/method/Bulk.find.updateOne/#Bulk.find.updateOne" title="Bulk.find.updateOne()" target="_blank" rel="noopener"><br>
+Bulk.find.updateOne()<br>
+</a> Adds a single document update operation to a list of operations. <a href="https://docs.mongodb.com/manual/reference/method/Bulk.find.update/#Bulk.find.update" title="Bulk.find.update()" target="_blank" rel="noopener"><br>
+Bulk.find.update()<br>
+</a> Adds a</p>
+<p>multi<br>
+ update operation to a list of operations. <a href="https://docs.mongodb.com/manual/reference/method/Bulk.find.upsert/#Bulk.find.upsert" title="Bulk.find.upsert()" target="_blank" rel="noopener"><br>
+Bulk.find.upsert()<br>
+</a> Specifies</p>
+<p>upsert: true<br>
+ for an update operation. <a href="https://docs.mongodb.com/manual/reference/method/Bulk.execute/#Bulk.execute" title="Bulk.execute()" target="_blank" rel="noopener"><br>
+Bulk.execute()<br>
+</a> Executes a list of operations in bulk. <a href="https://docs.mongodb.com/manual/reference/method/Bulk.getOperations/#Bulk.getOperations" title="Bulk.getOperations()" target="_blank" rel="noopener"><br>
+Bulk.getOperations()<br>
+</a> Returns an array of write operations executed in the</p>
+<p>Bulk()<br>
+ operations object. <a href="https://docs.mongodb.com/manual/reference/method/Bulk.tojson/#Bulk.tojson" title="Bulk.tojson()" target="_blank" rel="noopener"><br>
+Bulk.tojson()<br>
+</a> Returns a JSON document that contains the number of operations and batches in the</p>
+<p>Bulk()<br>
+ operations object. <a href="https://docs.mongodb.com/manual/reference/method/Bulk.toString/#Bulk.toString" title="Bulk.toString()" target="_blank" rel="noopener"><br>
+Bulk.toString()<br>
+</a> Returns the <a href="https://docs.mongodb.com/manual/reference/method/Bulk.tojson/#Bulk.tojson" title="Bulk.tojson()" target="_blank" rel="noopener"><br>
+Bulk.tojson()<br>
+</a> results as a string.</p>
+<p>bulk插入示例：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">	var bulk = db.items.initializeUnorderedBulkOp();</span><br><span class="line">bulk.insert( &#123; <span class="string">item:</span> <span class="string">"abc123"</span>, <span class="string">defaultQty:</span> <span class="number">100</span>, <span class="string">status:</span> <span class="string">"A"</span>, <span class="string">points:</span> <span class="number">100</span> &#125; );</span><br><span class="line">bulk.insert( &#123; <span class="string">item:</span> <span class="string">"ijk123"</span>, <span class="string">defaultQty:</span> <span class="number">200</span>, <span class="string">status:</span> <span class="string">"A"</span>, <span class="string">points:</span> <span class="number">200</span> &#125; );</span><br><span class="line">bulk.insert( &#123; <span class="string">item:</span> <span class="string">"mop123"</span>, <span class="string">defaultQty:</span> <span class="number">0</span>, <span class="string">status:</span> <span class="string">"P"</span>, <span class="string">points:</span> <span class="number">0</span> &#125; );</span><br><span class="line">bulk.execute();</span><br></pre></td></tr></table></figure>
+<p></p>
+<p>bulk更新示例：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 批量更新数据库对象</span></span><br><span class="line"><span class="comment"> * 1. 按条件批量更新</span></span><br><span class="line"><span class="comment"> * 2. 无条件批量更新</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/** 1. 按条件批量更新 **/</span></span><br><span class="line"><span class="comment">// step 1: get key-value</span></span><br><span class="line"><span class="keyword">var</span> idArray = [];</span><br><span class="line"><span class="keyword">var</span> valueArray = [];</span><br><span class="line"><span class="keyword">var</span> idx = <span class="number">-1</span>;</span><br><span class="line">db.conch_ChargeSchedule.find(&#123;<span class="string">'predictChargeValue'</span>:&#123;$exists:<span class="keyword">false</span>&#125;&#125;).<span class="keyword">forEach</span>(<span class="function"><span class="keyword">function</span><span class="params">(obj)</span></span>&#123;</span><br><span class="line">    idx++;</span><br><span class="line">    idArray[idx]=obj._id;</span><br><span class="line">    valueArray[idx]=obj.planValue;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// step 2: update</span></span><br><span class="line"><span class="keyword">var</span> bulk = db.conch_ChargeSchedule.initializeUnorderedBulkOp();</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;idArray.length; i++)&#123;</span><br><span class="line">    bulk.find( &#123; _id: idArray[i] &#125; ).update(&#123; $set: &#123; predictChargeValue: valueArray[i] &#125; &#125;);</span><br><span class="line">&#125;</span><br><span class="line">bulk.execute();</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 2. 无条件批量更新 **/</span></span><br><span class="line"><span class="keyword">var</span> bulk = db.conch_ChargeSchedule.initializeUnorderedBulkOp();</span><br><span class="line">bulk.find(&#123;&#125;).update(&#123; $set: &#123; isPlanValueUpdatable: <span class="keyword">true</span>, isStatusUpdatable:<span class="keyword">true</span>, isStartDateUpdatable:<span class="keyword">true</span> &#125; &#125;);</span><br><span class="line">bulk.execute();</span><br></pre></td></tr></table></figure>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">	var bulk = db.items.initializeUnorderedBulkOp();</span><br><span class="line">bulk.find( &#123; <span class="string">status:</span> <span class="string">"D"</span> &#125; ).updateOne( &#123; <span class="string">$set:</span> &#123; <span class="string">status:</span> <span class="string">"I"</span>, <span class="string">points:</span> <span class="string">"0"</span> &#125; &#125; );</span><br><span class="line">bulk.execute();</span><br></pre></td></tr></table></figure>
+<p>打印字符串：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">	var bulk = db.items.initializeOrderedBulkOp();</span><br><span class="line">bulk.insert( &#123; <span class="string">item:</span> <span class="string">"abc123"</span>, <span class="string">status:</span> <span class="string">"A"</span>, <span class="string">defaultQty:</span> <span class="number">500</span>, <span class="string">points:</span> <span class="number">5</span> &#125; );</span><br><span class="line">bulk.insert( &#123; <span class="string">item:</span> <span class="string">"ijk123"</span>, <span class="string">status:</span> <span class="string">"A"</span>, <span class="string">defaultQty:</span> <span class="number">100</span>, <span class="string">points:</span> <span class="number">10</span> &#125; );</span><br><span class="line">bulk.find( &#123; <span class="string">status:</span> <span class="string">"D"</span> &#125; ).removeOne();</span><br><span class="line">bulk.toString();</span><br></pre></td></tr></table></figure>
+<p>移除：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">	var bulk = db.items.initializeUnorderedBulkOp();</span><br><span class="line">bulk.<span class="built_in">find</span>( &#123; <span class="built_in">status</span>: <span class="string">"D"</span> &#125; ).<span class="built_in">remove</span>();</span><br><span class="line">bulk.<span class="built_in">execute</span>();</span><br></pre></td></tr></table></figure>
+<p></p>
+<p>替换：</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">	var <span class="keyword">bulk </span>= db.<span class="keyword">items.initializeUnorderedBulkOp();</span></span><br><span class="line"><span class="keyword">bulk.find( </span>&#123; <span class="keyword">item: </span><span class="string">"abc123"</span> &#125; ).replaceOne( &#123; <span class="keyword">item: </span><span class="string">"abc123"</span>, status: <span class="string">"P"</span>, points: <span class="number">100</span> &#125; )<span class="comment">;</span></span><br><span class="line"><span class="keyword">bulk.execute();</span></span><br></pre></td></tr></table></figure>
+<p>插入并更新：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">	<span class="string">var</span> <span class="string">bulk</span> <span class="string">=</span> <span class="string">db.items.initializeUnorderedBulkOp();</span></span><br><span class="line"><span class="string">bulk.find(</span> <span class="string">&#123;</span> <span class="attr">status:</span> <span class="string">"P"</span><span class="string">,</span> <span class="attr">item:</span> <span class="literal">null</span> <span class="string">&#125;</span> <span class="string">).upsert().updateOne(</span></span><br><span class="line">   <span class="string">&#123;</span></span><br><span class="line">     <span class="string">$setOnInsert:</span> <span class="string">&#123;</span> <span class="attr">defaultQty:</span> <span class="number">0</span><span class="string">,</span> <span class="attr">inStock:</span> <span class="literal">true</span> <span class="string">&#125;,</span></span><br><span class="line">     <span class="string">$currentDate:</span> <span class="string">&#123;</span> <span class="attr">lastModified:</span> <span class="literal">true</span> <span class="string">&#125;,</span></span><br><span class="line">     <span class="string">$set:</span> <span class="string">&#123;</span> <span class="attr">points:</span> <span class="string">"0"</span> <span class="string">&#125;</span></span><br><span class="line">   <span class="string">&#125;</span></span><br><span class="line"><span class="string">);</span></span><br><span class="line"><span class="string">bulk.execute();</span></span><br></pre></td></tr></table></figure>
+<p>获得历史：</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">	var <span class="keyword">bulk </span>= db.items.initializeUnorderedBulkOp()<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">for (var i = <span class="number">1</span><span class="comment">; i &lt;= 1500; i++) &#123;</span></span><br><span class="line">    <span class="keyword">bulk.insert( </span>&#123; x: i &#125; )<span class="comment">;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">bulk.execute();</span></span><br><span class="line"><span class="keyword">bulk.getOperations();// </span>获得操作历史</span><br></pre></td></tr></table></figure>
+<p>普通的js脚本更新mongodb库，为单线程阻塞方式，有数据大小限制，数据大了容易断掉。bulk的则不会出现这种状况，效率max</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://lossingdawn.top/2017/03/22/bulk更新mongodb的脚本/" title="Bulk更新mongodb的脚本" target="_blank" rel="external">https://lossingdawn.top/2017/03/22/bulk更新mongodb的脚本/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/Ruffianjiang" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="../../../../images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/Ruffianjiang" target="_blank"><span class="text-dark">遗失的拂晓</span><small class="ml-1x">JAVA Developer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzA2NC8xMzYwMA==">
+        <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+      </div>    
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="../../../04/17/java.util.LinkedHashMap cannot be cast to/" title="java.util.LinkedHashMap Cannot Be Cast To"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="../../../../2016/06/16/html提示框插件/" title="Html提示框插件"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,qzone,wechat,tencent,douban,diandian,facebook,twitter,google,linkedin" data-mobile-sites="weibo,qq,qzone,wechat,tencent,douban,diandian,facebook,twitter,google,linkedin"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="../../../../images/donate/alipayimg.jpg" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="../../../../images/donate/wechatpayimg.jpg" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Ruffianjiang" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/lossingdawnn" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="../../../../atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+				<p>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></p>
+
+    		
+        &copy; 2019 Ruffianjiang
+        
+
+				<div class="publishby">
+        	Theme by <a href="https://github.com/Ruffianjiang" target="_blank"> cofess </a>base on <a href="https://github.com/Ruffianjiang/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+
+
+				<!--
+			  <script src="https://s19.cnzz.com/z_stat.php?id=1273905585&web_id=1273905585" language="JavaScript"></script>
+				<script type="text/javascript">
+					var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+					document.write(unescape("%3Cspan id='cnzz_stat_icon_1273905585'%3E%3C/span%3E%3Cscript src='"
+							+ cnzz_protocol
+							+ "s19.cnzz.com/z_stat.php%3Fid%3D1273905585%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));
+				</script>
+
+				<script type="text/javascript">
+						var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+						document.write(unescape("%3Cspan id='cnzz_stat_icon_1273905585'%3E%3C/span%3E%3Cscript src='"
+						+ cnzz_protocol
+						+ "s19.cnzz.com/z_stat.php%3Fid%3D1273905585%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+				</script>
+
+			<script type="text/javascript">
+				var cnzz_s_tag = document.createElement('script');
+				cnzz_s_tag.type = 'text/javascript';
+				cnzz_s_tag.async = true;
+				cnzz_s_tag.charset = 'utf-8';
+				cnzz_s_tag.src = 'https://s19.cnzz.com/z_stat.php%3Fid%3D1273905585%26show%3Dpic';
+				var root_s = document.getElementsByTagName('script')[0];
+				root_s.parentNode.insertBefore(cnzz_s_tag, root_s);
+			</script>
+							-->
+
+			<script type="text/javascript">
+					var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+					document.write(unescape("%3Cspan id='cnzz_stat_icon_1273905585'%3E%3C/span%3E%3Cscript src='"
+								+ cnzz_protocol
+								+ "s19.cnzz.com/z_stat.php%3Fid%3D1273905585' type='text/javascript'%3E%3C/script%3E"));
+		  </script>
+
+    </div>
+</footer>
+
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="../../../../js/plugin.min.js"></script>
+<script src="../../../../js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '../../../../content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="../../../../js/insight.js"></script>
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+   
+    
+<script defer type="text/javascript">
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+
+    if (typeof LivereTower === 'function') { return; }
+
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+
+
+
+
+
+
+    <script defer>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?3faed61998baf379e6a78a6b8ee3f44a";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+</body>
+</html>

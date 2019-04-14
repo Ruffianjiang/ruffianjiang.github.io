@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>安卓图片加载框架--Universal-Image-Loader | Hexo</title>
+  <meta name="description" content="摘要: 今天来介绍图片加载的框架Android-Universal-Image-Loader GITHUB上的下载路径为：https://github.com/nostra13/Android-Universal-Image-Loader 也可以自行百度下载。 首先来封装的一个类CacheTool…阅读全文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安卓图片加载框架--Universal-Image-Loader">
+<meta property="og:url" content="https://lossingdawn.top/2015/09/18/安卓图片加载框架--Universal-Image-Loader/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="摘要: 今天来介绍图片加载的框架Android-Universal-Image-Loader GITHUB上的下载路径为：https://github.com/nostra13/Android-Universal-Image-Loader 也可以自行百度下载。 首先来封装的一个类CacheTool…阅读全文">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-06-13T15:31:22.667Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="安卓图片加载框架--Universal-Image-Loader">
+<meta name="twitter:description" content="摘要: 今天来介绍图片加载的框架Android-Universal-Image-Loader GITHUB上的下载路径为：https://github.com/nostra13/Android-Universal-Image-Loader 也可以自行百度下载。 首先来封装的一个类CacheTool…阅读全文">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://lossingdawn.top/2015/09/18/安卓图片加载框架--Universal-Image-Loader/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="../../../../css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/Ruffianjiang" target="_blank">
+          <img class="img-circle img-rotate" src="../../../../images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">遗失的拂晓</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">JAVA Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shanghai, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="../../../../.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="../../../../archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="../../../../categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="../../../../tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="../../../../repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="../../../../books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="../../../../links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="../../../../about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Ruffianjiang" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/lossingdawnn" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="../../../../atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+
+    
+      
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2018/06/">六月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2018/05/">五月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2018/04/">四月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2018/03/">三月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2017/08/">八月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2017/04/">四月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2016/06/">六月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2015/09/">九月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2015/08/">八月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2015/06/">六月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2015/04/">四月 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2014/12/">十二月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2014/11/">十一月 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2014/10/">十月 2014</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="../../../../2018/06/10/github访问不到，登陆不上/" class="title">Github访问不到，登陆不上</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-06-10T05:50:00.000Z" itemprop="datePublished">2018-06-10</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="../../../../2018/05/25/jdk安装错误1316，jdk-10.0.1/" class="title">Jdk安装错误1316，jdk-10.0.1</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-05-24T16:50:00.000Z" itemprop="datePublished">2018-05-25</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="../../../../2018/05/23/windows安装mongodb/" class="title">Windows安装mongodb</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-05-23T15:44:00.000Z" itemprop="datePublished">2018-05-23</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="../../../../2018/04/25/Eclipse中Cannot nest src folder解决方法/" class="title">Eclipse中Cannot Nest Src Folder解决方法</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-04-25T01:04:00.000Z" itemprop="datePublished">2018-04-25</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="../../../../2018/04/20/restTemplate重定向问题 &cookie问题/" class="title">restTemplate重定向问题 &amp;Cookie问题</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-04-20T07:44:00.000Z" itemprop="datePublished">2018-04-20</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-安卓图片加载框架--Universal-Image-Loader" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      安卓图片加载框架--Universal-Image-Loader
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="" class="article-date">
+	  <time datetime="2015-09-18T09:05:00.000Z" itemprop="datePublished">2015-09-18</time>
+	</a>
+</span>
+
+        
+        
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 1,299(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 7(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>摘要: 今天来介绍图片加载的框架Android-Universal-Image-Loader GITHUB上的下载路径为：<a href="https://github.com/nostra13/Android-Universal-Image-Loader" target="_blank" rel="noopener">https://github.com/nostra13/Android-Universal-Image-Loader</a> 也可以自行百度下载。 首先来封装的一个类CacheTool…阅读全文</p>
+<a id="more"></a>
+<p>今天来介绍图片加载的框架Android-Universal-Image-Loader</p>
+<p>GITHUB上的下载路径为：<a href="https://github.com/nostra13/Android-Universal-Image-Loader" target="_blank" rel="noopener">https://github.com/nostra13/Android-Universal-Image-Loader</a></p>
+<p>也可以自行百度下载。</p>
+<p>首先来封装的一个类CacheTool ，由于其他加载图片的方法有点繁琐，所以这里仅封装了一个简单实用的加载方法：</p>
+<p></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">	</span><br></pre></td></tr></table></figure>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line">	<span class="meta"><span class="meta-keyword">import</span> android.content.Context;</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">import</span> android.graphics.Bitmap;</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">import</span> android.graphics.Bitmap.CompressFormat;</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">import</span> android.net.Uri;</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">import</span> android.os.Environment;</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">import</span> android.widget.ImageView;</span></span><br><span class="line"></span><br><span class="line"><span class="meta"><span class="meta-keyword">import</span> java.io.File;</span></span><br><span class="line"></span><br><span class="line"><span class="meta"><span class="meta-keyword">import</span> com.ncct.app.R;</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">import</span> com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">import</span> com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">import</span> com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">import</span> com.nostra13.universalimageloader.core.DisplayImageOptions;</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">import</span> com.nostra13.universalimageloader.core.ImageLoader;</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">import</span> com.nostra13.universalimageloader.core.ImageLoaderConfiguration;</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">import</span> com.nostra13.universalimageloader.core.assist.ImageLoadingListener;</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">import</span> com.nostra13.universalimageloader.core.assist.QueueProcessingType;</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">import</span> com.nostra13.universalimageloader.core.download.BaseImageDownloader;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 图片加载框架</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * @author jiang</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CacheTool</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> File cacheDir = Environment.getDataDirectory();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> DisplayImageOptions options = <span class="keyword">new</span> DisplayImageOptions.Builder().showStubImage(R.drawable.loading_img)</span><br><span class="line">            .showImageForEmptyUri(R.drawable.loading_error).showImageOnFail(R.drawable.loading_error)</span><br><span class="line">            .cacheInMemory(<span class="literal">true</span>).cacheOnDisc(<span class="literal">true</span>).bitmapConfig(Bitmap.Config.RGB_565).build();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> ImageLoaderConfiguration config;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> Init(Context context) &#123;</span><br><span class="line">        config = <span class="keyword">new</span> ImageLoaderConfiguration.Builder(context).memoryCacheExtraOptions(<span class="number">480</span>, <span class="number">800</span>) <span class="comment">// max</span></span><br><span class="line">                                                                                                    <span class="comment">// width,</span></span><br><span class="line">                                                                                                    <span class="comment">// max</span></span><br><span class="line">                                                                                                    <span class="comment">// height，即保存的每个缓存文件的最大长宽</span></span><br><span class="line">                .discCacheExtraOptions(<span class="number">480</span>, <span class="number">800</span>, CompressFormat.JPEG, <span class="number">75</span>, <span class="literal">null</span>) <span class="comment">// Can</span></span><br><span class="line">                                                                                <span class="comment">// slow</span></span><br><span class="line">                                                                                <span class="comment">// ImageLoader,</span></span><br><span class="line">                                                                                <span class="comment">// use</span></span><br><span class="line">                                                                                <span class="comment">// it</span></span><br><span class="line">                                                                                <span class="comment">// carefully</span></span><br><span class="line">                                                                                <span class="comment">// (Better</span></span><br><span class="line">                                                                                <span class="comment">// don't</span></span><br><span class="line">                                                                                <span class="comment">// use</span></span><br><span class="line">                                                                                <span class="comment">// it)/设置缓存的详细信息，最好不要设置这个</span></span><br><span class="line">                .threadPoolSize(<span class="number">3</span>)<span class="comment">// 线程池内加载的数量</span></span><br><span class="line">                .threadPriority(Thread.NORM_PRIORITY - <span class="number">2</span>).denyCacheImageMultipleSizesInMemory()</span><br><span class="line">                .memoryCache(<span class="keyword">new</span> UsingFreqLimitedMemoryCache(<span class="number">2</span> * <span class="number">1024</span> * <span class="number">1024</span>)) <span class="comment">// You</span></span><br><span class="line">                                                                                <span class="comment">// can</span></span><br><span class="line">                                                                                <span class="comment">// pass</span></span><br><span class="line">                                                                                <span class="comment">// your</span></span><br><span class="line">                                                                                <span class="comment">// own</span></span><br><span class="line">                                                                                <span class="comment">// memory</span></span><br><span class="line">                                                                                <span class="comment">// cache</span></span><br><span class="line">                                                                                <span class="comment">// implementation/你可以通过自己的内存缓存实现</span></span><br><span class="line">                .memoryCacheSize(<span class="number">2</span> * <span class="number">1024</span> * <span class="number">1024</span>).discCacheSize(<span class="number">50</span> * <span class="number">1024</span> * <span class="number">1024</span>)</span><br><span class="line">                .discCacheFileNameGenerator(<span class="keyword">new</span> Md5FileNameGenerator())<span class="comment">// 将保存的时候的URI名称用MD5</span></span><br><span class="line">                                                                        <span class="comment">// 加密</span></span><br><span class="line">                .tasksProcessingOrder(QueueProcessingType.LIFO).discCacheFileCount(<span class="number">100</span>) <span class="comment">// 缓存的文件数量</span></span><br><span class="line">                <span class="comment">// .discCache(new UnlimitedDiscCache(cacheDir))// 自定义缓存路径</span></span><br><span class="line">                .defaultDisplayImageOptions(DisplayImageOptions.createSimple())</span><br><span class="line">                .imageDownloader(<span class="keyword">new</span> BaseImageDownloader(context, <span class="number">5</span> * <span class="number">1000</span>, <span class="number">30</span> * <span class="number">1000</span>)) <span class="comment">// connectTimeout</span></span><br><span class="line">                                                                                        <span class="comment">// (5</span></span><br><span class="line">                                                                                        <span class="comment">// s),</span></span><br><span class="line">                                                                                        <span class="comment">// readTimeout</span></span><br><span class="line">                                                                                        <span class="comment">// (30</span></span><br><span class="line">                                                                                        <span class="comment">// s)超时时间</span></span><br><span class="line">                .writeDebugLogs() <span class="comment">// Remove for release app</span></span><br><span class="line">                .build();<span class="comment">// 开始构建</span></span><br><span class="line">        <span class="comment">// Initialize ImageLoader with configuration.</span></span><br><span class="line">        ImageLoader.getInstance().init(config);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 加载图片并监听回调结果</span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * @param iv</span></span><br><span class="line"><span class="comment">     * @param url</span></span><br><span class="line"><span class="comment">     * @param mImageLoadingListener</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> displayImg(ImageView iv, String url, ImageLoadingListener mImageLoadingListener) &#123;</span><br><span class="line">        ImageLoader.getInstance().displayImage(url, iv, options, mImageLoadingListener);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 加载图片</span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * @param iv</span></span><br><span class="line"><span class="comment">     * @param url</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> displayImg(ImageView iv, String url) &#123;</span><br><span class="line"></span><br><span class="line">        ImageLoader.getInstance().displayImage(url, iv, options);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 清除内存</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> clearMemoryCache() &#123;</span><br><span class="line">        ImageLoader.getInstance().clearMemoryCache();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 清除缓存</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> clearDiskCache() &#123;</span><br><span class="line">        ImageLoader.getInstance().clearDiscCache();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 得到某个图片的缓存路径</span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * @param imageUrl</span></span><br><span class="line"><span class="comment">     * @return</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String getImagePath(String imageUrl) &#123;</span><br><span class="line">        <span class="keyword">return</span> ImageLoader.getInstance().getDiscCache().get(imageUrl).getPath();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p></p>
+<p>封装好了，里面都有详细的介绍，这里介绍下上面的中的ImageLoadingListener 接口回调，按ctrl + 鼠标左键可以进入jar包里的java文件：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">	<span class="comment"><span class="markdown">/<span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="emphasis">***</span>*</span></span></span><br><span class="line"><span class="comment"><span class="markdown"> * Copyright 2011-2013 Sergey Tarasevich</span></span></span><br><span class="line"><span class="comment"><span class="markdown"> *</span></span></span><br><span class="line"><span class="comment"><span class="markdown"> * Licensed under </span>the<span class="markdown"> Apache License, Version 2.0 (</span>the<span class="markdown"> "License");</span></span></span><br><span class="line"><span class="comment"><span class="markdown"> * </span>you<span class="markdown"> may not use this file except in compliance with </span>the<span class="markdown"> License.</span></span></span><br><span class="line"><span class="comment"><span class="markdown"> * You may obtain </span>a<span class="markdown"> copy of </span>the<span class="markdown"> License at</span></span></span><br><span class="line"><span class="comment"><span class="markdown"> *</span></span></span><br><span class="line"><span class="comment"><span class="markdown"> * http://www.apache.org/licenses/LICENSE-2.0</span></span></span><br><span class="line"><span class="comment"><span class="markdown"> *</span></span></span><br><span class="line"><span class="comment"><span class="markdown"> * Unless required by applicable law or agreed to in writing, software</span></span></span><br><span class="line"><span class="comment"><span class="markdown"> * distributed under </span>the<span class="markdown"> License is distributed on </span>an<span class="markdown"> "AS IS" BASIS,</span></span></span><br><span class="line"><span class="comment"><span class="markdown"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></span></span><br><span class="line"><span class="comment"><span class="markdown"> * See </span>the<span class="markdown"> License for </span>the<span class="markdown"> specific language governing permissions and</span></span></span><br><span class="line"><span class="comment"><span class="markdown"> * limitations under </span>the<span class="markdown"> License.</span></span></span><br><span class="line"><span class="comment"><span class="markdown"> <span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="emphasis">***</span>*/</span></span></span><br><span class="line">package com.nostra13.universalimageloader.core.assist;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.graphics.Bitmap;</span><br><span class="line"><span class="keyword">import</span> android.view.View;</span><br><span class="line"></span><br><span class="line"><span class="comment"><span class="markdown">/**</span></span></span><br><span class="line"><span class="comment"><span class="markdown"> * Listener for image loading process.<span class="xml"><span class="tag">&lt;<span class="name">br</span> /&gt;</span></span></span></span></span><br><span class="line"><span class="comment"><span class="markdown"> * You can use &#123;@link SimpleImageLoadingListener&#125; for implementing only needed methods.</span></span></span><br><span class="line"><span class="comment"><span class="markdown"> *</span></span></span><br><span class="line"><span class="comment"><span class="markdown"> * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)</span></span></span><br><span class="line"><span class="comment"><span class="markdown"> * @see SimpleImageLoadingListener</span></span></span><br><span class="line"><span class="comment"><span class="markdown"> * @see FailReason</span></span></span><br><span class="line"><span class="comment"><span class="markdown"> * @since 1.0.0</span></span></span><br><span class="line"><span class="comment"><span class="markdown"> */</span></span></span><br><span class="line">public <span class="class"><span class="keyword">interface</span> <span class="title">ImageLoadingListener</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="markdown">/**</span></span></span><br><span class="line"><span class="comment"><span class="markdown"><span class="code">     * Is called when image loading task was started</span></span></span></span><br><span class="line"><span class="comment"><span class="markdown"><span class="code">     *</span></span></span></span><br><span class="line"><span class="comment"><span class="markdown"><span class="code">     * @param imageUri Loading image URI</span></span></span></span><br><span class="line"><span class="comment"><span class="markdown"><span class="code">     * @param view     View for image</span></span></span></span><br><span class="line"><span class="comment"><span class="markdown"><span class="code">     */</span></span></span></span><br><span class="line">    <span class="keyword">void</span> onLoadingStarted(<span class="built_in">String</span> imageUri, View view);</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="markdown">/**</span></span></span><br><span class="line"><span class="comment"><span class="markdown"><span class="code">     * Is called when </span></span>an<span class="markdown"> error was occurred during image loading</span></span></span><br><span class="line"><span class="comment"><span class="markdown"><span class="code">     *</span></span></span></span><br><span class="line"><span class="comment"><span class="markdown"><span class="code">     * @param imageUri   Loading image URI</span></span></span></span><br><span class="line"><span class="comment"><span class="markdown"><span class="code">     * @param view       View for image. Can be &lt;b&gt;null&lt;/b&gt;.</span></span></span></span><br><span class="line"><span class="comment"><span class="markdown"><span class="code">     * @param failReason &#123;@linkplain FailReason The reason&#125; why image loading was failed</span></span></span></span><br><span class="line"><span class="comment"><span class="markdown"><span class="code">     */</span></span></span></span><br><span class="line">    <span class="keyword">void</span> onLoadingFailed(<span class="built_in">String</span> imageUri, View view, FailReason failReason);</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="markdown">/**</span></span></span><br><span class="line"><span class="comment"><span class="markdown"><span class="code">     * Is called when image is loaded successfully (and displayed in View if one was specified)</span></span></span></span><br><span class="line"><span class="comment"><span class="markdown"><span class="code">     *</span></span></span></span><br><span class="line"><span class="comment"><span class="markdown"><span class="code">     * @param imageUri    Loaded image URI</span></span></span></span><br><span class="line"><span class="comment"><span class="markdown"><span class="code">     * @param view        View for image. Can be &lt;b&gt;null&lt;/b&gt;.</span></span></span></span><br><span class="line"><span class="comment"><span class="markdown"><span class="code">     * @param loadedImage Bitmap of loaded and decoded image</span></span></span></span><br><span class="line"><span class="comment"><span class="markdown"><span class="code">     */</span></span></span></span><br><span class="line">    <span class="keyword">void</span> onLoadingComplete(<span class="built_in">String</span> imageUri, View view, Bitmap loadedImage);</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="markdown">/**</span></span></span><br><span class="line"><span class="comment"><span class="markdown"><span class="code">     * Is called when image loading task was cancelled because View for image was reused in newer task</span></span></span></span><br><span class="line"><span class="comment"><span class="markdown"><span class="code">     *</span></span></span></span><br><span class="line"><span class="comment"><span class="markdown"><span class="code">     * @param imageUri Loading image URI</span></span></span></span><br><span class="line"><span class="comment"><span class="markdown"><span class="code">     * @param view     View for image. Can be &lt;b&gt;null&lt;/b&gt;.</span></span></span></span><br><span class="line"><span class="comment"><span class="markdown"><span class="code">     */</span></span></span></span><br><span class="line">    <span class="keyword">void</span> onLoadingCancelled(<span class="built_in">String</span> imageUri, View view);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从以上代码中我们可以了解到接口中我们可以监听到开始、失败、完成、取消的动作。</p>
+<p>现在开始使用吧：</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">private ImageView My_Head<span class="comment">;</span></span><br><span class="line">   @Override</span><br><span class="line">   protected void onCreate(<span class="keyword">Bundle </span>savedInstanceState) &#123;</span><br><span class="line">       super.onCreate(savedInstanceState)<span class="comment">;</span></span><br><span class="line">       requestWindowFeature(Window.FEATURE_NO_TITLE)<span class="comment">;</span></span><br><span class="line">       setContentView(R.layout.personcenter)<span class="comment">;</span></span><br><span class="line">       My_Head = (ImageView) findViewById(R.id.My_Head)<span class="comment">;</span></span><br><span class="line">               String Url = <span class="string">"http://pic.nipic.com/2007-11-09/200711912453162_2.jpg"</span><span class="comment">;</span></span><br><span class="line">               <span class="keyword">CacheTool.displayImg(My_Head </span>, Url )<span class="comment">;</span></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>Mark一下，暂存一个直接通过URL获取bitmap的函数，未作内存处理。</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 获取指定路径的图片</span></span><br><span class="line"><span class="comment">    * </span></span><br><span class="line"><span class="comment">    * @param urlpath</span></span><br><span class="line"><span class="comment">    * @return</span></span><br><span class="line"><span class="comment">    * @throws Exception</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   public <span class="keyword">Bitmap </span>getImage(String urlpath) throws Exception &#123;</span><br><span class="line">       URL url = new URL(urlpath)<span class="comment">;</span></span><br><span class="line">       HttpURLConnection conn = (HttpURLConnection) url.openConnection()<span class="comment">;</span></span><br><span class="line">       conn.setRequestMethod(<span class="string">"GET"</span>)<span class="comment">;</span></span><br><span class="line">       conn.setConnectTimeout(<span class="number">5000</span>)<span class="comment">;</span></span><br><span class="line">       <span class="keyword">Bitmap </span><span class="keyword">bitmap </span>= null<span class="comment">;</span></span><br><span class="line">       InputStream inputStream = conn.getInputStream()<span class="comment">;</span></span><br><span class="line">       <span class="keyword">bitmap </span>= <span class="keyword">BitmapFactory.decodeStream(inputStream);</span></span><br><span class="line"><span class="keyword"> </span>      return <span class="keyword">bitmap;</span></span><br><span class="line"><span class="keyword"> </span>  &#125;</span><br></pre></td></tr></table></figure>
+<p></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://lossingdawn.top/2015/09/18/安卓图片加载框架--Universal-Image-Loader/" title="安卓图片加载框架--Universal-Image-Loader" target="_blank" rel="external">https://lossingdawn.top/2015/09/18/安卓图片加载框架--Universal-Image-Loader/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/Ruffianjiang" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="../../../../images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/Ruffianjiang" target="_blank"><span class="text-dark">遗失的拂晓</span><small class="ml-1x">JAVA Developer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzA2NC8xMzYwMA==">
+        <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+      </div>    
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="../../22/ListView在ScrollView中不显示全部的问题/" title="ListView在ScrollView中不显示全部的问题"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="../移动应用图片的福音--七牛云存储/" title="移动应用图片的福音--七牛云存储"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,qzone,wechat,tencent,douban,diandian,facebook,twitter,google,linkedin" data-mobile-sites="weibo,qq,qzone,wechat,tencent,douban,diandian,facebook,twitter,google,linkedin"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="../../../../images/donate/alipayimg.jpg" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="../../../../images/donate/wechatpayimg.jpg" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Ruffianjiang" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/lossingdawnn" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="../../../../atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+				<p>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></p>
+
+    		
+        &copy; 2019 Ruffianjiang
+        
+
+				<div class="publishby">
+        	Theme by <a href="https://github.com/Ruffianjiang" target="_blank"> cofess </a>base on <a href="https://github.com/Ruffianjiang/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+
+
+				<!--
+			  <script src="https://s19.cnzz.com/z_stat.php?id=1273905585&web_id=1273905585" language="JavaScript"></script>
+				<script type="text/javascript">
+					var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+					document.write(unescape("%3Cspan id='cnzz_stat_icon_1273905585'%3E%3C/span%3E%3Cscript src='"
+							+ cnzz_protocol
+							+ "s19.cnzz.com/z_stat.php%3Fid%3D1273905585%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));
+				</script>
+
+				<script type="text/javascript">
+						var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+						document.write(unescape("%3Cspan id='cnzz_stat_icon_1273905585'%3E%3C/span%3E%3Cscript src='"
+						+ cnzz_protocol
+						+ "s19.cnzz.com/z_stat.php%3Fid%3D1273905585%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));
+				</script>
+
+			<script type="text/javascript">
+				var cnzz_s_tag = document.createElement('script');
+				cnzz_s_tag.type = 'text/javascript';
+				cnzz_s_tag.async = true;
+				cnzz_s_tag.charset = 'utf-8';
+				cnzz_s_tag.src = 'https://s19.cnzz.com/z_stat.php%3Fid%3D1273905585%26show%3Dpic';
+				var root_s = document.getElementsByTagName('script')[0];
+				root_s.parentNode.insertBefore(cnzz_s_tag, root_s);
+			</script>
+							-->
+
+			<script type="text/javascript">
+					var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+					document.write(unescape("%3Cspan id='cnzz_stat_icon_1273905585'%3E%3C/span%3E%3Cscript src='"
+								+ cnzz_protocol
+								+ "s19.cnzz.com/z_stat.php%3Fid%3D1273905585' type='text/javascript'%3E%3C/script%3E"));
+		  </script>
+
+    </div>
+</footer>
+
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="../../../../js/plugin.min.js"></script>
+<script src="../../../../js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '../../../../content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="../../../../js/insight.js"></script>
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+   
+    
+<script defer type="text/javascript">
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+
+    if (typeof LivereTower === 'function') { return; }
+
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+
+
+
+
+
+
+    <script defer>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?3faed61998baf379e6a78a6b8ee3f44a";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+</body>
+</html>
