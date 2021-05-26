@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 5.4.0">
 
-
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -21,7 +21,7 @@
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"lossingdawn.top","root":"/","images":"/images","scheme":"Muse","version":"8.2.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":false,"nav":null,"activeClass":"livere"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+    var CONFIG = {"hostname":"lossingdawn.top","root":"/","images":"/images","scheme":"Muse","version":"8.2.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":true,"nav":null,"activeClass":"livere"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
 <meta name="description" content="1、需求 由于项目一开始做的时候不甚完善，所有的网页没有路由功能，导致一些搜索结果在页面跳转之后，没有被记录下来，在页面跳转之后回退，得到的是页面最原始的结果，没有指定的搜索条件。最近项目的在完善这些小的细节，所以在此记录一下。  2、操作 由于项目的所有传参都是使用 ‘?’ 来标识的，而Backbone的路由是使用锚点 ‘&#x2F;#’ 来的，为了兼容以前的做法，不得不去修改Backbone的源码，还好">
 <meta property="og:type" content="article">
@@ -52,6 +52,15 @@
 <title>Backbone之路由锚点的替换 | Hexo</title>
   
 
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?61f2f633ba432643aab651ec41f87d4b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
 
 
 
@@ -192,7 +201,7 @@
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
   <p class="site-author-name" itemprop="name">Ruffianjiang</p>
-  <div class="site-description" itemprop="description">美好的一天从晨报开始</div>
+  <div class="site-description" itemprop="description">今天又是充满希望的一天</div>
 </div>
 <div class="site-state-wrap site-overview-item animated">
   <nav class="site-state">
@@ -283,7 +292,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Ruffianjiang">
-      <meta itemprop="description" content="美好的一天从晨报开始">
+      <meta itemprop="description" content="今天又是充满希望的一天">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -616,13 +625,13 @@ RouterUtil.navigate(returnUrl);
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/p/zh-CN/64985.html" rel="prev" title="Ctrl Shift O失效">
-                  <i class="fa fa-chevron-left"></i> Ctrl Shift O失效
+                <a href="/p/zh-CN/48103.html" rel="prev" title="Mongo去重统计">
+                  <i class="fa fa-chevron-left"></i> Mongo去重统计
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/p/zh-CN/48103.html" rel="next" title="Mongo去重统计">
-                  Mongo去重统计 <i class="fa fa-chevron-right"></i>
+                <a href="/p/zh-CN/64985.html" rel="next" title="Ctrl Shift O失效">
+                  Ctrl Shift O失效 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>

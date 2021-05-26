@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 5.4.0">
 
-
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -21,7 +21,7 @@
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"lossingdawn.top","root":"/","images":"/images","scheme":"Muse","version":"8.2.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":false,"nav":null,"activeClass":"livere"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+    var CONFIG = {"hostname":"lossingdawn.top","root":"/","images":"/images","scheme":"Muse","version":"8.2.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":true,"nav":null,"activeClass":"livere"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
 <meta name="description" content="序言 这个是从抖音上学来的，一开始刷抖音，遇到不少字符串跳舞的视频，因此来实践一下  主要分为三个部分  1. 静态图片转静态图片   2. gif 转 gif   3. 视频转视频   gif 转 gif 原理和静态图片的转换类似，这个需要每一帧的去转换。一开始的思路是把gif的每一帧转为图片，然后对图片进行转换，最后合成 gif 。 研究了 img4java，  效果如下所示：">
 <meta property="og:type" content="article">
@@ -59,6 +59,15 @@
 <title>图片转字符图片（二） | Hexo</title>
   
 
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?61f2f633ba432643aab651ec41f87d4b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
 
 
 
@@ -199,7 +208,7 @@
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
   <p class="site-author-name" itemprop="name">Ruffianjiang</p>
-  <div class="site-description" itemprop="description">美好的一天从晨报开始</div>
+  <div class="site-description" itemprop="description">今天又是充满希望的一天</div>
 </div>
 <div class="site-state-wrap site-overview-item animated">
   <nav class="site-state">
@@ -290,7 +299,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Ruffianjiang">
-      <meta itemprop="description" content="美好的一天从晨报开始">
+      <meta itemprop="description" content="今天又是充满希望的一天">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -523,13 +532,13 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/p/zh-CN/10183.html" rel="prev" title="图片转字符图片（一）">
-                  <i class="fa fa-chevron-left"></i> 图片转字符图片（一）
+                <a href="/p/zh-CN/48068.html" rel="prev" title="图片转字符图片（三）">
+                  <i class="fa fa-chevron-left"></i> 图片转字符图片（三）
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/p/zh-CN/48068.html" rel="next" title="图片转字符图片（三）">
-                  图片转字符图片（三） <i class="fa fa-chevron-right"></i>
+                <a href="/p/zh-CN/10183.html" rel="next" title="图片转字符图片（一）">
+                  图片转字符图片（一） <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>

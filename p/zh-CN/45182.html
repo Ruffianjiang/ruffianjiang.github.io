@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 5.4.0">
 
-
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -21,7 +21,7 @@
 
 <script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"lossingdawn.top","root":"/","images":"/images","scheme":"Muse","version":"8.2.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":false,"nav":null,"activeClass":"livere"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+    var CONFIG = {"hostname":"lossingdawn.top","root":"/","images":"/images","scheme":"Muse","version":"8.2.0","exturl":false,"sidebar":{"position":"right","display":"hide","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":true,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":true,"nav":null,"activeClass":"livere"},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
 <meta name="description" content="本篇来介绍移动应用图片存储的第三方，官方网址：http:&#x2F;&#x2F;www.qiniu.com&#x2F;  首先，在七牛上要注册开发者账号，需要认证身份证信息。认证完之后，我们来开始进行安卓端的开发。  一、准备信息  进行图片的上传与下载，我们需要准备几个信息，首先是空间名，然后是域名，再者是密钥对。如下图：      二、安卓端图片上传  首先我们需要导入JAR包，网址：http:&#x2F;&#x2F;developer.qi">
 <meta property="og:type" content="article">
@@ -57,6 +57,15 @@
 <title>移动应用图片的福音--七牛云存储 | Hexo</title>
   
 
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?61f2f633ba432643aab651ec41f87d4b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
 
 
 
@@ -196,7 +205,7 @@
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
   <p class="site-author-name" itemprop="name">Ruffianjiang</p>
-  <div class="site-description" itemprop="description">美好的一天从晨报开始</div>
+  <div class="site-description" itemprop="description">今天又是充满希望的一天</div>
 </div>
 <div class="site-state-wrap site-overview-item animated">
   <nav class="site-state">
@@ -287,7 +296,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Ruffianjiang">
-      <meta itemprop="description" content="美好的一天从晨报开始">
+      <meta itemprop="description" content="今天又是充满希望的一天">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -550,13 +559,13 @@ public boolean deleteFile(String bucket, String fileName) &#123;
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/p/zh-CN/61104.html" rel="prev" title="（转）Android自定义控件">
-                  <i class="fa fa-chevron-left"></i> （转）Android自定义控件
+                <a href="/p/zh-CN/17352.html" rel="prev" title="安卓图片加载框架--Universal-Image-Loader">
+                  <i class="fa fa-chevron-left"></i> 安卓图片加载框架--Universal-Image-Loader
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/p/zh-CN/17352.html" rel="next" title="安卓图片加载框架--Universal-Image-Loader">
-                  安卓图片加载框架--Universal-Image-Loader <i class="fa fa-chevron-right"></i>
+                <a href="/p/zh-CN/61104.html" rel="next" title="（转）Android自定义控件">
+                  （转）Android自定义控件 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
