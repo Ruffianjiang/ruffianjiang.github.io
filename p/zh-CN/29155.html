@@ -347,7 +347,7 @@
     
     <div class="post-body" itemprop="articleBody">
         <p> </p>
-<pre><code class="highlight plain">using System;
+<pre><code class="highlight plaintext">using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -370,13 +370,13 @@ namespace WMI_驱动
         private void button1_Click(object sender, EventArgs e)
         &#123;
             listView1.Items.Clear();
-            &#x2F;&#x2F;SelectQuery selectQuery &#x3D; new SelectQuery(&quot;select * from win32_logicaldisk&quot;);&#x2F;&#x2F;硬盘盘符
-            SelectQuery selectQuery &#x3D; new SelectQuery(&quot;select * from Win32_DiskDrive&quot;);&#x2F;&#x2F;硬盘序列号
+            //SelectQuery selectQuery = new SelectQuery(&quot;select * from win32_logicaldisk&quot;);//硬盘盘符
+            SelectQuery selectQuery = new SelectQuery(&quot;select * from Win32_DiskDrive&quot;);//硬盘序列号
            
-            ManagementObjectSearcher search &#x3D; new ManagementObjectSearcher(selectQuery);
+            ManagementObjectSearcher search = new ManagementObjectSearcher(selectQuery);
             foreach (ManagementObject Driver in search.Get())
             &#123;
-                ListViewItem lvi &#x3D; new ListViewItem(new string[] &#123; Driver[&quot;Name&quot;].ToString(), Driver[&quot;Description&quot;].ToString() &#125;, -1);
+                ListViewItem lvi = new ListViewItem(new string[] &#123; Driver[&quot;Name&quot;].ToString(), Driver[&quot;Description&quot;].ToString() &#125;, -1);
                 listView1.Items.Add(lvi);
             &#125;
         &#125;
@@ -385,12 +385,12 @@ namespace WMI_驱动
         &#123;
             listView1.Items.Clear();
 
-            SelectQuery selectQuery &#x3D; new SelectQuery(&quot;select * from Win32_SystemDriver&quot;);&#x2F;&#x2F;驱动程序
-            ManagementObjectSearcher search &#x3D; new ManagementObjectSearcher(selectQuery);
+            SelectQuery selectQuery = new SelectQuery(&quot;select * from Win32_SystemDriver&quot;);//驱动程序
+            ManagementObjectSearcher search = new ManagementObjectSearcher(selectQuery);
             foreach (ManagementObject Driver in search.Get())
             &#123;
 
-                ListViewItem lvi &#x3D; new ListViewItem(new string[] &#123; Driver[&quot;Name&quot;].ToString(), Driver[&quot;Description&quot;].ToString() &#125;, -1);
+                ListViewItem lvi = new ListViewItem(new string[] &#123; Driver[&quot;Name&quot;].ToString(), Driver[&quot;Description&quot;].ToString() &#125;, -1);
                 listView1.Items.Add(lvi);
             &#125;
         &#125;
@@ -400,24 +400,24 @@ namespace WMI_驱动
 
             listView1.Items.Clear();
 
-            SelectQuery selectQuery &#x3D; new SelectQuery(&quot;select * from Win32_USBController&quot;);&#x2F;&#x2F;USB控制器
-            ManagementObjectSearcher search &#x3D; new ManagementObjectSearcher(selectQuery);
+            SelectQuery selectQuery = new SelectQuery(&quot;select * from Win32_USBController&quot;);//USB控制器
+            ManagementObjectSearcher search = new ManagementObjectSearcher(selectQuery);
             foreach (ManagementObject Driver in search.Get())
             &#123;
 
-                ListViewItem lvi &#x3D; new ListViewItem(new string[] &#123; Driver[&quot;Name&quot;].ToString(), Driver[&quot;Description&quot;].ToString() &#125;, -1);
-                &#x2F;&#x2F;ListViewItem lvi &#x3D; new ListViewItem(new string[] &#123; Driver[&quot;Name&quot;].ToString(),&quot;&quot; &#125;,-1);
+                ListViewItem lvi = new ListViewItem(new string[] &#123; Driver[&quot;Name&quot;].ToString(), Driver[&quot;Description&quot;].ToString() &#125;, -1);
+                //ListViewItem lvi = new ListViewItem(new string[] &#123; Driver[&quot;Name&quot;].ToString(),&quot;&quot; &#125;,-1);
                 listView1.Items.Add(lvi);
             &#125;
 
 
-            SelectQuery selectQuery2 &#x3D; new SelectQuery(&quot;select * from Win32_USBHub&quot;);&#x2F;&#x2F;USB集线器
-            ManagementObjectSearcher search2 &#x3D; new ManagementObjectSearcher(selectQuery2);
+            SelectQuery selectQuery2 = new SelectQuery(&quot;select * from Win32_USBHub&quot;);//USB集线器
+            ManagementObjectSearcher search2 = new ManagementObjectSearcher(selectQuery2);
             foreach (ManagementObject Driver in search2.Get())
             &#123;
 
-                ListViewItem lvi &#x3D; new ListViewItem(new string[] &#123; Driver[&quot;Name&quot;].ToString(), Driver[&quot;Description&quot;].ToString() &#125;, -1);
-                &#x2F;&#x2F;ListViewItem lvi &#x3D; new ListViewItem(new string[] &#123; Driver[&quot;Name&quot;].ToString(),&quot;&quot; &#125;,-1);
+                ListViewItem lvi = new ListViewItem(new string[] &#123; Driver[&quot;Name&quot;].ToString(), Driver[&quot;Description&quot;].ToString() &#125;, -1);
+                //ListViewItem lvi = new ListViewItem(new string[] &#123; Driver[&quot;Name&quot;].ToString(),&quot;&quot; &#125;,-1);
                 listView1.Items.Add(lvi);
             &#125;
 
@@ -425,15 +425,15 @@ namespace WMI_驱动
 
         private void Form1_Load(object sender, EventArgs e)
         &#123;
-            listView1.Columns.Clear();&#x2F;&#x2F;清空列记录
-            ColumnHeader cZh &#x3D; new ColumnHeader();&#x2F;&#x2F;创建一个列
-            cZh.Text &#x3D; &quot;名称&quot;;&#x2F;&#x2F;列名
-            cZh.Width &#x3D; 300;
-            ColumnHeader cCh &#x3D; new ColumnHeader();
-            cCh.Text &#x3D; &quot;描述&quot;;
-            cCh.Width &#x3D; 600;
-            listView1.Columns.AddRange(new ColumnHeader[] &#123; cZh, cCh &#125;);&#x2F;&#x2F;将这两列加入listView1
-            listView1.View &#x3D; View.Details;&#x2F;&#x2F;列的显示模式
+            listView1.Columns.Clear();//清空列记录
+            ColumnHeader cZh = new ColumnHeader();//创建一个列
+            cZh.Text = &quot;名称&quot;;//列名
+            cZh.Width = 300;
+            ColumnHeader cCh = new ColumnHeader();
+            cCh.Text = &quot;描述&quot;;
+            cCh.Width = 600;
+            listView1.Columns.AddRange(new ColumnHeader[] &#123; cZh, cCh &#125;);//将这两列加入listView1
+            listView1.View = View.Details;//列的显示模式
         &#125;
 
         private void button4_Click(object sender, EventArgs e)
@@ -441,12 +441,12 @@ namespace WMI_驱动
             listView1.Items.Clear();
 
 
-            SelectQuery selectQuery &#x3D; new SelectQuery(&quot;select * from Win32_Printer &quot;);&#x2F;&#x2F;打印机
-            ManagementObjectSearcher search &#x3D; new ManagementObjectSearcher(selectQuery);
+            SelectQuery selectQuery = new SelectQuery(&quot;select * from Win32_Printer &quot;);//打印机
+            ManagementObjectSearcher search = new ManagementObjectSearcher(selectQuery);
             foreach (ManagementObject Driver in search.Get())
             &#123;
 
-                ListViewItem lvi &#x3D; new ListViewItem(new string[] &#123; Driver[&quot;Name&quot;].ToString(),&quot;&quot; &#125;, -1);
+                ListViewItem lvi = new ListViewItem(new string[] &#123; Driver[&quot;Name&quot;].ToString(),&quot;&quot; &#125;, -1);
                 listView1.Items.Add(lvi);
             &#125;
 
@@ -457,12 +457,12 @@ namespace WMI_驱动
             listView1.Items.Clear();
 
 
-            SelectQuery selectQuery &#x3D; new SelectQuery(&quot;select * from Win32_PrinterConfiguration &quot;);&#x2F;&#x2F;打印机设置
-            ManagementObjectSearcher search &#x3D; new ManagementObjectSearcher(selectQuery);
+            SelectQuery selectQuery = new SelectQuery(&quot;select * from Win32_PrinterConfiguration &quot;);//打印机设置
+            ManagementObjectSearcher search = new ManagementObjectSearcher(selectQuery);
             foreach (ManagementObject Driver in search.Get())
             &#123;
 
-                ListViewItem lvi &#x3D; new ListViewItem(new string[] &#123; Driver[&quot;Name&quot;].ToString(), &quot;&quot; &#125;, -1);
+                ListViewItem lvi = new ListViewItem(new string[] &#123; Driver[&quot;Name&quot;].ToString(), &quot;&quot; &#125;, -1);
                 listView1.Items.Add(lvi);
             &#125;
         &#125;
@@ -472,12 +472,12 @@ namespace WMI_驱动
             listView1.Items.Clear();
 
 
-            SelectQuery selectQuery &#x3D; new SelectQuery(&quot;select * from Win32_PrintJob &quot;);&#x2F;&#x2F;打印机任务
-            ManagementObjectSearcher search &#x3D; new ManagementObjectSearcher(selectQuery);
+            SelectQuery selectQuery = new SelectQuery(&quot;select * from Win32_PrintJob &quot;);//打印机任务
+            ManagementObjectSearcher search = new ManagementObjectSearcher(selectQuery);
             foreach (ManagementObject Driver in search.Get())
             &#123;
 
-                ListViewItem lvi &#x3D; new ListViewItem(new string[] &#123; Driver[&quot;Name&quot;].ToString(), &quot;&quot; &#125;, -1);
+                ListViewItem lvi = new ListViewItem(new string[] &#123; Driver[&quot;Name&quot;].ToString(), &quot;&quot; &#125;, -1);
                 listView1.Items.Add(lvi);
             &#125;
         &#125;
@@ -487,12 +487,12 @@ namespace WMI_驱动
             listView1.Items.Clear();
 
 
-            SelectQuery selectQuery &#x3D; new SelectQuery(&quot;select * from Win32_TCPIPPrinterPort &quot;);&#x2F;&#x2F;打印机端口
-            ManagementObjectSearcher search &#x3D; new ManagementObjectSearcher(selectQuery);
+            SelectQuery selectQuery = new SelectQuery(&quot;select * from Win32_TCPIPPrinterPort &quot;);//打印机端口
+            ManagementObjectSearcher search = new ManagementObjectSearcher(selectQuery);
             foreach (ManagementObject Driver in search.Get())
             &#123;
 
-                ListViewItem lvi &#x3D; new ListViewItem(new string[] &#123; Driver[&quot;Name&quot;].ToString(), &quot;&quot; &#125;, -1);
+                ListViewItem lvi = new ListViewItem(new string[] &#123; Driver[&quot;Name&quot;].ToString(), &quot;&quot; &#125;, -1);
                 listView1.Items.Add(lvi);
             &#125;
         &#125;
@@ -502,12 +502,12 @@ namespace WMI_驱动
             listView1.Items.Clear();
 
 
-            SelectQuery selectQuery &#x3D; new SelectQuery(&quot;select * from Win32_PointingDevice &quot;);&#x2F;&#x2F;点输入设备，鼠标
-            ManagementObjectSearcher search &#x3D; new ManagementObjectSearcher(selectQuery);
+            SelectQuery selectQuery = new SelectQuery(&quot;select * from Win32_PointingDevice &quot;);//点输入设备，鼠标
+            ManagementObjectSearcher search = new ManagementObjectSearcher(selectQuery);
             foreach (ManagementObject Driver in search.Get())
             &#123;
 
-                ListViewItem lvi &#x3D; new ListViewItem(new string[] &#123; Driver[&quot;Name&quot;].ToString(), Driver[&quot;Description&quot;].ToString() &#125;, -1);
+                ListViewItem lvi = new ListViewItem(new string[] &#123; Driver[&quot;Name&quot;].ToString(), Driver[&quot;Description&quot;].ToString() &#125;, -1);
                 listView1.Items.Add(lvi);
             &#125;
         &#125;
@@ -517,12 +517,12 @@ namespace WMI_驱动
             listView1.Items.Clear();
 
 
-            SelectQuery selectQuery &#x3D; new SelectQuery(&quot;select * from Win32_Keyboard&quot;);&#x2F;&#x2F;键盘
-            ManagementObjectSearcher search &#x3D; new ManagementObjectSearcher(selectQuery);
+            SelectQuery selectQuery = new SelectQuery(&quot;select * from Win32_Keyboard&quot;);//键盘
+            ManagementObjectSearcher search = new ManagementObjectSearcher(selectQuery);
             foreach (ManagementObject Driver in search.Get())
             &#123;
 
-                ListViewItem lvi &#x3D; new ListViewItem(new string[] &#123; Driver[&quot;Name&quot;].ToString(), Driver[&quot;Description&quot;].ToString() &#125;, -1);
+                ListViewItem lvi = new ListViewItem(new string[] &#123; Driver[&quot;Name&quot;].ToString(), Driver[&quot;Description&quot;].ToString() &#125;, -1);
                 listView1.Items.Add(lvi);
             &#125;
         &#125;
@@ -532,12 +532,12 @@ namespace WMI_驱动
             listView1.Items.Clear();
 
 
-            SelectQuery selectQuery &#x3D; new SelectQuery(&quot;select * from Win32_Printer &quot;);&#x2F;&#x2F;打印机
-            ManagementObjectSearcher search &#x3D; new ManagementObjectSearcher(selectQuery);
+            SelectQuery selectQuery = new SelectQuery(&quot;select * from Win32_Printer &quot;);//打印机
+            ManagementObjectSearcher search = new ManagementObjectSearcher(selectQuery);
             foreach (ManagementObject Driver in search.Get())
             &#123;
 
-                ListViewItem lvi &#x3D; new ListViewItem(new string[] &#123; Driver[&quot;Name&quot;].ToString(), &quot;&quot; &#125;, -1);
+                ListViewItem lvi = new ListViewItem(new string[] &#123; Driver[&quot;Name&quot;].ToString(), &quot;&quot; &#125;, -1);
                 listView1.Items.Add(lvi);
             &#125;
         &#125; 

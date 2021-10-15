@@ -355,42 +355,42 @@
 <h3 id="2、操作"><a href="#2、操作" class="headerlink" title="2、操作"></a>2、操作</h3><p>由于项目的所有传参都是使用 ‘?’ 来标识的，而Backbone的路由是使用锚点 ‘/#’ 来的，为了兼容以前的做法，不得不去修改Backbone的源码，还好路由部分的源码不多</p>
 <h3 id="2-1-修改Backbone的源码，版本1-3-3"><a href="#2-1-修改Backbone的源码，版本1-3-3" class="headerlink" title="2.1 修改Backbone的源码，版本1.3.3"></a>2.1 修改Backbone的源码，版本1.3.3</h3><p>1）修改标识 ‘/#’ -&gt; ‘?’</p>
 <p>把源代码中的字符串中的’/#’修改为’?’，把单个的’/#’修改为’?’</p>
-<pre><code class="highlight plain">例：
+<pre><code class="highlight plaintext">例：
 
-var pathStripper &#x3D; &#x2F;#.*$&#x2F;;
+var pathStripper = /#.*$/;
 
 修改为：
 
-var pathStripper &#x3D; &#x2F;\?.*$&#x2F;;
+var pathStripper = /\?.*$/;
 
 例：
 
-this.location.replace(rootPath + &#39;#&#39; + this.getPath());
+this.location.replace(rootPath + &#x27;#&#x27; + this.getPath());
 
 修改为：
 
-this.location.replace(rootPath + &#39;?&#39; + this.getPath());</code></pre>
+this.location.replace(rootPath + &#x27;?&#x27; + this.getPath());</code></pre>
 
 <p>注：字符串中的?需要\来转义，字符不需要<br>2)修改锚点的路由设置</p>
-<pre><code class="highlight plain">_updateHash: function(location, fragment, replace) &#123;
+<pre><code class="highlight plaintext">_updateHash: function(location, fragment, replace) &#123;
 
 if (replace) &#123;
 
-var href &#x3D; location.href.replace(&#x2F;(javascript:|\?).*$&#x2F;, &#39;&#39;);
+var href = location.href.replace(/(javascript:|\?).*$/, &#x27;&#x27;);
 
-location.replace(href + &#39;?&#39; + fragment);
+location.replace(href + &#x27;?&#x27; + fragment);
 
 &#125; else &#123;
 
-&#x2F;&#x2F; Some browsers require that &#96;hash&#96; contains a leading #.
+// Some browsers require that `hash` contains a leading #.
 
-&#x2F;&#x2F;        location.hash &#x3D; &#39;?&#39; + fragment;
+//        location.hash = &#x27;?&#x27; + fragment;
 
-var href &#x3D; location.href.replace(&#x2F;(javascript:|\?).*$&#x2F;, &#39;&#39;);
+var href = location.href.replace(/(javascript:|\?).*$/, &#x27;&#x27;);
 
-&#x2F;&#x2F;          window.history.pushState(&#123;&#125;, 0, href + &#39;?&#39; + fragment);
+//          window.history.pushState(&#123;&#125;, 0, href + &#x27;?&#x27; + fragment);
 
-window.history.replaceState(&#123;&#125;, 0, href + &#39;?&#39; + fragment);
+window.history.replaceState(&#123;&#125;, 0, href + &#x27;?&#x27; + fragment);
 
 &#125;
 
@@ -401,45 +401,45 @@ window.history.replaceState(&#123;&#125;, 0, href + &#39;?&#39; + fragment);
 <p>window.history.pushState可选目标方法，会增加一次历史记录，刷新页面</p>
 <p>window.history.replaceState可选目标方法，会替换掉当前的页面记录，不刷新页面（目前选用方案）</p>
 <h3 id="2-2-写一个Util"><a href="#2-2-写一个Util" class="headerlink" title="2.2 写一个Util"></a>2.2 写一个Util</h3><p>写一个工具类用于Router的快速使用，和统一修改</p>
-<pre><code class="highlight plain">&#x2F;**
+<pre><code class="highlight plaintext">/**
 
 * RouterUtil.js
 
-*&#x2F;
+*/
 
-var RouterUtil &#x3D; (function() &#123;
+var RouterUtil = (function() &#123;
 
-&#x2F;&#x2F; Backbone Router with a custom parameter extractor
+// Backbone Router with a custom parameter extractor
 
-var Router &#x3D; Backbone.Router.extend(&#123;
+var Router = Backbone.Router.extend(&#123;
 
 params : &quot;&quot;,
 
 routes : &#123;
 
-&quot;*actions&quot;: &quot;defaultRoute&quot; &#x2F;&#x2F; 匹配 http:&#x2F;&#x2F;example.com&#x2F;#anything-here
+&quot;*actions&quot;: &quot;defaultRoute&quot; // 匹配 http://example.com/#anything-here
 
 &#125;,
 
 defaultRoute : function(params) &#123;
 
-Router.params &#x3D; params;
+Router.params = params;
 
 &#125;,
 
 &#125;);
 
-var routerUtil &#x3D; &#123;
+var routerUtil = &#123;
 
 web_router : null,
 
 init()&#123;
 
-&#x2F;&#x2F; 初始化
+// 初始化
 
 if(!routerUtil.web_router)&#123;
 
-routerUtil.web_router &#x3D; new Router;
+routerUtil.web_router = new Router;
 
 Backbone.history.start();
 
@@ -451,7 +451,7 @@ getParam(cbFn)&#123;
 
 routerUtil.init();
 
-&#x2F;&#x2F; 获取#之后的参数
+// 获取#之后的参数
 
 if(cbFn)&#123;
 
@@ -463,7 +463,7 @@ cbFn(Router.params);
 
 route(returnUrl, cbFn)&#123;
 
-&#x2F;&#x2F; 动态的调整 路由规则 例：topic&#x2F;:pageno&#x2F;:pagesize
+// 动态的调整 路由规则 例：topic/:pageno/:pagesize
 
 routerUtil.web_router.route(returnUrl,&quot;page&quot;, cbFn)
 
@@ -471,7 +471,7 @@ routerUtil.web_router.route(returnUrl,&quot;page&quot;, cbFn)
 
 start()&#123;
 
-&#x2F;&#x2F; 启用路由
+// 启用路由
 
 if(!Backbone.History.started)&#123;
 
@@ -483,7 +483,7 @@ Backbone.history.start();
 
 stop()&#123;
 
-&#x2F;&#x2F; 关闭路由
+// 关闭路由
 
 if(Backbone.History.started)&#123;
 
@@ -495,21 +495,21 @@ Backbone.history.stop();
 
 navigate(returnUrl)&#123;
 
-&#x2F;**
+/**
 
 * 重构 ，路由导向
 
-*&#x2F;
+*/
 
-&#x2F;&#x2F;此处根据自己的需求去构建参数拼接
+//此处根据自己的需求去构建参数拼接
 
-&#x2F;&#x2F;returnUrl为&#39;?&#39;之后的内容
+//returnUrl为&#x27;?&#x27;之后的内容
 
 if(returnUrl)&#123;
 
 &#125;else&#123;
 
-returnUrl &#x3D; &quot;searchType&#x3D;&quot; + SearchBoxUtil.searchType + &quot;&amp;&quot; + SearchBoxUtil.formData;
+returnUrl = &quot;searchType=&quot; + SearchBoxUtil.searchType + &quot;&amp;&quot; + SearchBoxUtil.formData;
 
 &#125;
 
@@ -528,7 +528,7 @@ return routerUtil;
 &#125;)();</code></pre>
 
 <h3 id="2-3-使用"><a href="#2-3-使用" class="headerlink" title="2.3 使用"></a>2.3 使用</h3><p>在js中引用的一些方法</p>
-<pre><code class="highlight plain">&#x2F;&#x2F; 页面的初始化
+<pre><code class="highlight plaintext">// 页面的初始化
 
 initPagi : function()&#123;
 
@@ -536,11 +536,11 @@ RouterUtil.getParam(function(params)&#123;
 
 if(!params)&#123;
 
-params &#x3D; &quot;&quot;;
+params = &quot;&quot;;
 
 &#125;
 
-&#x2F;&#x2F;处理参数
+//处理参数
 
 ...
 
@@ -548,23 +548,23 @@ params &#x3D; &quot;&quot;;
 
 &#125;,
 
-&#x2F;&#x2F;查询函数
+//查询函数
 
 queryData : function(returnUrl,isInitSearchBox)&#123;
 
 if(!returnUrl)&#123;
 
-returnUrl &#x3D; &quot;&quot;;
+returnUrl = &quot;&quot;;
 
 &#125;
 
 if(isInitSearchBox)&#123;
 
-&#x2F;&#x2F;第一次初始化查询
+//第一次初始化查询
 
 &#125;else&#123;
 
-&#x2F;&#x2F;非第一次初始化查询
+//非第一次初始化查询
 
 RouterUtil.navigate(returnUrl);
 

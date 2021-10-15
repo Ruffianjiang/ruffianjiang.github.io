@@ -473,9 +473,9 @@
 &#125;</code></pre>
 
 <p>代码的思路很简单，src.getRGB(x, y)获取具体像素点的颜色值，共六位，每两位一个颜色值，依次是red、green、blue,类似的使用</p>
-<pre><code class="highlight plain">(pixel &amp; 0xff0000) &gt;&gt; 16</code></pre>
+<pre><code class="highlight plaintext">(pixel &amp; 0xff0000) &gt;&gt; 16</code></pre>
 <p>获取第一位的红色等，根据灰度公式</p>
-<pre><code class="highlight plain">Gray &#x3D; R&#x2F;*0.299 + G&#x2F;*0.587 + B&#x2F;*0.114</code></pre>
+<pre><code class="highlight plaintext">Gray = R/*0.299 + G/*0.587 + B/*0.114</code></pre>
 <p>计算灰度（百度颜色灰度公式，有很多来计算心理灰度的解决方案），选择合适的灰度替换上合适的字符即可</p>
 <h2 id="源码地址："><a href="#源码地址：" class="headerlink" title="源码地址："></a>源码地址：</h2><ol>
 <li><a target="_blank" rel="noopener" href="https://github.com/Ruffianjiang/java4fun/tree/master/img2text">https://github.com/Ruffianjiang/java4fun/tree/master/img2text</a></li>

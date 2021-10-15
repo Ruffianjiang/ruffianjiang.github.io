@@ -353,7 +353,7 @@
     <div class="post-body" itemprop="articleBody">
         <h1 id="实现了分页的滑动效果，做的demo流畅运行"><a href="#实现了分页的滑动效果，做的demo流畅运行" class="headerlink" title="实现了分页的滑动效果，做的demo流畅运行"></a>实现了分页的滑动效果，做的demo流畅运行</h1><h1 id="注：貌似支持的样式（控件）有一定的限制，我试过短信的listview页面，暂无法实现滑动效果"><a href="#注：貌似支持的样式（控件）有一定的限制，我试过短信的listview页面，暂无法实现滑动效果" class="headerlink" title="注：貌似支持的样式（控件）有一定的限制，我试过短信的listview页面，暂无法实现滑动效果"></a>注：貌似支持的样式（控件）有一定的限制，我试过短信的listview页面，暂无法实现滑动效果</h1><p>java文件:MainActivity.java、Activity1.java、Activity2.java、Activity3.java、Activity4.java</p>
 <p>MainActivity.java</p>
-<pre><code class="highlight plain">package com.example.tabhostmove;
+<pre><code class="highlight plaintext">package com.example.tabhostmove;
 
 import android.app.Activity;
 import android.app.TabActivity;
@@ -380,31 +380,31 @@ public class MainActivity extends TabActivity &#123;
 
     
     private void init() &#123;
-        &#x2F;&#x2F; TODO Auto-generated method stub
+        // TODO Auto-generated method stub
         
-        tabHost &#x3D; getTabHost();
-        &#x2F;&#x2F; 页面1
-        TabSpec spec1 &#x3D; tabHost.newTabSpec(&quot;1&quot;);
+        tabHost = getTabHost();
+        // 页面1
+        TabSpec spec1 = tabHost.newTabSpec(&quot;1&quot;);
         spec1.setIndicator(&quot;1&quot;, getResources().getDrawable(R.drawable.ic_launcher));
-        Intent intent1 &#x3D; new Intent(this, Activity1.class);
+        Intent intent1 = new Intent(this, Activity1.class);
         spec1.setContent(intent1);
 
-        &#x2F;&#x2F; 页面2
-        TabSpec spec2 &#x3D; tabHost.newTabSpec(&quot;2&quot;);
+        // 页面2
+        TabSpec spec2 = tabHost.newTabSpec(&quot;2&quot;);
         spec2.setIndicator(&quot;2&quot;, getResources().getDrawable(R.drawable.ic_launcher));
-        Intent intent2 &#x3D; new Intent(this, Activity2.class);
+        Intent intent2 = new Intent(this, Activity2.class);
         spec2.setContent(intent2);
 
-        &#x2F;&#x2F; 页面3
-        TabSpec spec3 &#x3D; tabHost.newTabSpec(&quot;3&quot;);
+        // 页面3
+        TabSpec spec3 = tabHost.newTabSpec(&quot;3&quot;);
         spec3.setIndicator(&quot;3&quot;, getResources().getDrawable(R.drawable.ic_launcher));
-        Intent intent3 &#x3D; new Intent(this, Activity3.class);
+        Intent intent3 = new Intent(this, Activity3.class);
         spec3.setContent(intent3);
         
-        &#x2F;&#x2F; 页面4
-        TabSpec spec4 &#x3D; tabHost.newTabSpec(&quot;4&quot;);
+        // 页面4
+        TabSpec spec4 = tabHost.newTabSpec(&quot;4&quot;);
         spec4.setIndicator(&quot;4&quot;, getResources().getDrawable(R.drawable.ic_launcher));
-        Intent intent4 &#x3D; new Intent(this, Activity4.class);
+        Intent intent4 = new Intent(this, Activity4.class);
         spec4.setContent(intent4);
 
         tabHost.addTab(spec1);
@@ -416,7 +416,7 @@ public class MainActivity extends TabActivity &#123;
 
 
 
-    private GestureDetector detector &#x3D; new GestureDetector(new GestureDetector.SimpleOnGestureListener() &#123;
+    private GestureDetector detector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() &#123;
 
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) &#123;
@@ -441,19 +441,19 @@ public class MainActivity extends TabActivity &#123;
         return super.onTouchEvent(event);
     &#125;
 
-    &#x2F;**
+    /**
      * 当前页面索引
-     *&#x2F;
-    int i &#x3D; 0;
+     */
+    int i = 0;
 
-    &#x2F;**
+    /**
      * 显示下一个页面
-     *&#x2F;
+     */
     protected void showNext() &#123;
-        &#x2F;&#x2F; 三元表达式控制3个页面的循环.
-        &#x2F;&#x2F;tabHost.setCurrentTab(i &#x3D; i &#x3D;&#x3D; 3 ? i &#x3D; 0 : ++i);
-        &#x2F;&#x2F;Log.i(&quot;kennet&quot;, i + &quot;&quot;);
-        &#x2F;&#x2F;四个页面的下一个循环
+        // 三元表达式控制3个页面的循环.
+        //tabHost.setCurrentTab(i = i == 3 ? i = 0 : ++i);
+        //Log.i(&quot;kennet&quot;, i + &quot;&quot;);
+        //四个页面的下一个循环
         switch(i)
         &#123;
         case 0:
@@ -469,24 +469,24 @@ public class MainActivity extends TabActivity &#123;
             tabHost.setCurrentTab(i);
             break;
         case 3:
-            i&#x3D;0;
+            i=0;
             tabHost.setCurrentTab(i);
             break;
 
         &#125;
     &#125;
 
-    &#x2F;**
+    /**
      * 显示前一个页面
-     *&#x2F;
+     */
     protected void showPre() &#123;
-        &#x2F;&#x2F; 三元表达式控制3个页面的循环.
-        &#x2F;&#x2F;tabHost.setCurrentTab(i &#x3D; i &#x3D;&#x3D; 0 ? i &#x3D; 3 : --i);
-        &#x2F;&#x2F;四个页面的上一个循环
+        // 三元表达式控制3个页面的循环.
+        //tabHost.setCurrentTab(i = i == 0 ? i = 3 : --i);
+        //四个页面的上一个循环
         switch(i)
         &#123;
         case 0:
-            i&#x3D;3;
+            i=3;
             tabHost.setCurrentTab(i);
             break;
         case 1:
@@ -508,18 +508,18 @@ public class MainActivity extends TabActivity &#123;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) &#123;
-        &#x2F;&#x2F; Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     &#125;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) &#123;
-        &#x2F;&#x2F; Handle action bar item clicks here. The action bar will
-        &#x2F;&#x2F; automatically handle clicks on the Home&#x2F;Up button, so long
-        &#x2F;&#x2F; as you specify a parent activity in AndroidManifest.xml.
-        int id &#x3D; item.getItemId();
-        if (id &#x3D;&#x3D; R.id.action_settings) &#123;
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_settings) &#123;
             return true;
         &#125;
         return super.onOptionsItemSelected(item);
@@ -528,31 +528,31 @@ public class MainActivity extends TabActivity &#123;
 
 <p>xml布局文件：activity_main.xml、activit1.xml、activit2.xml、activit3.xml、activit4.xml</p>
 <p>activity_main.xml</p>
-<pre><code class="highlight plain">&lt;TabHost xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;
-    xmlns:tools&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;tools&quot;
-    android:id&#x3D;&quot;@android:id&#x2F;tabhost&quot;
-    android:layout_width&#x3D;&quot;match_parent&quot;
-    android:layout_height&#x3D;&quot;match_parent&quot; &gt;
+<pre><code class="highlight plaintext">&lt;TabHost xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    android:id=&quot;@android:id/tabhost&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot; &gt;
 
     &lt;LinearLayout
-        android:layout_width&#x3D;&quot;fill_parent&quot;
-        android:layout_height&#x3D;&quot;fill_parent&quot;
-        android:orientation&#x3D;&quot;vertical&quot; &gt;
+        android:layout_width=&quot;fill_parent&quot;
+        android:layout_height=&quot;fill_parent&quot;
+        android:orientation=&quot;vertical&quot; &gt;
 
         &lt;TabWidget
-            android:id&#x3D;&quot;@android:id&#x2F;tabs&quot;
-            android:layout_width&#x3D;&quot;fill_parent&quot;
-            android:layout_height&#x3D;&quot;wrap_content&quot; &#x2F;&gt;
+            android:id=&quot;@android:id/tabs&quot;
+            android:layout_width=&quot;fill_parent&quot;
+            android:layout_height=&quot;wrap_content&quot; /&gt;
 
         &lt;FrameLayout
-            android:id&#x3D;&quot;@android:id&#x2F;tabcontent&quot;
-            android:layout_width&#x3D;&quot;fill_parent&quot;
-            android:layout_height&#x3D;&quot;wrap_content&quot;
-            android:layout_weight&#x3D;&quot;1&quot; &gt;
-        &lt;&#x2F;FrameLayout&gt;
-    &lt;&#x2F;LinearLayout&gt;
+            android:id=&quot;@android:id/tabcontent&quot;
+            android:layout_width=&quot;fill_parent&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_weight=&quot;1&quot; &gt;
+        &lt;/FrameLayout&gt;
+    &lt;/LinearLayout&gt;
 
-&lt;&#x2F;TabHost&gt;</code></pre>
+&lt;/TabHost&gt;</code></pre>
 
 <p>注：activity1、2、3、4是测试的页面，随便建几个即可，别忘了在AndroidManifest.xml里注册页面的活动</p>
 <p>实现效果：</p>

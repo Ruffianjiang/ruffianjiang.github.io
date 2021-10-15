@@ -358,7 +358,7 @@
 <p>3.完完整整创建一个新的控件。</p>
 <p><strong>1.修改存在的控件</strong></p>
 <p>例子：</p>
-<pre><code class="highlight plain">    public class MyTextView extends TextView &#123;
+<pre><code class="highlight plaintext">    public class MyTextView extends TextView &#123;
  
     public MyTextView(Context context, AttributeSet ats, int defStyle) &#123;
         super(context, ats, defStyle);
@@ -374,20 +374,20 @@
  
     @Override
     public void onDraw(Canvas canvas) &#123;
-        &#x2F;&#x2F; 在画布上画文本之下的内容
+        // 在画布上画文本之下的内容
          
-        &#x2F;&#x2F; 保证默认的文本渲染
+        // 保证默认的文本渲染
         super.onDraw(canvas);
          
-        &#x2F;&#x2F; 在画布上画文本之上的内容
+        // 在画布上画文本之上的内容
  
     &#125;
  
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent keyEvent) &#123;
-        &#x2F;&#x2F; 写自己的控制
+        // 写自己的控制
          
-        &#x2F;&#x2F; 保持父类默认的控制
+        // 保持父类默认的控制
         return super.onKeyDown(keyCode, keyEvent);
     &#125;
 &#125;</code></pre>
@@ -395,7 +395,7 @@
 <p><strong>2.组合控件</strong></p>
 <p><strong>1.最简单的方式，是定义了XML布局文件，然后用include实现重用。（。。。这也算啊。。。）</strong></p>
 <p><strong>2.去合并一个控件 通常你自定义的控件需要继承一个ViewGroup（通常就是Layout），就像：</strong></p>
-<pre><code class="highlight plain">    public class MyCompoundView extends LinearLayout &#123;
+<pre><code class="highlight plaintext">    public class MyCompoundView extends LinearLayout &#123;
     public MyCompoundView(Context context) &#123;
         super(context);
     &#125;
@@ -406,26 +406,26 @@
 &#125;</code></pre>
 <p>      就像activity，比较好的设计一个混合的控件UI布局是使用一个外部的layout资源。</p>
 <p>      这里我们模拟定义一个：</p>
-<pre><code class="highlight plain">&lt;?xml version&#x3D;”1.0” encoding&#x3D;”utf-8”?&gt; 
-  &lt;LinearLayout xmlns:android&#x3D;”http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android” 
-   android:orientation&#x3D;”vertical” 
-   android:layout_width&#x3D;”match_parent” 
-   android:layout_height&#x3D;”wrap_content”&gt; 
+<pre><code class="highlight plaintext">&lt;?xml version=”1.0” encoding=”utf-8”?&gt; 
+  &lt;LinearLayout xmlns:android=”http://schemas.android.com/apk/res/android” 
+   android:orientation=”vertical” 
+   android:layout_width=”match_parent” 
+   android:layout_height=”wrap_content”&gt; 
    &lt;EditText
-      android:id&#x3D;”@+id&#x2F;editText” 
-      android:layout_width&#x3D;”match_parent” 
-      android:layout_height&#x3D;”wrap_content” 
-   &#x2F;&gt; 
+      android:id=”@+id/editText” 
+      android:layout_width=”match_parent” 
+      android:layout_height=”wrap_content” 
+   /&gt; 
    &lt;Button
-      android:id&#x3D;”@+id&#x2F;clearButton” 
-      android:layout_width&#x3D;”match_parent” 
-      android:layout_height&#x3D;”wrap_content” 
-      android:text&#x3D;”Clear” 
-   &#x2F;&gt; 
- &lt;&#x2F;LinearLayout&gt;</code></pre>
+      android:id=”@+id/clearButton” 
+      android:layout_width=”match_parent” 
+      android:layout_height=”wrap_content” 
+      android:text=”Clear” 
+   /&gt; 
+ &lt;/LinearLayout&gt;</code></pre>
 
 <p>** <strong>然后在构造函数初始化的时候：**</strong></p>
-<pre><code class="highlight plain">    public class ClearableEditText extends LinearLayout &#123;
+<pre><code class="highlight plaintext">    public class ClearableEditText extends LinearLayout &#123;
  
     EditText editText;
     Button clearButton;
@@ -433,19 +433,19 @@
     public ClearableEditText(Context context) &#123;
         super(context);
  
-        &#x2F;&#x2F; Inflate the view from the layout resource.
-        String infService &#x3D; Context.LAYOUT_INFLATER_SERVICE;
+        // Inflate the view from the layout resource.
+        String infService = Context.LAYOUT_INFLATER_SERVICE;
         LayoutInflater li;
  
-        li &#x3D; (LayoutInflater) getContext().getSystemService(infService);
-                &#x2F;*这句很关键，解析反射资源文件，然后将布局附加到当前的控件，也就是this*&#x2F;
+        li = (LayoutInflater) getContext().getSystemService(infService);
+                /*这句很关键，解析反射资源文件，然后将布局附加到当前的控件，也就是this*/
         li.inflate(R.layout.clearable_edit_text, this, true); 
  
-        &#x2F;* 因为反射成功后的布局已经附加上了，那么直接可以findViewById*&#x2F;
-        editText &#x3D; (EditText) findViewById(R.id.editText); 
-        clearButton &#x3D; (Button) findViewById(R.id.clearButton);
+        /* 因为反射成功后的布局已经附加上了，那么直接可以findViewById*/
+        editText = (EditText) findViewById(R.id.editText); 
+        clearButton = (Button) findViewById(R.id.clearButton);
  
-        &#x2F;&#x2F; 下面自定义的方法就是为控件注册监听，不解释了
+        // 下面自定义的方法就是为控件注册监听，不解释了
         hookupButton();
     &#125;
 &#125;</code></pre>
@@ -461,8 +461,8 @@
 <p>View在屏幕上显示出来要先经过measure（计算）和layout（布局）. <br>1、什么时候调用onMeasure方法？  <br>当控件的父元素正要放置该控件时调用.父元素会问子控件一个问题，“你想要用多大地方啊？”，然后传入两个参数——widthMeasureSpec和heightMeasureSpec. <br>这两个参数指明控件可获得的空间以及关于这个空间描述的元数据.</p>
 <p>更好的方法是你传递View的高度和宽度到setMeasuredDimension方法里,这样可以直接告诉父控件，需要多大地方放置子控件.</p>
 <p>widthMeasureSpec和heightMeasureSpec这2个参数都是整形是出于效率的考虑，所以经常要做的就是对其解码=&gt;</p>
-<pre><code class="highlight plain">1. int specMode &#x3D; MeasureSpec.getMode(measureSpec);
-1. int specSize &#x3D; MeasureSpec.getSize(measureSpec);</code></pre>
+<pre><code class="highlight plaintext">1. int specMode = MeasureSpec.getMode(measureSpec);
+1. int specSize = MeasureSpec.getSize(measureSpec);</code></pre>
 <p>  </p>
 <ol>
 <li><p>依据specMode的值，（MeasureSpec有3种模式分别是UNSPECIFIED, EXACTLY和AT_MOST）</p>
@@ -474,42 +474,42 @@
 <ol>
 <li>View的onMeasure方法默认行为是当模式为UNSPECIFIED时，设置尺寸为mMinWidth(通常为0)或者背景drawable的最小尺寸，当模式为EXACTLY或者AT_MOST时，尺寸设置为传入的MeasureSpec的大小。  <br>有个观念需要纠正的是，fill_parent应该是子view会占据剩下容器的空间，而不会覆盖前面已布局好的其他view空间，当然后面布局子 view就没有空间给分配了，所以fill_parent属性对布局顺序很重要。以前所想的是把所有容器的空间都占满了，难怪google在2.2版本里 把fill_parent的名字改为match_parent. <br>在两种情况下，你必须绝对的处理这些限制。在一些情况下，它可能会返回超出这些限制的尺寸，在这种情况下，你可以让父元素选择如何对待超出的View，使用裁剪还是滚动等技术。 <br>接下来的框架代码给出了处理View测量的典型实现：</li>
 </ol>
-<pre><code class="highlight plain">@Override
+<pre><code class="highlight plaintext">@Override
 protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) &#123;
-    int measuredHeight &#x3D; measureHeight(heightMeasureSpec);
-    int measuredWidth &#x3D; measureWidth(widthMeasureSpec);
+    int measuredHeight = measureHeight(heightMeasureSpec);
+    int measuredWidth = measureWidth(widthMeasureSpec);
  
-    setMeasuredDimension(measuredHeight, measuredWidth); &#x2F;&#x2F; 记住这句可不能省。
+    setMeasuredDimension(measuredHeight, measuredWidth); // 记住这句可不能省。
 &#125;
  
 private int measureHeight(int measureSpec) &#123;
-    int specMode &#x3D; MeasureSpec.getMode(measureSpec);
-    int specSize &#x3D; MeasureSpec.getSize(measureSpec);
+    int specMode = MeasureSpec.getMode(measureSpec);
+    int specSize = MeasureSpec.getSize(measureSpec);
  
-    &#x2F;&#x2F; Default size if no limits are specified.
-    int result &#x3D; 500;
+    // Default size if no limits are specified.
+    int result = 500;
  
-    if (specMode &#x3D;&#x3D; MeasureSpec.AT_MOST) &#123;
-        &#x2F;&#x2F; Calculate the ideal size of your
-        &#x2F;&#x2F; control within this maximum size.
-        &#x2F;&#x2F; If your control fills the available
-        &#x2F;&#x2F; space return the outer bound.
-        result &#x3D; specSize;
-    &#125; else if (specMode &#x3D;&#x3D; MeasureSpec.EXACTLY) &#123;
-        &#x2F;&#x2F; If your control can fit within these bounds return that value.
-        result &#x3D; specSize;
+    if (specMode == MeasureSpec.AT_MOST) &#123;
+        // Calculate the ideal size of your
+        // control within this maximum size.
+        // If your control fills the available
+        // space return the outer bound.
+        result = specSize;
+    &#125; else if (specMode == MeasureSpec.EXACTLY) &#123;
+        // If your control can fit within these bounds return that value.
+        result = specSize;
     &#125;
     return result;
 &#125;
  
 private int measureWidth(int measureSpec) &#123;
-    &#x2F;&#x2F; 代码基本类似measureHeight
+    // 代码基本类似measureHeight
 &#125;</code></pre>
 
 <p><strong>总结：</strong></p>
 <p><strong>通过</strong></p>
-<pre><code class="highlight plain">int specMode &#x3D; MeasureSpec.getMode(measureSpec); 
-int specSize &#x3D; MeasureSpec.getSize(measureSpec);</code></pre>
+<pre><code class="highlight plaintext">int specMode = MeasureSpec.getMode(measureSpec); 
+int specSize = MeasureSpec.getSize(measureSpec);</code></pre>
 
 
 <p><strong>这2个值，然后计算自己想要占有的宽和高。</strong></p>

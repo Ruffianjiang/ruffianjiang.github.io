@@ -360,32 +360,32 @@
 <p>二、安卓端图片上传</p>
 <p>首先我们需要导入JAR包，网址：<a target="_blank" rel="noopener" href="http://developer.qiniu.com/docs/v6/sdk/android-sdk.html">http://developer.qiniu.com/docs/v6/sdk/android-sdk.html</a></p>
 <p>现在来编写上传相关的程序：</p>
-<pre><code class="highlight plain">private volatile boolean isCancelled &#x3D; false;&#x2F;&#x2F; 取消标志    　　 static String AccessKey &#x3D;七牛上的公钥;
-    static String SecretKey &#x3D;七牛上的私钥;
+<pre><code class="highlight plaintext">private volatile boolean isCancelled = false;// 取消标志    　　 static String AccessKey =七牛上的公钥;
+    static String SecretKey =七牛上的私钥;
     UploadManager uploadManager;
-        &#x2F;**
+        /**
          *uploadManager有两种初始化方法，一种是默认配置，一种的自动逸配置
-        *&#x2F;
-        &#x2F;&#x2F; 默认配置
-        uploadManager&#x3D;new UploadManager();
-        &#x2F;&#x2F;自定义配置
-        Configuration config&#x3D; new Configuration.Builder().chunkSize(256 * 1024) &#x2F;&#x2F; 分片上传时，每片的大小。
-                                                                        &#x2F;&#x2F; 默认
-                                                                        &#x2F;&#x2F; 256K
-                    .putThreshhold(512 * 1024) &#x2F;&#x2F; 启用分片上传阀值。默认 512K
-                    .connectTimeout(10) &#x2F;&#x2F; 链接超时。默认 10秒
-                    .responseTimeout(60) &#x2F;&#x2F; 服务器响应超时。默认 60秒
-                    &#x2F;&#x2F; .recorder(recorder) &#x2F;&#x2F; recorder 分片上传时，已上传片记录器。默认 null
-                    &#x2F;&#x2F; .recorder(recorder, keyGen) &#x2F;&#x2F; keyGen
-                    &#x2F;&#x2F; 分片上传时，生成标识符，用于片记录器区分是那个文件的上传记录
+        */
+        // 默认配置
+        uploadManager=new UploadManager();
+        //自定义配置
+        Configuration config= new Configuration.Builder().chunkSize(256 * 1024) // 分片上传时，每片的大小。
+                                                                        // 默认
+                                                                        // 256K
+                    .putThreshhold(512 * 1024) // 启用分片上传阀值。默认 512K
+                    .connectTimeout(10) // 链接超时。默认 10秒
+                    .responseTimeout(60) // 服务器响应超时。默认 60秒
+                    // .recorder(recorder) // recorder 分片上传时，已上传片记录器。默认 null
+                    // .recorder(recorder, keyGen) // keyGen
+                    // 分片上传时，生成标识符，用于片记录器区分是那个文件的上传记录
                     .build();
-            &#x2F;&#x2F; 重用 uploadManager。一般地，只需要创建一个 uploadManager 对象
-            uploadManager &#x3D; new UploadManager(config);</code></pre>
+            // 重用 uploadManager。一般地，只需要创建一个 uploadManager 对象
+            uploadManager = new UploadManager(config);</code></pre>
 
 <p>初始化配置搞定了，下面来进行上传操作：</p>
-<pre><code class="highlight plain">String _uploadToken &#x3D; getUploadToken(scope); 　　　　 uploadManager.put(SAVE_FILE_DIRECTORY, &#x2F;&#x2F; 本地上传路径、文件、字符串
-            key, &#x2F;&#x2F; 网站上的名字
-            _uploadToken, &#x2F;&#x2F; 验证信息
+<pre><code class="highlight plaintext">String _uploadToken = getUploadToken(scope); 　　　　 uploadManager.put(SAVE_FILE_DIRECTORY, // 本地上传路径、文件、字符串
+            key, // 网站上的名字
+            _uploadToken, // 验证信息
             new UpCompletionHandler() &#123;
                 @Override
                 public void complete(String key, ResponseInfo info, JSONObject response) &#123;
@@ -393,14 +393,14 @@
                     Log.i(&quot;是否成功&quot;, String.valueOf(info.isOK()));
                 &#125;
             &#125;,
-            new UploadOptions(null, &#x2F;&#x2F; 自定义变量，key必须以 x: 开始。
-                    &quot;webp&quot;, &#x2F;&#x2F; 指定文件的mimeType。
-                    false, &#x2F;&#x2F; 是否验证上传文件。
-                    new UpProgressHandler() &#123; &#x2F;&#x2F; 上传进度回调。
+            new UploadOptions(null, // 自定义变量，key必须以 x: 开始。
+                    &quot;webp&quot;, // 指定文件的mimeType。
+                    false, // 是否验证上传文件。
+                    new UpProgressHandler() &#123; // 上传进度回调。
                         public void progress(String key, double percent) &#123;
                             Log.i(&quot;qiniu&quot;, key + &quot;: &quot; + percent);
                         &#125;
-                    &#125;, new UpCancellationSignal() &#123; &#x2F;&#x2F; 取消上传，当isCancelled()返回true时，不再执行更多上传。
+                    &#125;, new UpCancellationSignal() &#123; // 取消上传，当isCancelled()返回true时，不再执行更多上传。
                         public boolean isCancelled() &#123;
                             return isCancelled;
                         &#125;
@@ -408,18 +408,18 @@
     );</code></pre>
 
 <p>在上传的操作中唯一需要我们头疼的就是_uploadToken，下面来介绍如何生成一个_uploadToken令牌信息：</p>
-<pre><code class="highlight plain">public String getUploadToken(String scope) &#123;
-    &#x2F;&#x2F; 构造上传策略
-    JSONObject json &#x3D; new JSONObject();
-    long dataline &#x3D; System.currentTimeMillis() &#x2F; 1000 + 3600;
-    String uploadToken &#x3D; null;
+<pre><code class="highlight plaintext">public String getUploadToken(String scope) &#123;
+    // 构造上传策略
+    JSONObject json = new JSONObject();
+    long dataline = System.currentTimeMillis() / 1000 + 3600;
+    String uploadToken = null;
     try &#123;
-        json.put(&quot;deadline&quot;, dataline);&#x2F;&#x2F; 有效时间为一个小时
-        json.put(&quot;scope&quot;, scope);&#x2F;&#x2F; 上传空间
-        String encodedPutPolicy &#x3D; UrlSafeBase64.encodeToString(json.toString().getBytes());
-        byte[] sign &#x3D; HmacSHA1Encrypt(encodedPutPolicy, SecretKey);
-        String encodedSign &#x3D; UrlSafeBase64.encodeToString(sign);
-        uploadToken &#x3D; AccessKey + &#39;:&#39; + encodedSign + &#39;:&#39; + encodedPutPolicy;&#x2F;&#x2F; 登录信息token&#x3D;公钥：加密的json信息：原始json信息
+        json.put(&quot;deadline&quot;, dataline);// 有效时间为一个小时
+        json.put(&quot;scope&quot;, scope);// 上传空间
+        String encodedPutPolicy = UrlSafeBase64.encodeToString(json.toString().getBytes());
+        byte[] sign = HmacSHA1Encrypt(encodedPutPolicy, SecretKey);
+        String encodedSign = UrlSafeBase64.encodeToString(sign);
+        uploadToken = AccessKey + &#x27;:&#x27; + encodedSign + &#x27;:&#x27; + encodedPutPolicy;// 登录信息token=公钥：加密的json信息：原始json信息
     &#125; catch (JSONException e) &#123;
         e.printStackTrace();
     &#125; catch (Exception e) &#123;
@@ -428,8 +428,8 @@
     return uploadToken;
 &#125;
 
-&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F; ************************************&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;&#x2F;
-&#x2F;**
+/////////////// ************************************/////////////////////////
+/**
  * 使用 HMAC-SHA1 签名方法对对encryptText进行签名
  * 
  * @param encryptText
@@ -438,63 +438,63 @@
  *            密钥
  * @return
  * @throws Exception
- *&#x2F;
-private static final String MAC_NAME &#x3D; &quot;HmacSHA1&quot;;
-private static final String ENCODING &#x3D; &quot;UTF-8&quot;;
+ */
+private static final String MAC_NAME = &quot;HmacSHA1&quot;;
+private static final String ENCODING = &quot;UTF-8&quot;;
 
 private byte[] HmacSHA1Encrypt(String encryptText, String encryptKey) throws Exception &#123;
-    byte[] data &#x3D; encryptKey.getBytes(ENCODING);
-    &#x2F;&#x2F; 根据给定的字节数组构造一个密钥,第二参数指定一个密钥算法的名称
-    SecretKey secretKey &#x3D; new SecretKeySpec(data, MAC_NAME);
-    &#x2F;&#x2F; 生成一个指定 Mac 算法 的 Mac 对象
-    Mac mac &#x3D; Mac.getInstance(MAC_NAME);
-    &#x2F;&#x2F; 用给定密钥初始化 Mac 对象
+    byte[] data = encryptKey.getBytes(ENCODING);
+    // 根据给定的字节数组构造一个密钥,第二参数指定一个密钥算法的名称
+    SecretKey secretKey = new SecretKeySpec(data, MAC_NAME);
+    // 生成一个指定 Mac 算法 的 Mac 对象
+    Mac mac = Mac.getInstance(MAC_NAME);
+    // 用给定密钥初始化 Mac 对象
     mac.init(secretKey);
-    byte[] text &#x3D; encryptText.getBytes(ENCODING);
-    &#x2F;&#x2F; 完成 Mac 操作
+    byte[] text = encryptText.getBytes(ENCODING);
+    // 完成 Mac 操作
     return mac.doFinal(text);
 &#125;</code></pre>
 
 <p>好了现在我们就可以成功上传了。</p>
 <p>三、编写其他操作</p>
 <p>1、取消操作</p>
-<pre><code class="highlight plain">&#x2F;**
+<pre><code class="highlight plaintext">/**
  * 点击取消按钮，让 UpCancellationSignal#isCancelled() 方法返回 true ，以停止上传
- *&#x2F;
+ */
 public void cancell() &#123;
-    isCancelled &#x3D; true;
+    isCancelled = true;
 &#125;</code></pre>
 
 <p>2、删除操作</p>
-<pre><code class="highlight plain">&#x2F;**
+<pre><code class="highlight plaintext">/**
  * 删除指定空间、名称的资源
  * 
  * @param bucket 空间名
  * @param fileName 文件名
  * @return
- *&#x2F;
+ */
 public boolean deleteFile(String bucket, String fileName) &#123;
     try &#123;
-        String entryUrl &#x3D; bucket + &quot;:&quot; + fileName;
-        String encodedEntryURI &#x3D; UrlSafeBase64.encodeToString(entryUrl.getBytes());
-        String host &#x3D; &quot;http:&#x2F;&#x2F;rs.qiniu.com&quot;;
-        String path &#x3D; &quot;&#x2F;delete&#x2F;&quot; + encodedEntryURI;
-        String url &#x3D; host + path;
-        byte[] sign &#x3D; HmacSHA1Encrypt(path + &quot;\n&quot;, SecretKey);
-        String encodedSign &#x3D; UrlSafeBase64.encodeToString(sign);
-        String authorization &#x3D; AccessKey + &#39;:&#39; + encodedSign;
-        HttpClient httpClient &#x3D; new DefaultHttpClient();
-        HttpPost mothod &#x3D; new HttpPost(url);
-        mothod.setHeader(&quot;Content-Type&quot;, &quot;application&#x2F;x-www-form-urlencoded&quot;);
+        String entryUrl = bucket + &quot;:&quot; + fileName;
+        String encodedEntryURI = UrlSafeBase64.encodeToString(entryUrl.getBytes());
+        String host = &quot;http://rs.qiniu.com&quot;;
+        String path = &quot;/delete/&quot; + encodedEntryURI;
+        String url = host + path;
+        byte[] sign = HmacSHA1Encrypt(path + &quot;\n&quot;, SecretKey);
+        String encodedSign = UrlSafeBase64.encodeToString(sign);
+        String authorization = AccessKey + &#x27;:&#x27; + encodedSign;
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpPost mothod = new HttpPost(url);
+        mothod.setHeader(&quot;Content-Type&quot;, &quot;application/x-www-form-urlencoded&quot;);
         mothod.setHeader(&quot;Authorization&quot;, &quot;QBox &quot; + authorization);
-        &#x2F;&#x2F; 连接超时时间
+        // 连接超时时间
         httpClient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 20000);
-        &#x2F;&#x2F; 读取超时时间
+        // 读取超时时间
         httpClient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 20000);
-        HttpResponse response &#x3D; httpClient.execute(mothod);
-        StatusLine statusLine &#x3D; response.getStatusLine();
-        int statusCode &#x3D; statusLine.getStatusCode();
-        if (statusCode &#x3D;&#x3D; HttpStatus.SC_OK) &#123;
+        HttpResponse response = httpClient.execute(mothod);
+        StatusLine statusLine = response.getStatusLine();
+        int statusCode = statusLine.getStatusCode();
+        if (statusCode == HttpStatus.SC_OK) &#123;
             Log.e(&quot;删除结果&quot;, &quot;successful&quot;);
             return true;
         &#125;

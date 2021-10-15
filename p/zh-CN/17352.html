@@ -350,7 +350,7 @@
 <p>GITHUB上的下载路径为：<a target="_blank" rel="noopener" href="https://github.com/nostra13/Android-Universal-Image-Loader">https://github.com/nostra13/Android-Universal-Image-Loader</a></p>
 <p>也可以自行百度下载。</p>
 <p>首先来封装的一个类CacheTool ，由于其他加载图片的方法有点繁琐，所以这里仅封装了一个简单实用的加载方法：</p>
-<pre><code class="highlight plain">import android.content.Context;
+<pre><code class="highlight plaintext">import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.net.Uri;
@@ -370,106 +370,106 @@ import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 
-&#x2F;**
+/**
  * 图片加载框架
  * 
  * @author jiang
  * 
- *&#x2F;
+ */
 public class CacheTool &#123;
 
-    private static File cacheDir &#x3D; Environment.getDataDirectory();
-    private static DisplayImageOptions options &#x3D; new DisplayImageOptions.Builder().showStubImage(R.drawable.loading_img)
+    private static File cacheDir = Environment.getDataDirectory();
+    private static DisplayImageOptions options = new DisplayImageOptions.Builder().showStubImage(R.drawable.loading_img)
             .showImageForEmptyUri(R.drawable.loading_error).showImageOnFail(R.drawable.loading_error)
             .cacheInMemory(true).cacheOnDisc(true).bitmapConfig(Bitmap.Config.RGB_565).build();
 
     private static ImageLoaderConfiguration config;
 
     public static void Init(Context context) &#123;
-        config &#x3D; new ImageLoaderConfiguration.Builder(context).memoryCacheExtraOptions(480, 800) &#x2F;&#x2F; max
-                                                                                                    &#x2F;&#x2F; width,
-                                                                                                    &#x2F;&#x2F; max
-                                                                                                    &#x2F;&#x2F; height，即保存的每个缓存文件的最大长宽
-                .discCacheExtraOptions(480, 800, CompressFormat.JPEG, 75, null) &#x2F;&#x2F; Can
-                                                                                &#x2F;&#x2F; slow
-                                                                                &#x2F;&#x2F; ImageLoader,
-                                                                                &#x2F;&#x2F; use
-                                                                                &#x2F;&#x2F; it
-                                                                                &#x2F;&#x2F; carefully
-                                                                                &#x2F;&#x2F; (Better
-                                                                                &#x2F;&#x2F; don&#39;t
-                                                                                &#x2F;&#x2F; use
-                                                                                &#x2F;&#x2F; it)&#x2F;设置缓存的详细信息，最好不要设置这个
-                .threadPoolSize(3)&#x2F;&#x2F; 线程池内加载的数量
+        config = new ImageLoaderConfiguration.Builder(context).memoryCacheExtraOptions(480, 800) // max
+                                                                                                    // width,
+                                                                                                    // max
+                                                                                                    // height，即保存的每个缓存文件的最大长宽
+                .discCacheExtraOptions(480, 800, CompressFormat.JPEG, 75, null) // Can
+                                                                                // slow
+                                                                                // ImageLoader,
+                                                                                // use
+                                                                                // it
+                                                                                // carefully
+                                                                                // (Better
+                                                                                // don&#x27;t
+                                                                                // use
+                                                                                // it)/设置缓存的详细信息，最好不要设置这个
+                .threadPoolSize(3)// 线程池内加载的数量
                 .threadPriority(Thread.NORM_PRIORITY - 2).denyCacheImageMultipleSizesInMemory()
-                .memoryCache(new UsingFreqLimitedMemoryCache(2 * 1024 * 1024)) &#x2F;&#x2F; You
-                                                                                &#x2F;&#x2F; can
-                                                                                &#x2F;&#x2F; pass
-                                                                                &#x2F;&#x2F; your
-                                                                                &#x2F;&#x2F; own
-                                                                                &#x2F;&#x2F; memory
-                                                                                &#x2F;&#x2F; cache
-                                                                                &#x2F;&#x2F; implementation&#x2F;你可以通过自己的内存缓存实现
+                .memoryCache(new UsingFreqLimitedMemoryCache(2 * 1024 * 1024)) // You
+                                                                                // can
+                                                                                // pass
+                                                                                // your
+                                                                                // own
+                                                                                // memory
+                                                                                // cache
+                                                                                // implementation/你可以通过自己的内存缓存实现
                 .memoryCacheSize(2 * 1024 * 1024).discCacheSize(50 * 1024 * 1024)
-                .discCacheFileNameGenerator(new Md5FileNameGenerator())&#x2F;&#x2F; 将保存的时候的URI名称用MD5
-                                                                        &#x2F;&#x2F; 加密
-                .tasksProcessingOrder(QueueProcessingType.LIFO).discCacheFileCount(100) &#x2F;&#x2F; 缓存的文件数量
-                &#x2F;&#x2F; .discCache(new UnlimitedDiscCache(cacheDir))&#x2F;&#x2F; 自定义缓存路径
+                .discCacheFileNameGenerator(new Md5FileNameGenerator())// 将保存的时候的URI名称用MD5
+                                                                        // 加密
+                .tasksProcessingOrder(QueueProcessingType.LIFO).discCacheFileCount(100) // 缓存的文件数量
+                // .discCache(new UnlimitedDiscCache(cacheDir))// 自定义缓存路径
                 .defaultDisplayImageOptions(DisplayImageOptions.createSimple())
-                .imageDownloader(new BaseImageDownloader(context, 5 * 1000, 30 * 1000)) &#x2F;&#x2F; connectTimeout
-                                                                                        &#x2F;&#x2F; (5
-                                                                                        &#x2F;&#x2F; s),
-                                                                                        &#x2F;&#x2F; readTimeout
-                                                                                        &#x2F;&#x2F; (30
-                                                                                        &#x2F;&#x2F; s)超时时间
-                .writeDebugLogs() &#x2F;&#x2F; Remove for release app
-                .build();&#x2F;&#x2F; 开始构建
-        &#x2F;&#x2F; Initialize ImageLoader with configuration.
+                .imageDownloader(new BaseImageDownloader(context, 5 * 1000, 30 * 1000)) // connectTimeout
+                                                                                        // (5
+                                                                                        // s),
+                                                                                        // readTimeout
+                                                                                        // (30
+                                                                                        // s)超时时间
+                .writeDebugLogs() // Remove for release app
+                .build();// 开始构建
+        // Initialize ImageLoader with configuration.
         ImageLoader.getInstance().init(config);
     &#125;
 
-    &#x2F;**
+    /**
      * 加载图片并监听回调结果
      * 
      * @param iv
      * @param url
      * @param mImageLoadingListener
-     *&#x2F;
+     */
     public static void displayImg(ImageView iv, String url, ImageLoadingListener mImageLoadingListener) &#123;
         ImageLoader.getInstance().displayImage(url, iv, options, mImageLoadingListener);
     &#125;
 
-    &#x2F;**
+    /**
      * 加载图片
      * 
      * @param iv
      * @param url
-     *&#x2F;
+     */
     public static void displayImg(ImageView iv, String url) &#123;
 
         ImageLoader.getInstance().displayImage(url, iv, options);
     &#125;
 
-    &#x2F;**
+    /**
      * 清除内存
-     *&#x2F;
+     */
     public static void clearMemoryCache() &#123;
         ImageLoader.getInstance().clearMemoryCache();
     &#125;
 
-    &#x2F;**
+    /**
      * 清除缓存
-     *&#x2F;
+     */
     public static void clearDiskCache() &#123;
         ImageLoader.getInstance().clearDiscCache();
     &#125;
 
-    &#x2F;**
+    /**
      * 得到某个图片的缓存路径
      * 
      * @param imageUrl
      * @return
-     *&#x2F;
+     */
     public static String getImagePath(String imageUrl) &#123;
         return ImageLoader.getInstance().getDiscCache().get(imageUrl).getPath();
     &#125;
@@ -478,101 +478,101 @@ public class CacheTool &#123;
 
 <p> </p>
 <p>封装好了，里面都有详细的介绍，这里介绍下上面的中的ImageLoadingListener 接口回调，按ctrl + 鼠标左键可以进入jar包里的java文件：</p>
-<pre><code class="highlight plain">&#x2F;*******************************************************************************
+<pre><code class="highlight plaintext">/*******************************************************************************
  * Copyright 2011-2013 Sergey Tarasevich
  *
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http:&#x2F;&#x2F;www.apache.org&#x2F;licenses&#x2F;LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *******************************************************************************&#x2F;
+ *******************************************************************************/
 package com.nostra13.universalimageloader.core.assist;
 
 import android.graphics.Bitmap;
 import android.view.View;
 
-&#x2F;**
- * Listener for image loading process.&lt;br &#x2F;&gt;
+/**
+ * Listener for image loading process.&lt;br /&gt;
  * You can use &#123;@link SimpleImageLoadingListener&#125; for implementing only needed methods.
  *
  * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
  * @see SimpleImageLoadingListener
  * @see FailReason
  * @since 1.0.0
- *&#x2F;
+ */
 public interface ImageLoadingListener &#123;
 
-    &#x2F;**
+    /**
      * Is called when image loading task was started
      *
      * @param imageUri Loading image URI
      * @param view     View for image
-     *&#x2F;
+     */
     void onLoadingStarted(String imageUri, View view);
 
-    &#x2F;**
+    /**
      * Is called when an error was occurred during image loading
      *
      * @param imageUri   Loading image URI
-     * @param view       View for image. Can be &lt;b&gt;null&lt;&#x2F;b&gt;.
+     * @param view       View for image. Can be &lt;b&gt;null&lt;/b&gt;.
      * @param failReason &#123;@linkplain FailReason The reason&#125; why image loading was failed
-     *&#x2F;
+     */
     void onLoadingFailed(String imageUri, View view, FailReason failReason);
 
-    &#x2F;**
+    /**
      * Is called when image is loaded successfully (and displayed in View if one was specified)
      *
      * @param imageUri    Loaded image URI
-     * @param view        View for image. Can be &lt;b&gt;null&lt;&#x2F;b&gt;.
+     * @param view        View for image. Can be &lt;b&gt;null&lt;/b&gt;.
      * @param loadedImage Bitmap of loaded and decoded image
-     *&#x2F;
+     */
     void onLoadingComplete(String imageUri, View view, Bitmap loadedImage);
 
-    &#x2F;**
+    /**
      * Is called when image loading task was cancelled because View for image was reused in newer task
      *
      * @param imageUri Loading image URI
-     * @param view     View for image. Can be &lt;b&gt;null&lt;&#x2F;b&gt;.
-     *&#x2F;
+     * @param view     View for image. Can be &lt;b&gt;null&lt;/b&gt;.
+     */
     void onLoadingCancelled(String imageUri, View view);
 &#125;</code></pre>
 
 <p>从以上代码中我们可以了解到接口中我们可以监听到开始、失败、完成、取消的动作。</p>
 <p>现在开始使用吧：</p>
-<pre><code class="highlight plain">private ImageView My_Head;
+<pre><code class="highlight plaintext">private ImageView My_Head;
 @Override
 protected void onCreate(Bundle savedInstanceState) &#123;
     super.onCreate(savedInstanceState);
     requestWindowFeature(Window.FEATURE_NO_TITLE);
     setContentView(R.layout.personcenter);
-    My_Head &#x3D; (ImageView) findViewById(R.id.My_Head);
-            String Url &#x3D; &quot;http:&#x2F;&#x2F;pic.nipic.com&#x2F;2007-11-09&#x2F;200711912453162_2.jpg&quot;;
+    My_Head = (ImageView) findViewById(R.id.My_Head);
+            String Url = &quot;http://pic.nipic.com/2007-11-09/200711912453162_2.jpg&quot;;
             CacheTool.displayImg(My_Head , Url );
 &#125;</code></pre>
 
 <p> Mark一下，暂存一个直接通过URL获取bitmap的函数，未作内存处理。</p>
-<pre><code class="highlight plain">&#x2F;**
+<pre><code class="highlight plaintext">/**
      * 获取指定路径的图片
      * 
      * @param urlpath
      * @return
      * @throws Exception
-     *&#x2F;
+     */
     public Bitmap getImage(String urlpath) throws Exception &#123;
-        URL url &#x3D; new URL(urlpath);
-        HttpURLConnection conn &#x3D; (HttpURLConnection) url.openConnection();
+        URL url = new URL(urlpath);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod(&quot;GET&quot;);
         conn.setConnectTimeout(5000);
-        Bitmap bitmap &#x3D; null;
-        InputStream inputStream &#x3D; conn.getInputStream();
-        bitmap &#x3D; BitmapFactory.decodeStream(inputStream);
+        Bitmap bitmap = null;
+        InputStream inputStream = conn.getInputStream();
+        bitmap = BitmapFactory.decodeStream(inputStream);
         return bitmap;
     &#125;</code></pre>
 

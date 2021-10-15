@@ -347,7 +347,7 @@
     
     <div class="post-body" itemprop="articleBody">
         <p>vixclass.cs//定义开机、关机等函数</p>
-<pre><code class="highlight plain">	using System;
+<pre><code class="highlight plaintext">	using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -363,15 +363,15 @@ namespace dome
         public ulong m_vixError;
         public VixCOM.IHost m_hostHandle;
         public VixCOM.IVM m_vmHandle;
-&#x2F;&#x2F;        public VixCOM.IJob jobHandle;
+//        public VixCOM.IJob jobHandle;
 
         public vixclass()
         &#123;
-            IvixLib &#x3D; new VixCOM.VixLibClass();
-            m_vixError&#x3D;0;
-            m_hostHandle &#x3D; null;
-            m_vmHandle &#x3D; null;
-            &#x2F;&#x2F;jobHandle &#x3D; null;
+            IvixLib = new VixCOM.VixLibClass();
+            m_vixError=0;
+            m_hostHandle = null;
+            m_vmHandle = null;
+            //jobHandle = null;
        
         &#125;
 
@@ -382,54 +382,54 @@ namespace dome
 
         &#125;
 
-        &#x2F;&#x2F;&#x2F; &lt;summary&gt;  
-        &#x2F;&#x2F;&#x2F; 创建链接
-        &#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;  
+        /// &lt;summary&gt;  
+        /// 创建链接
+        /// &lt;/summary&gt;  
         public bool Connect(string _hostname,string _username, string _password)
         &#123;
-            int hostType &#x3D; VixCOM.Constants.VIX_SERVICEPROVIDER_VMWARE_WORKSTATION;
+            int hostType = VixCOM.Constants.VIX_SERVICEPROVIDER_VMWARE_WORKSTATION;
 
-            int vixVersion &#x3D; VixCOM.Constants.VIX_API_VERSION;
-            vixVersion &#x3D; -1;
+            int vixVersion = VixCOM.Constants.VIX_API_VERSION;
+            vixVersion = -1;
 
-            int[] propertyIds &#x3D; new int[1] &#123; VixCOM.Constants.VIX_PROPERTY_JOB_RESULT_HANDLE &#125;;
+            int[] propertyIds = new int[1] &#123; VixCOM.Constants.VIX_PROPERTY_JOB_RESULT_HANDLE &#125;;
 
-            object results &#x3D; new object();
+            object results = new object();
 
-            IJob jobHandle &#x3D; IvixLib.Connect(vixVersion, hostType, _hostname, 0, _username, _password, 0, null, null);
+            IJob jobHandle = IvixLib.Connect(vixVersion, hostType, _hostname, 0, _username, _password, 0, null, null);
 
-            &#x2F;&#x2F;jobHandle &#x3D; IvixLib.Connect(vixVersion, hostType, hostname, 0, user, password, 0, null, null);
+            //jobHandle = IvixLib.Connect(vixVersion, hostType, hostname, 0, user, password, 0, null, null);
 
 
-            m_vixError &#x3D; jobHandle.Wait(propertyIds, ref results);
+            m_vixError = jobHandle.Wait(propertyIds, ref results);
 
-            if (m_vixError &#x3D;&#x3D; VixCOM.Constants.VIX_OK)
+            if (m_vixError == VixCOM.Constants.VIX_OK)
             &#123;
-                object[] objectArray &#x3D; (object[])results;
-                m_hostHandle &#x3D; (VixCOM.IHost)objectArray[0];
+                object[] objectArray = (object[])results;
+                m_hostHandle = (VixCOM.IHost)objectArray[0];
                 return true;
             &#125;
 
             return false;
         &#125;
 
-        &#x2F;&#x2F;&#x2F; &lt;summary&gt;  
-        &#x2F;&#x2F;&#x2F;打开vmxPath的虚拟机
-        &#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;  
+        /// &lt;summary&gt;  
+        ///打开vmxPath的虚拟机
+        /// &lt;/summary&gt;  
 
         public bool OpenVm(string vmxPath)
         &#123;
-            IJob jobHandle &#x3D; m_hostHandle.OpenVM(vmxPath, null);
+            IJob jobHandle = m_hostHandle.OpenVM(vmxPath, null);
 
-            int[] propertyIds &#x3D; new int[1] &#123; VixCOM.Constants.VIX_PROPERTY_JOB_RESULT_HANDLE &#125;;
-            object results &#x3D; new object();
+            int[] propertyIds = new int[1] &#123; VixCOM.Constants.VIX_PROPERTY_JOB_RESULT_HANDLE &#125;;
+            object results = new object();
 
-            m_vixError &#x3D; jobHandle.Wait(propertyIds, ref results);
+            m_vixError = jobHandle.Wait(propertyIds, ref results);
 
-            if (m_vixError &#x3D;&#x3D; VixCOM.Constants.VIX_OK)
+            if (m_vixError == VixCOM.Constants.VIX_OK)
             &#123;
-                object[] objectArray &#x3D; (object[])results;
-                m_vmHandle &#x3D; (VixCOM.IVM)objectArray[0];
+                object[] objectArray = (object[])results;
+                m_vmHandle = (VixCOM.IVM)objectArray[0];
                 return true;
             &#125;
 
@@ -437,51 +437,51 @@ namespace dome
         &#125;
 
 
-        &#x2F;&#x2F;&#x2F; &lt;summary&gt;  
-        &#x2F;&#x2F;&#x2F; 启动虚拟机 
-        &#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;  
+        /// &lt;summary&gt;  
+        /// 启动虚拟机 
+        /// &lt;/summary&gt;  
         public bool PowerOn()
         &#123;
-            IJob jobHandle &#x3D; m_vmHandle.PowerOn(VixCOM.Constants.VIX_VMPOWEROP_LAUNCH_GUI, null, null);
-            m_vixError &#x3D; jobHandle.WaitWithoutResults();
+            IJob jobHandle = m_vmHandle.PowerOn(VixCOM.Constants.VIX_VMPOWEROP_LAUNCH_GUI, null, null);
+            m_vixError = jobHandle.WaitWithoutResults();
 
-            if (m_vixError &#x3D;&#x3D; VixCOM.Constants.VIX_OK)
+            if (m_vixError == VixCOM.Constants.VIX_OK)
             &#123;
-              &#x2F;&#x2F;  jobHandle &#x3D; m_vmHandle.WaitForToolsInGuest(300, null);
+              //  jobHandle = m_vmHandle.WaitForToolsInGuest(300, null);
 
-                m_vixError &#x3D; jobHandle.WaitWithoutResults();
+                m_vixError = jobHandle.WaitWithoutResults();
             &#125;
 
-            return (m_vixError &#x3D;&#x3D; VixCOM.Constants.VIX_OK);
+            return (m_vixError == VixCOM.Constants.VIX_OK);
         &#125;
 
 
-        &#x2F;&#x2F;&#x2F; &lt;summary&gt;  
-        &#x2F;&#x2F;&#x2F; 关闭虚拟机  
-        &#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;  
+        /// &lt;summary&gt;  
+        /// 关闭虚拟机  
+        /// &lt;/summary&gt;  
  
         public bool PowerOff()
         &#123;
-            IJob jobHandle &#x3D; m_vmHandle.PowerOff(VixCOM.Constants.VIX_VMPOWEROP_NORMAL, null);
+            IJob jobHandle = m_vmHandle.PowerOff(VixCOM.Constants.VIX_VMPOWEROP_NORMAL, null);
 
-            m_vixError &#x3D; jobHandle.WaitWithoutResults();
+            m_vixError = jobHandle.WaitWithoutResults();
 
-            return (m_vixError &#x3D;&#x3D; VixCOM.Constants.VIX_OK);
+            return (m_vixError == VixCOM.Constants.VIX_OK);
         &#125;
 
 
-        &#x2F;&#x2F;&#x2F; &lt;summary&gt;  
-        &#x2F;&#x2F;&#x2F; 重启虚拟机  
-        &#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;  
+        /// &lt;summary&gt;  
+        /// 重启虚拟机  
+        /// &lt;/summary&gt;  
 
         public bool Restart()
         &#123;
            
-            IJob jobHandle &#x3D; m_vmHandle.Reset(VixCOM.Constants.VIX_VMPOWEROP_NORMAL, null);
+            IJob jobHandle = m_vmHandle.Reset(VixCOM.Constants.VIX_VMPOWEROP_NORMAL, null);
 
-            m_vixError &#x3D; jobHandle.WaitWithoutResults();
+            m_vixError = jobHandle.WaitWithoutResults();
 
-            return (m_vixError &#x3D;&#x3D; VixCOM.Constants.VIX_OK);
+            return (m_vixError == VixCOM.Constants.VIX_OK);
 
         &#125;  
     &#125;
@@ -493,7 +493,7 @@ namespace dome
 <p>btnstart//打开虚拟机</p>
 <p>btnclose//关闭虚拟机</p>
 <p> </p>
-<pre><code class="highlight plain">using System;
+<pre><code class="highlight plaintext">using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -516,11 +516,11 @@ namespace dome
 
         private void btnselect_Click(object sender, EventArgs e)
         &#123;
-            OpenFileDialog loSaveFile &#x3D; new OpenFileDialog();
-            loSaveFile.Filter &#x3D; &quot;.vmx文件(*.vmx)|*.vmx&quot;;
-            if (loSaveFile.ShowDialog() &#x3D;&#x3D; DialogResult.OK)
+            OpenFileDialog loSaveFile = new OpenFileDialog();
+            loSaveFile.Filter = &quot;.vmx文件(*.vmx)|*.vmx&quot;;
+            if (loSaveFile.ShowDialog() == DialogResult.OK)
             &#123;
-                this.textBox1.Text &#x3D; loSaveFile.FileName;
+                this.textBox1.Text = loSaveFile.FileName;
             &#125;
         &#125;
 
@@ -528,8 +528,8 @@ namespace dome
         &#123;
             try
             &#123;
-                vixclass vix &#x3D; new vixclass();
-                string vmxpath &#x3D; textBox1.Text;
+                vixclass vix = new vixclass();
+                string vmxpath = textBox1.Text;
                 vix.Connect(null, &quot;Administrator&quot;, null);
                 vix.OpenVm(@vmxpath);
                 vix.PowerOn();
@@ -547,8 +547,8 @@ namespace dome
         &#123;
             try
             &#123;
-                vixclass vix &#x3D; new vixclass();
-                string vmxpath &#x3D; textBox1.Text;
+                vixclass vix = new vixclass();
+                string vmxpath = textBox1.Text;
                 vix.Connect(null , &quot;Administrator&quot;, null);
                 vix.OpenVm(@vmxpath);
                 vix.PowerOff();

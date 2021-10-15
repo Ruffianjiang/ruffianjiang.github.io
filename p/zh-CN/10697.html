@@ -351,7 +351,7 @@
     <div class="post-body" itemprop="articleBody">
         <p>使用spring boot实现项目启动时的监听，</p>
 <p>UDPListener</p>
-<pre><code class="highlight plain">import java.io.IOException;
+<pre><code class="highlight plaintext">import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -363,15 +363,15 @@ import javax.servlet.annotation.WebListener;
 @WebListener
 public class UDPListener implements ServletContextListener &#123;
 
-    public static final int MAX_UDP_DATA_SIZE &#x3D; 4096;
-    public static final int UDP_PORT &#x3D; 26666;
+    public static final int MAX_UDP_DATA_SIZE = 4096;
+    public static final int UDP_PORT = 26666;
 
     @Override
     public void contextInitialized(ServletContextEvent sce) &#123;
 
-        System.out.println(&quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;UDPListener Initialized&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&quot;);
+        System.out.println(&quot;========UDPListener Initialized=========&quot;);
         try &#123; 
-             &#x2F;&#x2F; 启动一个线程，监听UDP数据报
+             // 启动一个线程，监听UDP数据报
             new Thread(new UDPProcess(UDP_PORT)).start();
         &#125; catch (Exception e) &#123;
             e.printStackTrace();
@@ -380,19 +380,19 @@ public class UDPListener implements ServletContextListener &#123;
     &#125;
 
     class UDPProcess implements Runnable &#123;
-        DatagramSocket socket &#x3D; null;
+        DatagramSocket socket = null;
 
         public UDPProcess(final int port) throws SocketException &#123;
-            socket &#x3D; new DatagramSocket(port);
+            socket = new DatagramSocket(port);
         &#125;
 
         @Override
         public void run() &#123;
-            &#x2F;&#x2F; TODO Auto-generated method stub
-            System.out.println(&quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;UDPProcess&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&quot;);
+            // TODO Auto-generated method stub
+            System.out.println(&quot;=======UDPProcess======&quot;);
             while (true) &#123;
-                byte[] buffer &#x3D; new byte[MAX_UDP_DATA_SIZE];
-                DatagramPacket packet &#x3D; new DatagramPacket(buffer, buffer.length);
+                byte[] buffer = new byte[MAX_UDP_DATA_SIZE];
+                DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
                 try &#123;
                     socket.receive(packet);
                     new Thread(new Process(packet)).start();
@@ -407,33 +407,33 @@ public class UDPListener implements ServletContextListener &#123;
     class Process implements Runnable &#123;
 
         public Process(DatagramPacket packet) throws UnsupportedEncodingException &#123;
-            &#x2F;&#x2F; TODO Auto-generated constructor stub
-            byte[] buffer &#x3D; packet.getData();&#x2F;&#x2F; 接收到的UDP信息，然后解码
-            String srt1 &#x3D; new String(buffer,&quot;GBK&quot;).trim();
-            String srt2 &#x3D; new String(buffer, &quot;UTF-8&quot;).trim();
-            String srt3 &#x3D; new String(buffer,&quot;ISO-8859-1&quot;).trim();
-            System.out.println(&quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;Process srt1 GBK&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&quot; + srt1);
-            System.out.println(&quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;Process srt2 UTF-8&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&quot; + srt2);
-            System.out.println(&quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;Process srt3 ISO-8859-1&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&quot; + srt3);
+            // TODO Auto-generated constructor stub
+            byte[] buffer = packet.getData();// 接收到的UDP信息，然后解码
+            String srt1 = new String(buffer,&quot;GBK&quot;).trim();
+            String srt2 = new String(buffer, &quot;UTF-8&quot;).trim();
+            String srt3 = new String(buffer,&quot;ISO-8859-1&quot;).trim();
+            System.out.println(&quot;=======Process srt1 GBK======&quot; + srt1);
+            System.out.println(&quot;=======Process srt2 UTF-8======&quot; + srt2);
+            System.out.println(&quot;=======Process srt3 ISO-8859-1======&quot; + srt3);
         &#125;
 
         @Override
         public void run() &#123;
-            &#x2F;&#x2F; TODO Auto-generated method stub
-            System.out.println(&quot;&#x3D;&#x3D;&#x3D;&#x3D;Process run&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&quot;);
+            // TODO Auto-generated method stub
+            System.out.println(&quot;====Process run=====&quot;);
         &#125;
         
     &#125;
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) &#123;
-        System.out.println(&quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;UDPListener Destroyed&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&quot;);
+        System.out.println(&quot;========UDPListener Destroyed=========&quot;);
     &#125;
 
 &#125;</code></pre>
 
 <p>DemoApplication</p>
-<pre><code class="highlight plain">@SpringBootApplication
+<pre><code class="highlight plaintext">@SpringBootApplication
 @ServletComponentScan 
 public class DemoApplication &#123;
 
@@ -443,31 +443,31 @@ public class DemoApplication &#123;
 &#125;</code></pre>
 
 <p>@ServletComponentScan Servlet扫描，启动时把servlet、filter、listener自动扫描注入 UDP测试客户端（也可以用测试工具发送UDP包测试）：</p>
-<pre><code class="highlight plain">import java.io.IOException;
+<pre><code class="highlight plaintext">import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 public class UDPClientTest &#123;
 
-    public static final String SERVER_HOSTNAME &#x3D; &quot;localhost&quot;;
-    &#x2F;&#x2F; 服务器端口
-    public static final int SERVER_PORT &#x3D; 26666;
-    &#x2F;&#x2F; 本地发送端口
-    public static final int LOCAL_PORT &#x3D; 8888;
+    public static final String SERVER_HOSTNAME = &quot;localhost&quot;;
+    // 服务器端口
+    public static final int SERVER_PORT = 26666;
+    // 本地发送端口
+    public static final int LOCAL_PORT = 8888;
 
     public static void main(String[] args) &#123;
         try &#123;
-            &#x2F;&#x2F; 1，创建udp服务。通过DatagramSocket对象。
-            DatagramSocket socket &#x3D; new DatagramSocket(LOCAL_PORT);
-            &#x2F;&#x2F; 2，确定数据，并封装成数据包。DatagramPacket(byte[] buf, int length, InetAddress
-            &#x2F;&#x2F; address, int port)
-            byte[] buf &#x3D; &quot;你好，世界&quot;.getBytes();
-            DatagramPacket dp &#x3D; new DatagramPacket(buf, buf.length, InetAddress.getByName(SERVER_HOSTNAME),
+            // 1，创建udp服务。通过DatagramSocket对象。
+            DatagramSocket socket = new DatagramSocket(LOCAL_PORT);
+            // 2，确定数据，并封装成数据包。DatagramPacket(byte[] buf, int length, InetAddress
+            // address, int port)
+            byte[] buf = &quot;你好，世界&quot;.getBytes();
+            DatagramPacket dp = new DatagramPacket(buf, buf.length, InetAddress.getByName(SERVER_HOSTNAME),
                     SERVER_PORT);
-            &#x2F;&#x2F; 3，通过socket服务，将已有的数据包发送出去。通过send方法。
+            // 3，通过socket服务，将已有的数据包发送出去。通过send方法。
             socket.send(dp);
-            &#x2F;&#x2F; 4，关闭资源。
+            // 4，关闭资源。
             socket.close();
         &#125; catch (IOException e) &#123;
             e.printStackTrace();

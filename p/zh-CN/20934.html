@@ -347,7 +347,7 @@
     
     <div class="post-body" itemprop="articleBody">
         <p>Jackson转换泛型List出现错误java.util.LinkedHashMap cannot be cast to com.xxx</p>
-<pre><code class="highlight plain">ObjectMapper mapper &#x3D; new ObjectMapper();
+<pre><code class="highlight plaintext">ObjectMapper mapper = new ObjectMapper();
 mapper.readValue(new File(fileAPI.getRoot(), jsonFileName), Map.class);</code></pre>
 
 <p>当使用Jackson解析具体的bean时，应该使用尽量详尽的本来解析，而使用Map.class、List.class解析时，会对具体的bean解析不出</p>

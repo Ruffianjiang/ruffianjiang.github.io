@@ -352,11 +352,11 @@
     <div class="post-body" itemprop="articleBody">
         <p>表名：parkUserCost<br>id:<br>patkId:<br>userId:<br>phone:<br>costVal:<br>适合特定条件下，对某些字段进行去重筛选。（比如限定抢购）</p>
 <p>第一种，使用(first操作符。)first 会把数组的第一个元素取出，作为一个对象。</p>
-<pre><code class="highlight plain">&#x2F;&#x2F; 第一种（可转java版本）
-db.getCollection(&#39;parkUserCost&#39;).aggregate([
+<pre><code class="highlight plaintext">// 第一种（可转java版本）
+db.getCollection(&#x27;parkUserCost&#x27;).aggregate([
    &#123;&quot;$match&quot; : &#123;
       &quot;$and&quot; : [
-          &#x2F;&#x2F; &#123;&quot;name&quot; : &quot;1640&quot;&#125; &#x2F;&#x2F; 筛选条件
+          // &#123;&quot;name&quot; : &quot;1640&quot;&#125; // 筛选条件
            ]
            &#125;
         &#125;,
@@ -370,11 +370,11 @@ db.getCollection(&#39;parkUserCost&#39;).aggregate([
          &#125;&#125;
 ])</code></pre>
 <p>第二种，使用$slice操作符。从数组的第几个开始，截取几个，保存到数组</p>
-<pre><code class="highlight plain">&#x2F;&#x2F; 第二种
-db.getCollection(&#39;parkUserCost&#39;).aggregate([
+<pre><code class="highlight plaintext">// 第二种
+db.getCollection(&#x27;parkUserCost&#x27;).aggregate([
    &#123;&quot;$match&quot; : &#123;
       &quot;$and&quot; : [
-          &#x2F;&#x2F; &#123;&quot;name&quot; : &quot;1640&quot;&#125; &#x2F;&#x2F; 筛选条件
+          // &#123;&quot;name&quot; : &quot;1640&quot;&#125; // 筛选条件
            ]
            &#125;
         &#125;,
@@ -391,11 +391,11 @@ db.getCollection(&#39;parkUserCost&#39;).aggregate([
          &#125;&#125;
 ])</code></pre>
 <p>第三种，使用$arrayElemAt，返回数组的第几个元素。序号的循环的，最后一个使用-1</p>
-<pre><code class="highlight plain">&#x2F;&#x2F; 第三种
-db.getCollection(&#39;parkUserCost&#39;).aggregate([
+<pre><code class="highlight plaintext">// 第三种
+db.getCollection(&#x27;parkUserCost&#x27;).aggregate([
    &#123;&quot;$match&quot; : &#123;
       &quot;$and&quot; : [
-          &#x2F;&#x2F; &#123;&quot;name&quot; : &quot;1640&quot;&#125; &#x2F;&#x2F; 筛选条件
+          // &#123;&quot;name&quot; : &quot;1640&quot;&#125; // 筛选条件
            ]
            &#125;
         &#125;,
@@ -412,10 +412,10 @@ db.getCollection(&#39;parkUserCost&#39;).aggregate([
          &#125;&#125;
 ])</code></pre>
 <p>若要表中的全部字段，可使用$$ROOT获取</p>
-<pre><code class="highlight plain">db.getCollection(&#39;parkUserCost&#39;).aggregate([
+<pre><code class="highlight plaintext">db.getCollection(&#x27;parkUserCost&#x27;).aggregate([
    &#123;&quot;$match&quot; : &#123;
       &quot;$and&quot; : [
-          &#x2F;&#x2F; &#123;&quot;name&quot; : &quot;1640&quot;&#125; &#x2F;&#x2F; 筛选条件
+          // &#123;&quot;name&quot; : &quot;1640&quot;&#125; // 筛选条件
            ]
            &#125;
         &#125;,

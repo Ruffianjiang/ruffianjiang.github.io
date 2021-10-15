@@ -348,32 +348,32 @@
     <div class="post-body" itemprop="articleBody">
         <p>getFileMagic() only operates on streams which support mark(int)</p>
 <p>使用 bis 解决</p>
-<pre><code class="highlight plain">BufferedInputStream bis &#x3D; new BufferedInputStream(new FileInputStream(new File(path)));
-        XSSFWorkbook xssfWorkbook &#x3D; new XSSFWorkbook(bis);</code></pre>
+<pre><code class="highlight plaintext">BufferedInputStream bis = new BufferedInputStream(new FileInputStream(new File(path)));
+        XSSFWorkbook xssfWorkbook = new XSSFWorkbook(bis);</code></pre>
 
 <p>找不到类，一般是版本问题，可以把版本调整一致，3.15<br>java.lang.reflect.InvocationTargetException<br>org.apache.poi.POIXMLException: java.lang.reflect.InvocationTargetException</p>
 <p>Java.lang.NoClassDefFoundError :org/openxmlformats/schemas/spreadsheetml/x2006/main/ctextensionlist</p>
 <p>pom配置，版本保持一致，3.15</p>
-<pre><code class="highlight plain">&lt;dependency&gt;
-            &lt;groupId&gt;org.apache.poi&lt;&#x2F;groupId&gt;
-            &lt;artifactId&gt;poi&lt;&#x2F;artifactId&gt;
-            &lt;version&gt;3.15&lt;&#x2F;version&gt;
-        &lt;&#x2F;dependency&gt;
+<pre><code class="highlight plaintext">&lt;dependency&gt;
+            &lt;groupId&gt;org.apache.poi&lt;/groupId&gt;
+            &lt;artifactId&gt;poi&lt;/artifactId&gt;
+            &lt;version&gt;3.15&lt;/version&gt;
+        &lt;/dependency&gt;
         &lt;dependency&gt;
-            &lt;groupId&gt;org.apache.poi&lt;&#x2F;groupId&gt;
-            &lt;artifactId&gt;poi-scratchpad&lt;&#x2F;artifactId&gt;
-            &lt;version&gt;3.15&lt;&#x2F;version&gt;
-        &lt;&#x2F;dependency&gt;
+            &lt;groupId&gt;org.apache.poi&lt;/groupId&gt;
+            &lt;artifactId&gt;poi-scratchpad&lt;/artifactId&gt;
+            &lt;version&gt;3.15&lt;/version&gt;
+        &lt;/dependency&gt;
         &lt;dependency&gt;
-            &lt;groupId&gt;org.apache.poi&lt;&#x2F;groupId&gt;
-            &lt;artifactId&gt;poi-ooxml&lt;&#x2F;artifactId&gt;
-            &lt;version&gt;3.15&lt;&#x2F;version&gt;
-        &lt;&#x2F;dependency&gt;
+            &lt;groupId&gt;org.apache.poi&lt;/groupId&gt;
+            &lt;artifactId&gt;poi-ooxml&lt;/artifactId&gt;
+            &lt;version&gt;3.15&lt;/version&gt;
+        &lt;/dependency&gt;
         &lt;dependency&gt;
-            &lt;groupId&gt;org.apache.poi&lt;&#x2F;groupId&gt;
-            &lt;artifactId&gt;poi-ooxml-schemas&lt;&#x2F;artifactId&gt;
-            &lt;version&gt;3.15&lt;&#x2F;version&gt;
-        &lt;&#x2F;dependency&gt;</code></pre>
+            &lt;groupId&gt;org.apache.poi&lt;/groupId&gt;
+            &lt;artifactId&gt;poi-ooxml-schemas&lt;/artifactId&gt;
+            &lt;version&gt;3.15&lt;/version&gt;
+        &lt;/dependency&gt;</code></pre>
     </div>
 
     

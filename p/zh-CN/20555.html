@@ -350,18 +350,18 @@
     <div class="post-body" itemprop="articleBody">
         <p>最近在做一个转发功能，zuul + ribbon + resttemplate 进行路由、负载、转发的功能</p>
 <p>基本准备就绪，在微信自动登陆那遇到了一个坑，ribbon 系统用resttemplate 转发A系统的资源，在微信自动登陆的地方，A系统重定向到微信的地址，类似下面的代码</p>
-<pre><code class="highlight plain">redirect: https:&#x2F;&#x2F;open.weixin.qq.com&#x2F;connect&#x2F;oauth2&#x2F;authorize?appid&#x3D;wx3290f3d5****&amp;redirect_uri&#x3D;http:&#x2F;&#x2F;***.com&#x2F;weixin&#x2F;wxAuthRedirect?redirectUrl&#x3D;http%3A%2F%2F192.168.10.116%3A8081%2Finternal%2Fpage%2Fuser%2Flogin_wx&amp;response_type&#x3D;code&amp;scope&#x3D;snsapi_userinfo&amp;state&#x3D;state#wechat_redirect</code></pre>
+<pre><code class="highlight plaintext">redirect: https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3290f3d5****&amp;redirect_uri=http://***.com/weixin/wxAuthRedirect?redirectUrl=http%3A%2F%2F192.168.10.116%3A8081%2Finternal%2Fpage%2Fuser%2Flogin_wx&amp;response_type=code&amp;scope=snsapi_userinfo&amp;state=state#wechat_redirect</code></pre>
 
 <p>结果resttemplate 自动重定向到本地的地址，如下所示：</p>
-<pre><code class="highlight plain">http:&#x2F;&#x2F;192.168.10.116:**&#x2F;connect&#x2F;oauth2&#x2F;authorize**</code></pre>
+<pre><code class="highlight plaintext">http://192.168.10.116:**/connect/oauth2/authorize**</code></pre>
 
 <p>仔细思考了下，大概就是resttemplate 的重定向问题，查了查资料，找到一个类HttpComponentsClientHttpRequestFactory，RestTemplate初始化提供了这个类的参数</p>
-<pre><code class="highlight plain">&#x2F;**
+<pre><code class="highlight plaintext">/**
      * Create a new instance of the &#123;@link RestTemplate&#125; based on the given &#123;@link ClientHttpRequestFactory&#125;.
      * @param requestFactory HTTP request factory to use
      * @see org.springframework.http.client.SimpleClientHttpRequestFactory
      * @see org.springframework.http.client.HttpComponentsClientHttpRequestFactory
-     *&#x2F;
+     */
     public RestTemplate(ClientHttpRequestFactory requestFactory) &#123;
         this();
         setRequestFactory(requestFactory);
@@ -370,18 +370,18 @@
 <p>HttpComponentsClientHttpRequestFactory继承自ClientHttpRequestFactory，这个类的子类有HttpComponentsClientHttpRequestFactory和SimpleClientHttpRequestFactory</p>
 <p>找到SimpleClientHttpRequestFactory，有如下方法：</p>
 <p>第一种方式：</p>
-<pre><code class="highlight plain">&#x2F;**
+<pre><code class="highlight plaintext">/**
      * Template method for preparing the given &#123;@link HttpURLConnection&#125;.
      * &lt;p&gt;The default implementation prepares the connection for input and output, and sets the HTTP method.
      * @param connection the connection to prepare
      * @param httpMethod the HTTP request method (&#123;@code GET&#125;, &#123;@code POST&#125;, etc.)
-     * @throws IOException in case of I&#x2F;O errors
-     *&#x2F;
+     * @throws IOException in case of I/O errors
+     */
     protected void prepareConnection(HttpURLConnection connection, String httpMethod) throws IOException &#123;
-        if (this.connectTimeout &gt;&#x3D; 0) &#123;
+        if (this.connectTimeout &gt;= 0) &#123;
             connection.setConnectTimeout(this.connectTimeout);
         &#125;
-        if (this.readTimeout &gt;&#x3D; 0) &#123;
+        if (this.readTimeout &gt;= 0) &#123;
             connection.setReadTimeout(this.readTimeout);
         &#125;
 
@@ -407,7 +407,7 @@
 
 <p>可以看到setInstanceFollowRedirects，get请求是可以重定向的，其他方法禁止了重定向，于是建个SimpleClientHttpRequestFactory的子类，禁用重定向。</p>
 <p>于是乎 NoRedirectClientHttpRequestFactory.java</p>
-<pre><code class="highlight plain">import java.io.IOException;
+<pre><code class="highlight plaintext">import java.io.IOException;
 import java.net.HttpURLConnection;
 
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
@@ -416,37 +416,37 @@ public class NoRedirectClientHttpRequestFactory extends SimpleClientHttpRequestF
 
     @Override
     protected void prepareConnection(HttpURLConnection connection, String httpMethod) throws IOException &#123;
-        &#x2F;&#x2F; TODO Auto-generated method stub
+        // TODO Auto-generated method stub
         super.prepareConnection(connection, httpMethod);
-        &#x2F;&#x2F; 禁止自动重定向
+        // 禁止自动重定向
         connection.setFollowRedirects(false);
     &#125;
 &#125;</code></pre>
 
-<pre><code class="highlight plain">NoRedirectClientHttpRequestFactory httpRequestFactory &#x3D; new NoRedirectClientHttpRequestFactory();
-RestTemplate restTemplate &#x3D; new RestTemplate(httpRequestFactory);</code></pre>
+<pre><code class="highlight plaintext">NoRedirectClientHttpRequestFactory httpRequestFactory = new NoRedirectClientHttpRequestFactory();
+RestTemplate restTemplate = new RestTemplate(httpRequestFactory);</code></pre>
 
 <p>接着，似乎更换ClientHttpRequestFactory并不合心意，还是要使用HttpComponentsClientHttpRequestFactory来实现，HttpComponentsClientHttpRequestFactory是可以自定义HttpClient的，于是查到了HttpClient头上，HttpClient是可以设置Redirect的，</p>
 <p>第二种方式：</p>
-<pre><code class="highlight plain">HttpClient httpClient &#x3D; HttpClientBuilder.create()
+<pre><code class="highlight plaintext">HttpClient httpClient = HttpClientBuilder.create()
                 .setRedirectStrategy(new LaxRedirectStrategy())
                 .build();
 httpRequestFactory.setHttpClient(httpClient);
-RestTemplate restTemplate &#x3D; new RestTemplate(httpRequestFactory);</code></pre>
+RestTemplate restTemplate = new RestTemplate(httpRequestFactory);</code></pre>
 
 <p>默认提供了两个类，DefaultRedirectStrategy和LaxRedirectStrategy，LaxRedirectStrategy继承自DefaultRedirectStrategy</p>
 <p>DefaultRedirectStrategy.java</p>
-<pre><code class="highlight plain">&#x2F;**
+<pre><code class="highlight plaintext">/**
      * Redirectable methods.
-     *&#x2F;
-    private static final String[] REDIRECT_METHODS &#x3D; new String[] &#123;
+     */
+    private static final String[] REDIRECT_METHODS = new String[] &#123;
         HttpGet.METHOD_NAME,
         HttpHead.METHOD_NAME
     &#125;;</code></pre>
 
 <p>LaxRedirectStrategy.java</p>
-<pre><code class="highlight plain">&#x2F;*
- * &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+<pre><code class="highlight plaintext">/*
+ * ====================================================================
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -455,7 +455,7 @@ RestTemplate restTemplate &#x3D; new RestTemplate(httpRequestFactory);</code></p
  * &quot;License&quot;); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *   http:&#x2F;&#x2F;www.apache.org&#x2F;licenses&#x2F;LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -463,14 +463,14 @@ RestTemplate restTemplate &#x3D; new RestTemplate(httpRequestFactory);</code></p
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- * &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+ * ====================================================================
  *
  * This software consists of voluntary contributions made by many
  * individuals on behalf of the Apache Software Foundation.  For more
  * information on the Apache Software Foundation, please see
- * &lt;http:&#x2F;&#x2F;www.apache.org&#x2F;&gt;.
+ * &lt;http://www.apache.org/&gt;.
  *
- *&#x2F;
+ */
 
 package org.apache.http.impl.client;
 
@@ -481,23 +481,23 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpHead;
 import org.apache.http.client.methods.HttpPost;
 
-&#x2F;**
+/**
  * Lax &#123;@link org.apache.http.client.RedirectStrategy&#125; implementation
  * that automatically redirects all HEAD, GET, POST, and DELETE requests.
  * This strategy relaxes restrictions on automatic redirection of
  * POST methods imposed by the HTTP specification.
  *
  * @since 4.2
- *&#x2F;
-@Contract(threading &#x3D; ThreadingBehavior.IMMUTABLE)
+ */
+@Contract(threading = ThreadingBehavior.IMMUTABLE)
 public class LaxRedirectStrategy extends DefaultRedirectStrategy &#123;
 
-    public static final LaxRedirectStrategy INSTANCE &#x3D; new LaxRedirectStrategy();
+    public static final LaxRedirectStrategy INSTANCE = new LaxRedirectStrategy();
 
-    &#x2F;**
+    /**
      * Redirectable methods.
-     *&#x2F;
-    private static final String[] REDIRECT_METHODS &#x3D; new String[] &#123;
+     */
+    private static final String[] REDIRECT_METHODS = new String[] &#123;
         HttpGet.METHOD_NAME,
         HttpPost.METHOD_NAME,
         HttpHead.METHOD_NAME,
@@ -517,27 +517,27 @@ public class LaxRedirectStrategy extends DefaultRedirectStrategy &#123;
 &#125;</code></pre>
 
 <p>这就很清晰了，copy一份LaxRedirectStrategy的代码，改写掉REDIRECT_METHODS中的定义方法，如下：</p>
-<pre><code class="highlight plain">	import org.apache.http.annotation.Contract;
+<pre><code class="highlight plaintext">	import org.apache.http.annotation.Contract;
 import org.apache.http.annotation.ThreadingBehavior;
 import org.apache.http.impl.client.DefaultRedirectStrategy;
 
-&#x2F;**
+/**
  * 
 * @ClassName: MyRedirectStrategy 
 * @Description: TODO
 * @author thinklight
 * @date 2018年4月20日 下午2:47:29 
 *
- *&#x2F;
-@Contract(threading &#x3D; ThreadingBehavior.IMMUTABLE)
+ */
+@Contract(threading = ThreadingBehavior.IMMUTABLE)
 public class MyRedirectStrategy  extends DefaultRedirectStrategy &#123;
 
-    public static final MyRedirectStrategy INSTANCE &#x3D; new MyRedirectStrategy();
+    public static final MyRedirectStrategy INSTANCE = new MyRedirectStrategy();
 
-    &#x2F;**
+    /**
      * Redirectable methods.
-     *&#x2F;
-    private static final String[] REDIRECT_METHODS &#x3D; new String[] &#123;&#125;;
+     */
+    private static final String[] REDIRECT_METHODS = new String[] &#123;&#125;;
 
     @Override
     protected boolean isRedirectable(final String method) &#123;
@@ -553,28 +553,28 @@ public class MyRedirectStrategy  extends DefaultRedirectStrategy &#123;
 <p>ribbon+微信各种重定向问题，解决了。</p>
 <p>第三种方式：</p>
 <p>自己蠢了，今天因为cookie的问题发现了简单的方式</p>
-<pre><code class="highlight plain">HttpClient httpClient &#x3D; HttpClientBuilder.create().disableCookieManagement().disableRedirectHandling().build();</code></pre>
+<pre><code class="highlight plaintext">HttpClient httpClient = HttpClientBuilder.create().disableCookieManagement().disableRedirectHandling().build();</code></pre>
 
 <p>完整代码如下：</p>
-<pre><code class="highlight plain">@Autowired
+<pre><code class="highlight plaintext">@Autowired
     RestTemplate restTemplate;
     
     @Bean
     @LoadBalanced
     RestTemplate restTemplate() &#123;
-        HttpComponentsClientHttpRequestFactory httpRequestFactory &#x3D; new HttpComponentsClientHttpRequestFactory();
-&#x2F;&#x2F;        NoRedirectClientHttpRequestFactory httpRequestFactory &#x3D; new NoRedirectClientHttpRequestFactory();&#x2F;&#x2F; 此类型不能使用httpClient
+        HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory();
+//        NoRedirectClientHttpRequestFactory httpRequestFactory = new NoRedirectClientHttpRequestFactory();// 此类型不能使用httpClient
         httpRequestFactory.setConnectionRequestTimeout(2000);
         httpRequestFactory.setConnectTimeout(10000);
         httpRequestFactory.setReadTimeout(7200000);
-        &#x2F;&#x2F; HttpClient httpClient &#x3D; HttpClientBuilder.create()
-        &#x2F;&#x2F;        .setRedirectStrategy(new MyRedirectStrategy())
-        &#x2F;&#x2F;        .build(); 　　　　 HttpClient httpClient &#x3D; HttpClientBuilder.create().disableCookieManagement().disableRedirectHandling().build();
+        // HttpClient httpClient = HttpClientBuilder.create()
+        //        .setRedirectStrategy(new MyRedirectStrategy())
+        //        .build(); 　　　　 HttpClient httpClient = HttpClientBuilder.create().disableCookieManagement().disableRedirectHandling().build();
         httpRequestFactory.setHttpClient(httpClient);
-        RestTemplate restTemplate &#x3D; new RestTemplate(httpRequestFactory);
+        RestTemplate restTemplate = new RestTemplate(httpRequestFactory);
         logger.debug(&quot;指定字符编码为UTF-8,原编码为ISO-8859-1&quot;);
         restTemplate.getMessageConverters().set(1, new StringHttpMessageConverter(StandardCharsets.UTF_8));
-        logger.debug(&quot;RestTemple默认能转换为application&#x2F;json，转换追加text&#x2F;plain类型&quot;);
+        logger.debug(&quot;RestTemple默认能转换为application/json，转换追加text/plain类型&quot;);
         restTemplate.getMessageConverters().add(new WxMappingJackson2HttpMessageConverter());
         return restTemplate;
     &#125;</code></pre>

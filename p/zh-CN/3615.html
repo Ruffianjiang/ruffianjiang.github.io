@@ -346,7 +346,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <pre><code class="highlight plain">using System;
+        <pre><code class="highlight plaintext">using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -369,7 +369,7 @@ namespace Invoketest
 
         public void UpdateForm(string param1, string parm2)
         &#123;
-            this.textBox1.Text &#x3D; param1 + parm2;
+            this.textBox1.Text = param1 + parm2;
         &#125;
 
         public delegate void UpdateForm_dl(string str1, string str2);
@@ -377,11 +377,11 @@ namespace Invoketest
         private void Calldelegate()
         &#123;
 
-            &#x2F;*在Windows窗体应用程序中使用this.Invoke    在WPF应用程序中使用this.Dispatcher.Invoke*&#x2F;
+            /*在Windows窗体应用程序中使用this.Invoke    在WPF应用程序中使用this.Dispatcher.Invoke*/
 
             this.BeginInvoke(new UpdateForm_dl(UpdateForm), new object[] &#123; &quot;我是文本框&quot;, &quot;haha&quot; &#125;);
 
-            &#x2F;&#x2F;this.Dispatcher.BeginInvoke(new UpdateForm_dl(UpdateForm), new object[] &#123; &quot;我是文本框&quot;, &quot;haha&quot; &#125;);
+            //this.Dispatcher.BeginInvoke(new UpdateForm_dl(UpdateForm), new object[] &#123; &quot;我是文本框&quot;, &quot;haha&quot; &#125;);
 
         &#125;
 
@@ -399,7 +399,7 @@ namespace Invoketest
 
         private void button1_Click(object sender, EventArgs e)
         &#123;
-            Thread thread &#x3D; new Thread(new ThreadStart(DoWork));
+            Thread thread = new Thread(new ThreadStart(DoWork));
             thread.Start();
         &#125;
     &#125;

@@ -376,7 +376,7 @@
 <p>安装好以上软件，我本地的mongo安装到了d:tools\mongo 目录下，新建两个目录用于存储数据和日志</p>
 <p>d:\tools\data\db  和  d:\tools\data\log</p>
 <h1 id="二、初始化工作"><a href="#二、初始化工作" class="headerlink" title="二、初始化工作"></a>二、初始化工作</h1><p> 在命令行使用命令：</p>
-<pre><code class="highlight plain">启动脚本
+<pre><code class="highlight plaintext">启动脚本
 D:\tools\mongo\bin\mongod --dbpath D:\tools\data\db
 
 连接脚本
@@ -399,7 +399,7 @@ D:\tools\mongo\bin\mongo.exe</code></pre>
 <p><img data-src="https://images2018.cnblogs.com/blog/670989/201805/670989-20180523232638818-290755981.png"></p>
 <h1 id="三、mongo的配置"><a href="#三、mongo的配置" class="headerlink" title="三、mongo的配置"></a>三、mongo的配置</h1><p>配置 MongoDB 服务</p>
 <p><em>创建一个配置文件位于 D:\tools\mongo\mongod.cfg<br>具体内容如下：</em></p>
-<pre><code class="highlight plain">systemLog:
+<pre><code class="highlight plaintext">systemLog:
 destination: file
 path: D:\tools\data\log\mongod.log
 storage:
@@ -407,7 +407,7 @@ dbPath: D:\tools\data\db</code></pre>
 
 
 <p>安装 MongoDB服务</p>
-<pre><code class="highlight plain">D:\tools\mongo\bin\mongod.exe --config &quot;D:\tools\mongo\mongod.cfg&quot; --install</code></pre>
+<pre><code class="highlight plaintext">D:\tools\mongo\bin\mongod.exe --config &quot;D:\tools\mongo\mongod.cfg&quot; --install</code></pre>
 
 <p> </p>
 <p>命令行需要管理员权限，没使用管理员权限的出现如下log信息</p>
@@ -418,13 +418,13 @@ dbPath: D:\tools\data\db</code></pre>
 <p><img data-src="https://images2018.cnblogs.com/blog/670989/201805/670989-20180523233703415-677450017.png"></p>
 <p> </p>
 <p>启动MongoDB服务</p>
-<pre><code class="highlight plain">net start MongoDB</code></pre>
+<pre><code class="highlight plaintext">net start MongoDB</code></pre>
 
 <p>关闭MongoDB服务</p>
-<pre><code class="highlight plain">net stop MongoDB</code></pre>
+<pre><code class="highlight plaintext">net stop MongoDB</code></pre>
 
 <p>移除 MongoDB 服务</p>
-<pre><code class="highlight plain">C:\mongodb\bin\mongod.exe --remove</code></pre>
+<pre><code class="highlight plaintext">C:\mongodb\bin\mongod.exe --remove</code></pre>
 
 <p>其他的信息自行摸索吧，现在可以愉快的使用mongo了</p>
 <p>参考：</p>

@@ -383,12 +383,12 @@
 
 
 <h2 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h2><p>主要用到的几个命令，其他按帧截图命令参考文末链接4：</p>
-<pre><code class="highlight plain">&#x2F;&#x2F; 截图
+<pre><code class="highlight plaintext">// 截图
 ffmpeg -ss 10 -i input.flv -y -f image2  -vframes 100 -s 352x240 b-%03d.jpg
-&#x2F;&#x2F; 分离音频
+// 分离音频
 ffmpeg -i 3.mp4 -vn -y -acodec copy 3.aac
-&#x2F;&#x2F; 合成视频
-ffmpeg -threads2 -y -r 10 -i &#x2F;tmpdir&#x2F;image%04d.jpg -i audio.mp3 -absf aac_adtstoasc output.mp4</code></pre>
+// 合成视频
+ffmpeg -threads2 -y -r 10 -i /tmpdir/image%04d.jpg -i audio.mp3 -absf aac_adtstoasc output.mp4</code></pre>
 
 <h2 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h2><p>JDK 1.8</p>
 <h2 id="完整代码如下"><a href="#完整代码如下" class="headerlink" title="完整代码如下"></a>完整代码如下</h2><pre><code class="highlight java"><span class="comment">// ffmpeg -ss 10 -i input.flv -y -f image2  -vframes 100 -s 352x240 b-%03d.jpg  </span>
@@ -410,7 +410,7 @@ ffmpeg -threads2 -y -r 10 -i &#x2F;tmpdir&#x2F;image%04d.jpg -i audio.mp3 -absf 
 <span class="comment">     * <span class="doctag">@return</span></span>
 <span class="comment">     */</span>
     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">processFfmpegImage</span><span class="params">(String srcVideoPath, String tarImagePath, <span class="keyword">int</span> width, <span class="keyword">int</span> hight,</span></span>
-<span class="function"><span class="params">            <span class="keyword">float</span> offsetValue, <span class="keyword">float</span> vframes)</span> </span>&#123;
+<span class="params"><span class="function">            <span class="keyword">float</span> offsetValue, <span class="keyword">float</span> vframes)</span> </span>&#123;
         <span class="keyword">if</span> (!checkfile(srcVideoPath)) &#123;
             System.out.println(<span class="string">&quot;【&quot;</span> + srcVideoPath + <span class="string">&quot;】  不存在 !&quot;</span>);
             <span class="comment">// logger.error(&quot;【&quot; + srcVideoPath + &quot;】 不存在 !&quot;);</span>

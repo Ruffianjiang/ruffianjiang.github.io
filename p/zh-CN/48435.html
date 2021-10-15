@@ -353,61 +353,61 @@
 <p>主要的功能：把几张图片解析成一张图片，在一个容器中呈现。</p>
 <p>布局文件xml</p>
 <p>side_bar_scollview.xml//显示view的容器</p>
-<pre><code class="highlight plain">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;
-&lt;LinearLayout xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;
-    android:layout_width&#x3D;&quot;match_parent&quot;
-    android:layout_height&#x3D;&quot;match_parent&quot;
-    android:orientation&#x3D;&quot;vertical&quot;&gt;
+<pre><code class="highlight plaintext">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    android:orientation=&quot;vertical&quot;&gt;
 
     &lt;HorizontalScrollView
-        android:id&#x3D;&quot;@+id&#x2F;MyScrollView&quot;
-        android:layout_width&#x3D;&quot;match_parent&quot;
-        android:layout_height&#x3D;&quot;match_parent&quot; &gt;
+        android:id=&quot;@+id/MyScrollView&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;match_parent&quot; &gt;
 
         &lt;LinearLayout
-            android:id&#x3D;&quot;@+id&#x2F;ll_layout&quot;
-            android:layout_width&#x3D;&quot;match_parent&quot;
-            android:layout_height&#x3D;&quot;match_parent&quot;
-            android:orientation&#x3D;&quot;horizontal&quot; &gt;
-        &lt;&#x2F;LinearLayout&gt;
+            android:id=&quot;@+id/ll_layout&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;match_parent&quot;
+            android:orientation=&quot;horizontal&quot; &gt;
+        &lt;/LinearLayout&gt;
         
-    &lt;&#x2F;HorizontalScrollView&gt;
+    &lt;/HorizontalScrollView&gt;
 
-&lt;&#x2F;LinearLayout&gt;</code></pre>
+&lt;/LinearLayout&gt;</code></pre>
 
 <p>home.xml//显示的主页面</p>
-<pre><code class="highlight plain">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;
-&lt;LinearLayout xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;
-    android:layout_width&#x3D;&quot;match_parent&quot;
-    android:layout_height&#x3D;&quot;match_parent&quot;
-    android:orientation&#x3D;&quot;vertical&quot; 
-    android:background&#x3D;&quot;@drawable&#x2F;home_bg&quot;&gt;
+<pre><code class="highlight plaintext">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    android:orientation=&quot;vertical&quot; 
+    android:background=&quot;@drawable/home_bg&quot;&gt;
 
     &lt;TextView
-        android:id&#x3D;&quot;@+id&#x2F;textView1&quot;
-        android:layout_width&#x3D;&quot;wrap_content&quot;
-        android:layout_height&#x3D;&quot;wrap_content&quot;
-        android:text&#x3D;&quot;主页&quot; &#x2F;&gt;
+        android:id=&quot;@+id/textView1&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:text=&quot;主页&quot; /&gt;
 
-&lt;&#x2F;LinearLayout&gt;</code></pre>
+&lt;/LinearLayout&gt;</code></pre>
 
 <p>menu.xml//显示的菜单页面</p>
-<pre><code class="highlight plain">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;
-&lt;FrameLayout xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;
-    android:layout_width&#x3D;&quot;match_parent&quot;
-    android:layout_height&#x3D;&quot;match_parent&quot; 
-    android:background&#x3D;&quot;@drawable&#x2F;menu_bg&quot;&gt;
+<pre><code class="highlight plaintext">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;FrameLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot; 
+    android:background=&quot;@drawable/menu_bg&quot;&gt;
 
     &lt;TextView
-        android:id&#x3D;&quot;@+id&#x2F;textView1&quot;
-        android:layout_width&#x3D;&quot;wrap_content&quot;
-        android:layout_height&#x3D;&quot;wrap_content&quot;
-        android:text&#x3D;&quot;菜单&quot; &#x2F;&gt;
+        android:id=&quot;@+id/textView1&quot;
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:text=&quot;菜单&quot; /&gt;
 
-&lt;&#x2F;FrameLayout&gt;</code></pre>
+&lt;/FrameLayout&gt;</code></pre>
 
 <p>MainActivity.java//主活动</p>
-<pre><code class="highlight plain">package com.example.side_bar_scrollview;
+<pre><code class="highlight plaintext">package com.example.side_bar_scrollview;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -426,31 +426,31 @@ public class MainActivity extends Activity &#123;
     private int height;
     private View home_view;
     private View menu_view;
-    private float rate&#x3D;0.4f;
+    private float rate=0.4f;
     
     
     @Override
     protected void onCreate(Bundle savedInstanceState) &#123;
         super.onCreate(savedInstanceState);
-        &#x2F;&#x2F;关联界面ID
+        //关联界面ID
         setContentView(R.layout.side_bar_scollview);
-        &#x2F;&#x2F;关联控件ID
-        scrollview&#x3D;(HorizontalScrollView) findViewById(R.id.MyScrollView);
-        view_layout&#x3D;(LinearLayout) findViewById(R.id.ll_layout);
-        &#x2F;&#x2F;监听布局
+        //关联控件ID
+        scrollview=(HorizontalScrollView) findViewById(R.id.MyScrollView);
+        view_layout=(LinearLayout) findViewById(R.id.ll_layout);
+        //监听布局
         MyLayoutListener();
-        &#x2F;&#x2F;隐藏滚动条
+        //隐藏滚动条
         scrollview.setHorizontalScrollBarEnabled(false);
     &#125;
 
-    &#x2F;**
+    /**
      * 监听布局的变化
      *  1.getViewTreeObserver --- view事件的观察者
      *   2.addOnGlobalLayoutListener
      * 当在一个视图树中全局布局发生改变或者视图树中的某个视图的可视状态发生改变时，
      * 所要调用的回调函数的接口类
      *
-     *&#x2F;
+     */
         private void MyLayoutListener()&#123;
         
         scrollview.getViewTreeObserver().addOnGlobalLayoutListener(
@@ -458,19 +458,19 @@ public class MainActivity extends Activity &#123;
 
             @Override
             public void onGlobalLayout() &#123;
-                &#x2F;&#x2F; TODO Auto-generated method stub
-                &#x2F;&#x2F;移除之前已经注册的全局布局的回调函数，使图片不会循环连在一起
+                // TODO Auto-generated method stub
+                //移除之前已经注册的全局布局的回调函数，使图片不会循环连在一起
                 view_layout.getViewTreeObserver()
                     .removeOnGlobalLayoutListener(this);
-                &#x2F;&#x2F;获取最后一次调用measure()测量得到的scrollview的宽和高
-                height &#x3D; scrollview.getMeasuredHeight();
-                width &#x3D; scrollview.getMeasuredWidth();
-                &#x2F;&#x2F;解析主页和菜单的布局
-                home_view&#x3D;getLayoutInflater().inflate(R.layout.home,
+                //获取最后一次调用measure()测量得到的scrollview的宽和高
+                height = scrollview.getMeasuredHeight();
+                width = scrollview.getMeasuredWidth();
+                //解析主页和菜单的布局
+                home_view=getLayoutInflater().inflate(R.layout.home,
                         null);
-                menu_view&#x3D;getLayoutInflater().inflate(R.layout.menu,
+                menu_view=getLayoutInflater().inflate(R.layout.menu,
                         null);
-                &#x2F;&#x2F;添加view到view_layout
+                //添加view到view_layout
                 view_layout.addView(menu_view, (int)(width*rate), height);
                 view_layout.addView(home_view, width, height);
                 

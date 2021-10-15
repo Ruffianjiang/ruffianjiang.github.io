@@ -347,27 +347,27 @@
     
     <div class="post-body" itemprop="articleBody">
         <p>先看java -version</p>
-<pre><code class="highlight plain">$java version &quot;1.8.0_111&quot;
+<pre><code class="highlight plaintext">$java version &quot;1.8.0_111&quot;
 Java(TM) SE Runtime Environment (build 1.8.0_111-b14)
 Java HotSpot(TM) 64-Bit Server VM (build 25.111-b14, mixed mode)</code></pre>
 
 <p>然后：</p>
-<pre><code class="highlight plain">echo $JAVA_HOME</code></pre>
+<pre><code class="highlight plaintext">echo $JAVA_HOME</code></pre>
 
 <p>不一定有，如果没有，那就要找一下 先</p>
-<pre><code class="highlight plain">$which java
-&#x2F;usr&#x2F;bin&#x2F;java</code></pre>
+<pre><code class="highlight plaintext">$which java
+/usr/bin/java</code></pre>
 
 <p>再找到/usr/bin/java的超链接位置发现还是超链接</p>
-<pre><code class="highlight plain">$ls -lrt &#x2F;usr&#x2F;bin&#x2F;java
-lrwxrwxrwx 1 root root 22 Jul 27 11:43 &#x2F;usr&#x2F;bin&#x2F;java -&gt; &#x2F;etc&#x2F;alternatives&#x2F;java</code></pre>
+<pre><code class="highlight plaintext">$ls -lrt /usr/bin/java
+lrwxrwxrwx 1 root root 22 Jul 27 11:43 /usr/bin/java -&gt; /etc/alternatives/java</code></pre>
 
 <p>再来一次，发现最终位置</p>
-<pre><code class="highlight plain">$ls -lrt &#x2F;etc&#x2F;alternatives&#x2F;java
-lrwxrwxrwx 1 root root 35 Jul 27 11:43 &#x2F;etc&#x2F;alternatives&#x2F;java -&gt; &#x2F;usr&#x2F;java&#x2F;jdk1.8.0_111&#x2F;jre&#x2F;bin&#x2F;java</code></pre>
+<pre><code class="highlight plaintext">$ls -lrt /etc/alternatives/java
+lrwxrwxrwx 1 root root 35 Jul 27 11:43 /etc/alternatives/java -&gt; /usr/java/jdk1.8.0_111/jre/bin/java</code></pre>
 
 <p>最后的这个jdk位置就是目前用的java的jdk位置</p>
-<pre><code class="highlight plain">&#x2F;usr&#x2F;java&#x2F;jdk1.8.0_111&#x2F;（这个是我的，你用你自己的）</code></pre>
+<pre><code class="highlight plaintext">/usr/java/jdk1.8.0_111/（这个是我的，你用你自己的）</code></pre>
 
 <p>在.bashrc里面<br>加上一句<br>export JAVA_HOME=你的java安装路径</p>
 

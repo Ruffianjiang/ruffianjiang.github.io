@@ -350,7 +350,7 @@
  </p>
 <p>以供后用。
  </p>
-<pre><code class="highlight plain">using System;
+<pre><code class="highlight plaintext">using System;
 
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -379,31 +379,31 @@ namespace USB
             InitializeComponent();
         &#125;
 
-        public const int WM_DEVICECHANGE &#x3D; 0x219;
-        public const int DBT_DEVICEARRIVAL &#x3D; 0x8000;
+        public const int WM_DEVICECHANGE = 0x219;
+        public const int DBT_DEVICEARRIVAL = 0x8000;
 
-        public const int DBT_CONFIGCHANGECANCELED &#x3D; 0x0019;
-        public const int DBT_CONFIGCHANGED &#x3D; 0x0018;
+        public const int DBT_CONFIGCHANGECANCELED = 0x0019;
+        public const int DBT_CONFIGCHANGED = 0x0018;
 
-        public const int DBT_CUSTOMEVENT &#x3D; 0x8006;
-        public const int DBT_DEVICEQUERYREMOVE &#x3D; 0x8001;
+        public const int DBT_CUSTOMEVENT = 0x8006;
+        public const int DBT_DEVICEQUERYREMOVE = 0x8001;
 
-        public const int DBT_DEVICEQUERYREMOVEFAILED &#x3D; 0x8002;
-        public const int DBT_DEVICEREMOVECOMPLETE &#x3D; 0x8004;
+        public const int DBT_DEVICEQUERYREMOVEFAILED = 0x8002;
+        public const int DBT_DEVICEREMOVECOMPLETE = 0x8004;
 
-        public const int DBT_DEVICEREMOVEPENDING &#x3D; 0x8003;
-        public const int DBT_DEVICETYPESPECIFIC &#x3D; 0x8005;
+        public const int DBT_DEVICEREMOVEPENDING = 0x8003;
+        public const int DBT_DEVICETYPESPECIFIC = 0x8005;
 
-        public const int DBT_DEVNODES_CHANGED &#x3D; 0x0007;
-        public const int DBT_QUERYCHANGECONFIG &#x3D; 0x0017;
+        public const int DBT_DEVNODES_CHANGED = 0x0007;
+        public const int DBT_QUERYCHANGECONFIG = 0x0017;
 
-        public const int DBT_USERDEFINED &#x3D; 0xFFFF;
-        &#x2F;&#x2F; 逻辑卷标
+        public const int DBT_USERDEFINED = 0xFFFF;
+        // 逻辑卷标
 
-        public const int DBT_DEVTYP_VOLUME &#x3D; 0x00000002;
-        &#x2F;&#x2F; private LockScreen Ls &#x3D; new LockScreen();
+        public const int DBT_DEVTYP_VOLUME = 0x00000002;
+        // private LockScreen Ls = new LockScreen();
 
-        public string ID &#x3D; &quot;&quot;;
+        public string ID = &quot;&quot;;
         public string Value;
 
         public string[] item;
@@ -431,7 +431,7 @@ namespace USB
             try
 
             &#123;
-                if (m.Msg &#x3D;&#x3D; WM_DEVICECHANGE)
+                if (m.Msg == WM_DEVICECHANGE)
 
                 &#123;
                     switch (m.WParam.ToInt32())
@@ -441,46 +441,46 @@ namespace USB
                         case WM_DEVICECHANGE:
 
                             break;
-                        case DBT_DEVICEARRIVAL:&#x2F;&#x2F;U盘有插入
+                        case DBT_DEVICEARRIVAL://U盘有插入
 
-                            this.timer1.Enabled &#x3D; true;
-                            DriveInfo[] s &#x3D; DriveInfo.GetDrives();
+                            this.timer1.Enabled = true;
+                            DriveInfo[] s = DriveInfo.GetDrives();
 
                             foreach (DriveInfo DriveI in s)
                             &#123;
 
-                                if (DriveI.DriveType &#x3D;&#x3D; DriveType.Removable)
+                                if (DriveI.DriveType == DriveType.Removable)
                                 &#123;
 
-                                    &#x2F;&#x2F; Ls.Show();
-                                    &#x2F;&#x2F; this.Hide();
+                                    // Ls.Show();
+                                    // this.Hide();
 
-                                    &#x2F;&#x2F; MessageBox.Show(&quot;sss&quot;);
+                                    // MessageBox.Show(&quot;sss&quot;);
  
 
                                     break;
                                 &#125;
 
-                                int devType &#x3D; Marshal.ReadInt32(m.LParam, 4);
-                                if (devType &#x3D;&#x3D; DBT_DEVTYP_VOLUME)
+                                int devType = Marshal.ReadInt32(m.LParam, 4);
+                                if (devType == DBT_DEVTYP_VOLUME)
 
                                 &#123;
                                     DEV_BROADCAST_VOLUME vol;
 
-                                    vol &#x3D; (DEV_BROADCAST_VOLUME)Marshal.PtrToStructure(m.LParam, typeof(DEV_BROADCAST_VOLUME));
-                                    ID &#x3D; vol.dbcv_unitmask.ToString(&quot;x&quot;);
+                                    vol = (DEV_BROADCAST_VOLUME)Marshal.PtrToStructure(m.LParam, typeof(DEV_BROADCAST_VOLUME));
+                                    ID = vol.dbcv_unitmask.ToString(&quot;x&quot;);
 
-                                    this.Text &#x3D; IO(ID);
-                                    this.Tag &#x3D; IO(ID);
+                                    this.Text = IO(ID);
+                                    this.Tag = IO(ID);
 
-                                    &#x2F;&#x2F;if (item.Length &#x3D;&#x3D;0||IO(ID)!&#x3D;this.Tag.ToString ())
-                                    &#x2F;&#x2F;&#123;
+                                    //if (item.Length ==0||IO(ID)!=this.Tag.ToString ())
+                                    //&#123;
 
  
-                                    &#x2F;&#x2F;&#125;
+                                    //&#125;
 
                                 &#125;
-                                this.label1.Text &#x3D; this.Text;
+                                this.label1.Text = this.Text;
 
                             &#125;
                             break;
@@ -500,29 +500,29 @@ namespace USB
                         case DBT_DEVICEQUERYREMOVEFAILED:
                             break;
 
-                        case DBT_DEVICEREMOVECOMPLETE: &#x2F;&#x2F;U盘卸载
-                            DriveInfo[] I &#x3D; DriveInfo.GetDrives();
+                        case DBT_DEVICEREMOVECOMPLETE: //U盘卸载
+                            DriveInfo[] I = DriveInfo.GetDrives();
 
                             foreach (DriveInfo DrInfo in I)
                             &#123;
 
-                                int devType &#x3D; Marshal.ReadInt32(m.LParam, 4);
-                                if (devType &#x3D;&#x3D; DBT_DEVTYP_VOLUME)
+                                int devType = Marshal.ReadInt32(m.LParam, 4);
+                                if (devType == DBT_DEVTYP_VOLUME)
 
                                 &#123;
                                     DEV_BROADCAST_VOLUME vol;
 
-                                    vol &#x3D; (DEV_BROADCAST_VOLUME)Marshal.PtrToStructure(m.LParam, typeof(DEV_BROADCAST_VOLUME));
-                                    ID &#x3D; vol.dbcv_unitmask.ToString(&quot;x&quot;);
+                                    vol = (DEV_BROADCAST_VOLUME)Marshal.PtrToStructure(m.LParam, typeof(DEV_BROADCAST_VOLUME));
+                                    ID = vol.dbcv_unitmask.ToString(&quot;x&quot;);
 
-                                    this.Text &#x3D; IO(ID) + &quot;盘退出！\n&quot;;
+                                    this.Text = IO(ID) + &quot;盘退出！\n&quot;;
  
 
  
                                 &#125;
 
-                                this.label1.Text +&#x3D; this.Text;
-                                &#x2F;&#x2F; MessageBox.Show(&quot;U盘已经卸载&quot;, &quot;信息提示&quot;, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                this.label1.Text += this.Text;
+                                // MessageBox.Show(&quot;U盘已经卸载&quot;, &quot;信息提示&quot;, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                             &#125;
                             break;
@@ -573,120 +573,120 @@ namespace USB
             &#123;
 
                 case &quot;1&quot;:
-                    Value &#x3D; &quot;A:&quot;;
+                    Value = &quot;A:&quot;;
 
                     break;
                 case &quot;2&quot;:
 
-                    Value &#x3D; &quot;B:&quot;;
+                    Value = &quot;B:&quot;;
                     break;
 
                 case &quot;4&quot;:
-                    Value &#x3D; &quot;C:&quot;;
+                    Value = &quot;C:&quot;;
 
                     break;
                 case &quot;8&quot;:
 
-                    Value &#x3D; &quot;D:&quot;;
+                    Value = &quot;D:&quot;;
                     break;
 
                 case &quot;10&quot;:
-                    Value &#x3D; &quot;E:&quot;;
+                    Value = &quot;E:&quot;;
 
                     break;
                 case &quot;20&quot;:
 
-                    Value &#x3D; &quot;F:&quot;;
+                    Value = &quot;F:&quot;;
                     break;
 
                 case &quot;40&quot;:
-                    Value &#x3D; &quot;G:&quot;;
+                    Value = &quot;G:&quot;;
 
                     break;
                 case &quot;80&quot;:
 
-                    Value &#x3D; &quot;H:&quot;;
+                    Value = &quot;H:&quot;;
                     break;
 
                 case &quot;100&quot;:
-                    Value &#x3D; &quot;I:&quot;;
+                    Value = &quot;I:&quot;;
 
                     break;
                 case &quot;200&quot;:
 
-                    Value &#x3D; &quot;J:&quot;;
+                    Value = &quot;J:&quot;;
                     break;
 
                 case &quot;400&quot;:
-                    Value &#x3D; &quot;K:&quot;;
+                    Value = &quot;K:&quot;;
 
                     break;
                 case &quot;800&quot;:
 
-                    Value &#x3D; &quot;L:&quot;;
+                    Value = &quot;L:&quot;;
                     break;
 
                 case &quot;1000&quot;:
-                    Value &#x3D; &quot;M:&quot;;
+                    Value = &quot;M:&quot;;
 
                     break;
                 case &quot;2000&quot;:
 
-                    Value &#x3D; &quot;N:&quot;;
+                    Value = &quot;N:&quot;;
                     break;
 
                 case &quot;4000&quot;:
-                    Value &#x3D; &quot;O:&quot;;
+                    Value = &quot;O:&quot;;
 
                     break;
                 case &quot;8000&quot;:
 
-                    Value &#x3D; &quot;P:&quot;;
+                    Value = &quot;P:&quot;;
                     break;
 
                 case &quot;10000&quot;:
-                    Value &#x3D; &quot;Q:&quot;;
+                    Value = &quot;Q:&quot;;
 
                     break;
                 case &quot;20000&quot;:
 
-                    Value &#x3D; &quot;R:&quot;;
+                    Value = &quot;R:&quot;;
                     break;
 
                 case &quot;40000&quot;:
-                    Value &#x3D; &quot;S:&quot;;
+                    Value = &quot;S:&quot;;
 
                     break;
                 case &quot;80000&quot;:
 
-                    Value &#x3D; &quot;T:&quot;;
+                    Value = &quot;T:&quot;;
                     break;
 
                 case &quot;100000&quot;:
-                    Value &#x3D; &quot;U:&quot;;
+                    Value = &quot;U:&quot;;
 
                     break;
                 case &quot;200000&quot;:
 
-                    Value &#x3D; &quot;V:&quot;;
+                    Value = &quot;V:&quot;;
                     break;
 
                 case &quot;400000&quot;:
-                    Value &#x3D; &quot;W:&quot;;
+                    Value = &quot;W:&quot;;
 
                     break;
                 case &quot;800000&quot;:
 
-                    Value &#x3D; &quot;X:&quot;;
+                    Value = &quot;X:&quot;;
                     break;
 
                 case &quot;1000000&quot;:
-                    Value &#x3D; &quot;Y:&quot;;
+                    Value = &quot;Y:&quot;;
 
                     break;
                 case &quot;2000000&quot;:
 
-                    Value &#x3D; &quot;Z:&quot;;
+                    Value = &quot;Z:&quot;;
                     break;
 
                 default: break;
@@ -699,7 +699,7 @@ namespace USB
         private void timer1_Tick(object sender, EventArgs e)
 
         &#123;
-            &#x2F;&#x2F; this.Text &#x3D; ID; 
+            // this.Text = ID; 
 
         &#125;
     &#125;

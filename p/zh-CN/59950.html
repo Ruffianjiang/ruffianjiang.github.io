@@ -347,27 +347,27 @@
     
     <div class="post-body" itemprop="articleBody">
         <p>在实际应用中，我们可能会遇到把ListView放到ScrollView中的情况，在这种情况下，ListView的滑动属性与ScrollView的滑动出现冲突，从而ListView只显示一项。这里提供一种解决方案，就是设置ListView中每个Item的高度显示之，使他失去滑动的属性，从而适应ScrollView的滑动。只需在填充数据之后设置即可：</p>
-<pre><code class="highlight plain">&#x2F;**
+<pre><code class="highlight plaintext">/**
      * 通过设置它的高度，让它“放弃”自身滚动属性，而放置到ScrollView中使用的。
      * 
      * @param lv
-     *&#x2F;
+     */
     private void setListViewHeight(ListView lv) &#123;
-        ListAdapter la &#x3D; lv.getAdapter();
-        if (null &#x3D;&#x3D; la) &#123;
+        ListAdapter la = lv.getAdapter();
+        if (null == la) &#123;
             return;
         &#125;
-        &#x2F;&#x2F; calculate height of all items.
-        int h &#x3D; 0;
-        final int cnt &#x3D; la.getCount();
-        for (int i &#x3D; 0; i &lt; cnt; i++) &#123;
-            View item &#x3D; la.getView(i, null, lv);
+        // calculate height of all items.
+        int h = 0;
+        final int cnt = la.getCount();
+        for (int i = 0; i &lt; cnt; i++) &#123;
+            View item = la.getView(i, null, lv);
             item.measure(0, 0);
-            h +&#x3D; item.getMeasuredHeight();
+            h += item.getMeasuredHeight();
         &#125;
-        &#x2F;&#x2F; reset ListView height
-        ViewGroup.LayoutParams lp &#x3D; lv.getLayoutParams();
-        lp.height &#x3D; h + (lv.getDividerHeight() * (cnt - 1));
+        // reset ListView height
+        ViewGroup.LayoutParams lp = lv.getLayoutParams();
+        lp.height = h + (lv.getDividerHeight() * (cnt - 1));
         lv.setLayoutParams(lp);
     &#125;</code></pre>
 
