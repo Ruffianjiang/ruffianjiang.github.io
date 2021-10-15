@@ -100,14 +100,14 @@
     </url>
     
     <url>
-        <loc>https://lossingdawn.top/p/zh-CN/10697.html</loc>
+        <loc>https://lossingdawn.top/p/zh-CN/20934.html</loc>
         
         <lastmod>2021-01-07</lastmod>
         
     </url>
     
     <url>
-        <loc>https://lossingdawn.top/p/zh-CN/20934.html</loc>
+        <loc>https://lossingdawn.top/p/zh-CN/10697.html</loc>
         
         <lastmod>2021-01-07</lastmod>
         
@@ -191,14 +191,14 @@
     </url>
     
     <url>
-        <loc>https://lossingdawn.top/p/zh-CN/39944.html</loc>
+        <loc>https://lossingdawn.top/p/zh-CN/34700.html</loc>
         
         <lastmod>2021-01-07</lastmod>
         
     </url>
     
     <url>
-        <loc>https://lossingdawn.top/p/zh-CN/34700.html</loc>
+        <loc>https://lossingdawn.top/p/zh-CN/39944.html</loc>
         
         <lastmod>2021-01-07</lastmod>
         
@@ -275,14 +275,14 @@
     </url>
     
     <url>
-        <loc>https://lossingdawn.top/p/zh-CN/36850.html</loc>
+        <loc>https://lossingdawn.top/p/zh-CN/30030.html</loc>
         
         <lastmod>2021-01-07</lastmod>
         
     </url>
     
     <url>
-        <loc>https://lossingdawn.top/p/zh-CN/30030.html</loc>
+        <loc>https://lossingdawn.top/p/zh-CN/36850.html</loc>
         
         <lastmod>2021-01-07</lastmod>
         
@@ -352,14 +352,14 @@
     </url>
     
     <url>
-        <loc>https://lossingdawn.top/p/zh-CN/3615.html</loc>
+        <loc>https://lossingdawn.top/p/zh-CN/7347.html</loc>
         
         <lastmod>2021-01-07</lastmod>
         
     </url>
     
     <url>
-        <loc>https://lossingdawn.top/p/zh-CN/7347.html</loc>
+        <loc>https://lossingdawn.top/p/zh-CN/3615.html</loc>
         
         <lastmod>2021-01-07</lastmod>
         
@@ -515,14 +515,14 @@
     </url>
     
     <url>
-        <loc>https://lossingdawn.top/tags/linux/</loc>
+        <loc>https://lossingdawn.top/tags/jdk/</loc>
         <lastmod>2021-10-15</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.6</priority>
     </url>
     
     <url>
-        <loc>https://lossingdawn.top/tags/jdk/</loc>
+        <loc>https://lossingdawn.top/tags/linux/</loc>
         <lastmod>2021-10-15</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.6</priority>
@@ -699,6 +699,13 @@
     </url>
     
     <url>
+        <loc>https://lossingdawn.top/categories/java/jdk/</loc>
+        <lastmod>2021-10-15</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.6</priority>
+    </url>
+    
+    <url>
         <loc>https://lossingdawn.top/categories/linux/</loc>
         <lastmod>2021-10-15</lastmod>
         <changefreq>daily</changefreq>
@@ -707,13 +714,6 @@
     
     <url>
         <loc>https://lossingdawn.top/categories/java/fun/</loc>
-        <lastmod>2021-10-15</lastmod>
-        <changefreq>daily</changefreq>
-        <priority>0.6</priority>
-    </url>
-    
-    <url>
-        <loc>https://lossingdawn.top/categories/java/jdk/</loc>
         <lastmod>2021-10-15</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.6</priority>
