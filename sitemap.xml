@@ -275,14 +275,14 @@
     </url>
     
     <url>
-        <loc>https://lossingdawn.top/p/zh-CN/30030.html</loc>
+        <loc>https://lossingdawn.top/p/zh-CN/36850.html</loc>
         
         <lastmod>2021-01-07</lastmod>
         
     </url>
     
     <url>
-        <loc>https://lossingdawn.top/p/zh-CN/36850.html</loc>
+        <loc>https://lossingdawn.top/p/zh-CN/30030.html</loc>
         
         <lastmod>2021-01-07</lastmod>
         
@@ -331,14 +331,14 @@
     </url>
     
     <url>
-        <loc>https://lossingdawn.top/p/zh-CN/33787.html</loc>
+        <loc>https://lossingdawn.top/p/zh-CN/20555.html</loc>
         
         <lastmod>2021-01-07</lastmod>
         
     </url>
     
     <url>
-        <loc>https://lossingdawn.top/p/zh-CN/20555.html</loc>
+        <loc>https://lossingdawn.top/p/zh-CN/33787.html</loc>
         
         <lastmod>2021-01-07</lastmod>
         
@@ -352,14 +352,14 @@
     </url>
     
     <url>
-        <loc>https://lossingdawn.top/p/zh-CN/7347.html</loc>
+        <loc>https://lossingdawn.top/p/zh-CN/3615.html</loc>
         
         <lastmod>2021-01-07</lastmod>
         
     </url>
     
     <url>
-        <loc>https://lossingdawn.top/p/zh-CN/3615.html</loc>
+        <loc>https://lossingdawn.top/p/zh-CN/7347.html</loc>
         
         <lastmod>2021-01-07</lastmod>
         
@@ -445,13 +445,6 @@
     </url>
     
     <url>
-        <loc>https://lossingdawn.top/tags/android/</loc>
-        <lastmod>2021-10-15</lastmod>
-        <changefreq>daily</changefreq>
-        <priority>0.6</priority>
-    </url>
-    
-    <url>
         <loc>https://lossingdawn.top/tags/java/</loc>
         <lastmod>2021-10-15</lastmod>
         <changefreq>daily</changefreq>
@@ -488,6 +481,13 @@
     
     <url>
         <loc>https://lossingdawn.top/tags/github/</loc>
+        <lastmod>2021-10-15</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.6</priority>
+    </url>
+    
+    <url>
+        <loc>https://lossingdawn.top/tags/android/</loc>
         <lastmod>2021-10-15</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.6</priority>
@@ -613,14 +613,14 @@
     </url>
     
     <url>
-        <loc>https://lossingdawn.top/tags/java-poi/</loc>
+        <loc>https://lossingdawn.top/tags/docker/</loc>
         <lastmod>2021-10-15</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.6</priority>
     </url>
     
     <url>
-        <loc>https://lossingdawn.top/tags/docker/</loc>
+        <loc>https://lossingdawn.top/tags/java-poi/</loc>
         <lastmod>2021-10-15</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.6</priority>
@@ -664,13 +664,6 @@
     </url>
     
     <url>
-        <loc>https://lossingdawn.top/categories/android/</loc>
-        <lastmod>2021-10-15</lastmod>
-        <changefreq>daily</changefreq>
-        <priority>0.6</priority>
-    </url>
-    
-    <url>
         <loc>https://lossingdawn.top/categories/spring-boot/</loc>
         <lastmod>2021-10-15</lastmod>
         <changefreq>daily</changefreq>
@@ -685,6 +678,13 @@
     </url>
     
     <url>
+        <loc>https://lossingdawn.top/categories/github/</loc>
+        <lastmod>2021-10-15</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.6</priority>
+    </url>
+    
+    <url>
         <loc>https://lossingdawn.top/categories/web/jq/</loc>
         <lastmod>2021-10-15</lastmod>
         <changefreq>daily</changefreq>
@@ -692,7 +692,7 @@
     </url>
     
     <url>
-        <loc>https://lossingdawn.top/categories/github/</loc>
+        <loc>https://lossingdawn.top/categories/android/</loc>
         <lastmod>2021-10-15</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.6</priority>
