@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"lossingdawn.top","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="序言 这个是从抖音上学来的，一开始刷抖音，遇到不少字符串跳舞的视频，因此来实践一下  主要分为三个部分 静态图片转静态图片      gif 转 gif     视频转视频  gif 转 gif 原理和静态图片的转换类似，这个需要每一帧的去转换。一开始的思路是把gif的每一帧转为图片，然后对图片进行转换，最后合成 gif 。研究了 img4java，  效果如下所示：            测试代">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图片转字符图片（二）">
+<meta property="og:url" content="https://lossingdawn.top/p/zh-CN/10184.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="序言 这个是从抖音上学来的，一开始刷抖音，遇到不少字符串跳舞的视频，因此来实践一下  主要分为三个部分 静态图片转静态图片      gif 转 gif     视频转视频  gif 转 gif 原理和静态图片的转换类似，这个需要每一帧的去转换。一开始的思路是把gif的每一帧转为图片，然后对图片进行转换，最后合成 gif 。研究了 img4java，  效果如下所示：            测试代">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog-lossingdawn.oss-cn-shanghai.aliyuncs.com/img2text/1.gif">
+<meta property="og:image" content="https://blog-lossingdawn.oss-cn-shanghai.aliyuncs.com/img2text/1_03.gif">
+<meta property="og:image" content="https://blog-lossingdawn.oss-cn-shanghai.aliyuncs.com/img2text/123.gif">
+<meta property="og:image" content="https://blog-lossingdawn.oss-cn-shanghai.aliyuncs.com/img2text/123_03.gif">
+<meta property="og:image" content="https://blog-lossingdawn.oss-cn-shanghai.aliyuncs.com/img2text/123_04.gif">
+<meta property="article:published_time" content="2018-08-20T16:23:00.000Z">
+<meta property="article:modified_time" content="2023-11-06T02:17:14.859Z">
+<meta property="article:author" content="Ruffianjiang">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="fun">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog-lossingdawn.oss-cn-shanghai.aliyuncs.com/img2text/1.gif">
+
+
+<link rel="canonical" href="https://lossingdawn.top/p/zh-CN/10184.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://lossingdawn.top/p/zh-CN/10184.html","path":"p/zh-CN/10184.html","title":"图片转字符图片（二）"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>图片转字符图片（二） | Hexo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Hexo</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">今天又是充满希望的一天</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BA%8F%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">序言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%88%86%E4%B8%BA%E4%B8%89%E4%B8%AA%E9%83%A8%E5%88%86"><span class="nav-number">2.</span> <span class="nav-text">主要分为三个部分</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#gif-%E8%BD%AC-gif"><span class="nav-number">3.</span> <span class="nav-text">gif 转 gif</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%88%E6%9E%9C%E5%A6%82%E4%B8%8B%E6%89%80%E7%A4%BA%EF%BC%9A"><span class="nav-number">3.1.</span> <span class="nav-text">效果如下所示：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E4%BB%A3%E7%A0%81%EF%BC%9A"><span class="nav-number">3.2.</span> <span class="nav-text">测试代码：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%EF%BC%9A"><span class="nav-number">3.3.</span> <span class="nav-text">参考：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%EF%BC%9A"><span class="nav-number">3.4.</span> <span class="nav-text">环境：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81%E5%A6%82%E4%B8%8B%EF%BC%9A"><span class="nav-number">3.5.</span> <span class="nav-text">完整代码如下：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%E5%9C%B0%E5%9D%80%EF%BC%9A"><span class="nav-number">3.6.</span> <span class="nav-text">源码地址：</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ruffianjiang</p>
+  <div class="site-description" itemprop="description">今天又是充满希望的一天</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://lossingdawn.top/p/zh-CN/10184.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ruffianjiang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+      <meta itemprop="description" content="今天又是充满希望的一天">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="图片转字符图片（二） | Hexo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          图片转字符图片（二）
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-08-21 00:23:00" itemprop="dateCreated datePublished" datetime="2018-08-21T00:23:00+08:00">2018-08-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-11-06 10:17:14" itemprop="dateModified" datetime="2023-11-06T10:17:14+08:00">2023-11-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/java/fun/" itemprop="url" rel="index"><span itemprop="name">fun</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h1><blockquote>
+<p>这个是从抖音上学来的，一开始刷抖音，遇到不少字符串跳舞的视频，因此来实践一下</p>
+</blockquote>
+<h1 id="主要分为三个部分"><a href="#主要分为三个部分" class="headerlink" title="主要分为三个部分"></a>主要分为三个部分</h1><ol>
+<li>静态图片转静态图片     </li>
+<li>gif 转 gif    </li>
+<li>视频转视频</li>
+</ol>
+<h1 id="gif-转-gif"><a href="#gif-转-gif" class="headerlink" title="gif 转 gif"></a>gif 转 gif</h1><blockquote>
+<p>原理和静态图片的转换类似，这个需要每一帧的去转换。一开始的思路是把gif的每一帧转为图片，然后对图片进行转换，最后合成 gif 。<br>研究了 img4java，</p>
+</blockquote>
+<h2 id="效果如下所示："><a href="#效果如下所示：" class="headerlink" title="效果如下所示："></a>效果如下所示：</h2><p><img src="https://blog-lossingdawn.oss-cn-shanghai.aliyuncs.com/img2text/1.gif" alt="原图"> </p>
+<p><img src="https://blog-lossingdawn.oss-cn-shanghai.aliyuncs.com/img2text/1_03.gif" alt="转换后1">  </p>
+<p><img src="https://blog-lossingdawn.oss-cn-shanghai.aliyuncs.com/img2text/123.gif" alt="原图"> </p>
+<p><img src="https://blog-lossingdawn.oss-cn-shanghai.aliyuncs.com/img2text/123_03.gif" alt="转换后1"> </p>
+<p><img src="https://blog-lossingdawn.oss-cn-shanghai.aliyuncs.com/img2text/123_04.gif" alt="转换后2">  </p>
+<h2 id="测试代码："><a href="#测试代码：" class="headerlink" title="测试代码："></a>测试代码：</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">gifTest</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">String</span> <span class="variable">srcFile</span> <span class="operator">=</span> <span class="string">&quot;F:/123/123.gif&quot;</span>;</span><br><span class="line">    <span class="type">String</span> <span class="variable">targetFile</span> <span class="operator">=</span> <span class="string">&quot;F:/123/123_04.gif&quot;</span>;</span><br><span class="line">    <span class="type">String</span> <span class="variable">base</span> <span class="operator">=</span> <span class="string">&quot;01&quot;</span>; <span class="comment">// 替换的字符串</span></span><br><span class="line">    <span class="comment">// String base = &quot;@#&amp;$%*o!;.&quot;;// 字符串由复杂到简单</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">threshold</span> <span class="operator">=</span> <span class="number">3</span>;<span class="comment">// 阈值</span></span><br><span class="line">    GifUtil.toTextGif(srcFile, targetFile, base, threshold);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/DamonRush/article/details/51746995">https://blog.csdn.net/DamonRush/article/details/51746995</a>、<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/weiwangchao_/article/details/46520571">https://blog.csdn.net/weiwangchao_&#x2F;article&#x2F;details&#x2F;46520571</a>，<br>还有一些其他的工具（用了私有api，不推荐）<br><a target="_blank" rel="noopener" href="http://zhaorui1125.iteye.com/blog/2116816">http://zhaorui1125.iteye.com/blog/2116816</a>，<br>最后发现他们截出来的每一张图要么发红，要么模糊，只好放弃了。最后发现不需要把每一帧都保存下来，临时存一下就好，具体代码如下：</p>
+<h2 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h2><p>JDK 1.8  </p>
+<h2 id="完整代码如下："><a href="#完整代码如下：" class="headerlink" title="完整代码如下："></a>完整代码如下：</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.awt.Color;</span><br><span class="line"><span class="keyword">import</span> java.awt.Font;</span><br><span class="line"><span class="keyword">import</span> java.awt.Graphics;</span><br><span class="line"><span class="keyword">import</span> java.awt.image.BufferedImage;</span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.FileInputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.FileOutputStream;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.slf4j.Logger;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.dawn.img2text.external.AnimatedGifEncoder;</span><br><span class="line"><span class="keyword">import</span> com.dawn.img2text.external.GifDecoder;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@ClassName</span>: GifUtil</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span>: TODO</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> jiang</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2018年8月14日 下午9:47:29</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">GifUtil</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="type">Logger</span> <span class="variable">logger</span> <span class="operator">=</span> LoggerFactory.getLogger(GifUtil.class);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">toTextGif</span><span class="params">(<span class="keyword">final</span> String srcFile, <span class="keyword">final</span> String targetFile, <span class="keyword">final</span> String base, <span class="type">int</span> threshold)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="type">long</span> <span class="variable">startTime</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">GifDecoder</span> <span class="variable">gd</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">GifDecoder</span>();</span><br><span class="line">            <span class="comment">// 要处理的图片</span></span><br><span class="line">            <span class="type">int</span> <span class="variable">status</span> <span class="operator">=</span> gd.read(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(<span class="keyword">new</span> <span class="title class_">File</span>(srcFile)));</span><br><span class="line">            <span class="keyword">if</span> (status != GifDecoder.STATUS_OK) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//</span></span><br><span class="line">            <span class="type">AnimatedGifEncoder</span> <span class="variable">ge</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AnimatedGifEncoder</span>();</span><br><span class="line">            <span class="comment">// 这里是关键，设置要替换成透明的颜色</span></span><br><span class="line">            ge.setTransparent(Color.WHITE);</span><br><span class="line">            <span class="comment">//</span></span><br><span class="line">            ge.start(<span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(<span class="keyword">new</span> <span class="title class_">File</span>(targetFile)));</span><br><span class="line">            ge.setRepeat(<span class="number">0</span>);</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; gd.getFrameCount(); i++) &#123;</span><br><span class="line">                <span class="comment">// 取得gif的每一帧</span></span><br><span class="line">                <span class="type">BufferedImage</span> <span class="variable">frame</span> <span class="operator">=</span> gd.getFrame(i);</span><br><span class="line">                <span class="comment">// 你可以对每一帧做点什么，比如缩放什么的，这里就什么都不做了</span></span><br><span class="line">                <span class="type">int</span>[] rgb = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">3</span>];</span><br><span class="line">                <span class="type">int</span> <span class="variable">width</span> <span class="operator">=</span> frame.getWidth();</span><br><span class="line">                <span class="type">int</span> <span class="variable">height</span> <span class="operator">=</span> frame.getHeight();</span><br><span class="line">                <span class="type">int</span> <span class="variable">minx</span> <span class="operator">=</span> frame.getMinX();</span><br><span class="line">                <span class="type">int</span> <span class="variable">miny</span> <span class="operator">=</span> frame.getMinY();</span><br><span class="line">                <span class="type">int</span> <span class="variable">delay</span> <span class="operator">=</span> gd.getDelay(i);</span><br><span class="line">                <span class="type">BufferedImage</span> <span class="variable">tag</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedImage</span>(width, height, BufferedImage.TYPE_4BYTE_ABGR);</span><br><span class="line">                <span class="type">Graphics</span> <span class="variable">g</span> <span class="operator">=</span> tag.getGraphics();</span><br><span class="line">                g.setFont(<span class="keyword">new</span> <span class="title class_">Font</span>(<span class="string">&quot;微软雅黑&quot;</span>, Font.PLAIN, <span class="number">2</span>));<span class="comment">// 设置字体</span></span><br><span class="line">                g.setColor(Color.BLACK);<span class="comment">// 设置颜色</span></span><br><span class="line">                <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> minx; x &lt; width; x += <span class="number">1</span>) &#123;</span><br><span class="line">                    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> miny; y &lt; height; y += <span class="number">1</span>) &#123;</span><br><span class="line">                        <span class="type">int</span> <span class="variable">pixel</span> <span class="operator">=</span> frame.getRGB(x, y); <span class="comment">// 下面三行代码将一个数字转换为RGB数字</span></span><br><span class="line">                        rgb[<span class="number">0</span>] = (pixel &amp; <span class="number">0xff0000</span>) &gt;&gt; <span class="number">16</span>;<span class="comment">// red</span></span><br><span class="line">                        rgb[<span class="number">1</span>] = (pixel &amp; <span class="number">0xff00</span>) &gt;&gt; <span class="number">8</span>;<span class="comment">// green</span></span><br><span class="line">                        rgb[<span class="number">2</span>] = (pixel &amp; <span class="number">0xff</span>);<span class="comment">// blue</span></span><br><span class="line"></span><br><span class="line">                        <span class="keyword">final</span> <span class="type">float</span> <span class="variable">gray</span> <span class="operator">=</span> <span class="number">0.299F</span> * rgb[<span class="number">0</span>] + <span class="number">0.578F</span> * rgb[<span class="number">1</span>] + <span class="number">0.114F</span> * rgb[<span class="number">2</span>];</span><br><span class="line">                        <span class="comment">// index [0,base.length()),index越小颜色越深</span></span><br><span class="line">                        <span class="keyword">final</span> <span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> Math.round(gray * (base.length() + <span class="number">1</span>) / <span class="number">255</span>);</span><br><span class="line">                        <span class="keyword">if</span> (index &lt;= base.length() % threshold) &#123;</span><br><span class="line">                            g.drawString(String.valueOf(base.charAt(index % base.length())), x, y);<span class="comment">// 文字的编写及位置</span></span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="comment">/*-</span></span><br><span class="line"><span class="comment">                        if (rgb[0] + rgb[1] + rgb[2] &lt;= 300) &#123;</span></span><br><span class="line"><span class="comment">                            g.drawString(String.valueOf(base.charAt(index % base.length())), x, y);// 文字的编写及位置</span></span><br><span class="line"><span class="comment">                        &#125;*/</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                ge.setDelay(delay);</span><br><span class="line">                ge.addFrame(tag);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 输出图片</span></span><br><span class="line">            ge.finish();</span><br><span class="line">            logger.debug(<span class="string">&quot;&#123;&#125; toTextGif cost time： &#123;&#125;s&quot;</span>, srcFile, System.currentTimeMillis() - startTime);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            logger.error(<span class="string">&quot;err&quot;</span>, e);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>原理和静态图转字符图片是一致，不再累述。</p>
+<h2 id="源码地址："><a href="#源码地址：" class="headerlink" title="源码地址："></a>源码地址：</h2><p><a target="_blank" rel="noopener" href="https://github.com/Ruffianjiang/java4fun/tree/master/img2text">https://github.com/Ruffianjiang/java4fun/tree/master/img2text</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
+              <a href="/tags/fun/" rel="tag"># fun</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/p/zh-CN/10183.html" rel="prev" title="图片转字符图片（一）">
+                  <i class="fa fa-angle-left"></i> 图片转字符图片（一）
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/p/zh-CN/48068.html" rel="next" title="图片转字符图片（三）">
+                  图片转字符图片（三） <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Ruffianjiang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

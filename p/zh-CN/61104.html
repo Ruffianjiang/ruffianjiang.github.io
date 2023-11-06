@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"lossingdawn.top","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="原帖地址：http:&#x2F;&#x2F;my.oschina.net&#x2F;wangjunhe&#x2F;blog&#x2F;99764 创建新的控件： 作为一个有创意的开发者，你经常会遇到安卓原生控件无法满足你的需求。 为了优化你的界面和工作流程，安卓允许你去继承已经存在的控件或者实现你自己的控件。   那么最好的方式去创建一个新的控件是什么？  这主要取决你想要完成什么。 1.有些基本功能原生控件都能提供，所以这个时候你只需要继承并对">
+<meta property="og:type" content="article">
+<meta property="og:title" content="（转）android自定义控件">
+<meta property="og:url" content="https://lossingdawn.top/p/zh-CN/61104.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="原帖地址：http:&#x2F;&#x2F;my.oschina.net&#x2F;wangjunhe&#x2F;blog&#x2F;99764 创建新的控件： 作为一个有创意的开发者，你经常会遇到安卓原生控件无法满足你的需求。 为了优化你的界面和工作流程，安卓允许你去继承已经存在的控件或者实现你自己的控件。   那么最好的方式去创建一个新的控件是什么？  这主要取决你想要完成什么。 1.有些基本功能原生控件都能提供，所以这个时候你只需要继承并对">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-08-10T06:31:00.000Z">
+<meta property="article:modified_time" content="2023-11-06T02:17:14.867Z">
+<meta property="article:author" content="Ruffianjiang">
+<meta property="article:tag" content="android">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://lossingdawn.top/p/zh-CN/61104.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://lossingdawn.top/p/zh-CN/61104.html","path":"p/zh-CN/61104.html","title":"（转）android自定义控件"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>（转）android自定义控件 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Hexo</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">今天又是充满希望的一天</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">&lt;com.example.customview.MyCompoundView android:layout_width&#x3D;”match_parent” android:layout_height&#x3D;”wrap_content” &#x2F;&gt;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%AE%8C%E5%AE%8C%E5%85%A8%E5%85%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">3. 完完全全自定义控件</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ruffianjiang</p>
+  <div class="site-description" itemprop="description">今天又是充满希望的一天</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://lossingdawn.top/p/zh-CN/61104.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ruffianjiang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+      <meta itemprop="description" content="今天又是充满希望的一天">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="（转）android自定义控件 | Hexo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          （转）android自定义控件
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2015-08-10 14:31:00" itemprop="dateCreated datePublished" datetime="2015-08-10T14:31:00+08:00">2015-08-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-11-06 10:17:14" itemprop="dateModified" datetime="2023-11-06T10:17:14+08:00">2023-11-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/android/" itemprop="url" rel="index"><span itemprop="name">android</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><strong>原帖地址：<a target="_blank" rel="noopener" href="http://my.oschina.net/wangjunhe/blog/99764"><strong>http://my.oschina.net/wangjunhe/blog/99764</strong></a></strong></p>
+<p><strong>创建新的控件：</strong></p>
+<p>作为一个有创意的开发者，你经常会遇到安卓原生控件无法满足你的需求。</p>
+<p>为了优化你的界面和工作流程，安卓允许你去继承已经存在的控件或者实现你自己的控件。
+ </p>
+<p><strong>那么最好的方式去创建一个新的控件是什么？</strong>  这主要取决你想要完成什么。</p>
+<p>1.有些基本功能原生控件都能提供，所以这个时候你只需要<strong>继承并对控件进行扩展</strong>。通过重写它的事件，onDraw,但是始终都保持都父类方法的调用。</p>
+<p>2.组合控件 就是通过合并几个控件的功能来生成一个控件。</p>
+<p>3.完完整整创建一个新的控件。</p>
+<p><strong>1.修改存在的控件</strong></p>
+<p>例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">    public class MyTextView extends TextView &#123;</span><br><span class="line"> </span><br><span class="line">    public MyTextView(Context context, AttributeSet ats, int defStyle) &#123;</span><br><span class="line">        super(context, ats, defStyle);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public MyTextView(Context context) &#123;</span><br><span class="line">        super(context);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public MyTextView(Context context, AttributeSet attrs) &#123;</span><br><span class="line">        super(context, attrs);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public void onDraw(Canvas canvas) &#123;</span><br><span class="line">        // 在画布上画文本之下的内容</span><br><span class="line">         </span><br><span class="line">        // 保证默认的文本渲染</span><br><span class="line">        super.onDraw(canvas);</span><br><span class="line">         </span><br><span class="line">        // 在画布上画文本之上的内容</span><br><span class="line"> </span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public boolean onKeyDown(int keyCode, KeyEvent keyEvent) &#123;</span><br><span class="line">        // 写自己的控制</span><br><span class="line">         </span><br><span class="line">        // 保持父类默认的控制</span><br><span class="line">        return super.onKeyDown(keyCode, keyEvent);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>2.组合控件</strong></p>
+<p><strong>1.最简单的方式，是定义了XML布局文件，然后用include实现重用。（。。。这也算啊。。。）</strong></p>
+<p><strong>2.去合并一个控件 通常你自定义的控件需要继承一个ViewGroup（通常就是Layout），就像：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">    public class MyCompoundView extends LinearLayout &#123;</span><br><span class="line">    public MyCompoundView(Context context) &#123;</span><br><span class="line">        super(context);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public MyCompoundView(Context context, AttributeSet attrs) &#123;</span><br><span class="line">        super(context, attrs);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>      就像activity，比较好的设计一个混合的控件UI布局是使用一个外部的layout资源。</p>
+<p>      这里我们模拟定义一个：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=”1.0” encoding=”utf-8”?&gt; </span><br><span class="line">  &lt;LinearLayout xmlns:android=”http://schemas.android.com/apk/res/android” </span><br><span class="line">   android:orientation=”vertical” </span><br><span class="line">   android:layout_width=”match_parent” </span><br><span class="line">   android:layout_height=”wrap_content”&gt; </span><br><span class="line">   &lt;EditText</span><br><span class="line">      android:id=”@+id/editText” </span><br><span class="line">      android:layout_width=”match_parent” </span><br><span class="line">      android:layout_height=”wrap_content” </span><br><span class="line">   /&gt; </span><br><span class="line">   &lt;Button</span><br><span class="line">      android:id=”@+id/clearButton” </span><br><span class="line">      android:layout_width=”match_parent” </span><br><span class="line">      android:layout_height=”wrap_content” </span><br><span class="line">      android:text=”Clear” </span><br><span class="line">   /&gt; </span><br><span class="line"> &lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure>
+
+<p>** <strong>然后在构造函数初始化的时候：</strong>**</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">    public class ClearableEditText extends LinearLayout &#123;</span><br><span class="line"> </span><br><span class="line">    EditText editText;</span><br><span class="line">    Button clearButton;</span><br><span class="line"> </span><br><span class="line">    public ClearableEditText(Context context) &#123;</span><br><span class="line">        super(context);</span><br><span class="line"> </span><br><span class="line">        // Inflate the view from the layout resource.</span><br><span class="line">        String infService = Context.LAYOUT_INFLATER_SERVICE;</span><br><span class="line">        LayoutInflater li;</span><br><span class="line"> </span><br><span class="line">        li = (LayoutInflater) getContext().getSystemService(infService);</span><br><span class="line">                /*这句很关键，解析反射资源文件，然后将布局附加到当前的控件，也就是this*/</span><br><span class="line">        li.inflate(R.layout.clearable_edit_text, this, true); </span><br><span class="line"> </span><br><span class="line">        /* 因为反射成功后的布局已经附加上了，那么直接可以findViewById*/</span><br><span class="line">        editText = (EditText) findViewById(R.id.editText); </span><br><span class="line">        clearButton = (Button) findViewById(R.id.clearButton);</span><br><span class="line"> </span><br><span class="line">        // 下面自定义的方法就是为控件注册监听，不解释了</span><br><span class="line">        hookupButton();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>使用：在activity_main.xml</strong></p>
+<p> </p>
+<h3 id=""><a href="#" class="headerlink" title="&lt;com.example.customview.MyCompoundView android:layout_width&#x3D;”match_parent” android:layout_height&#x3D;”wrap_content” &#x2F;&gt;"></a>&lt;com.example.customview.MyCompoundView android:layout_width&#x3D;”match_parent” android:layout_height&#x3D;”wrap_content” &#x2F;&gt;</h3><h3 id="3-完完全全自定义控件"><a href="#3-完完全全自定义控件" class="headerlink" title="3. 完完全全自定义控件"></a>3. 完完全全自定义控件</h3><p>通常是继承View或者SurfaceView ，View类提供一个Canvas（画布）和一系列的画的方法，还有Paint（画笔）。使用它们去创建一个自定义的UI。你可以重写事件，包括屏幕接触或者按键按下等等，用来提供与用户交互。</p>
+<p>1.如果你不需要快速重画和3D图像的效果，那么让View作为父类提供一个轻量级的解决方案。</p>
+<p>2.如若不然，就需要使用SurfaceView作为父类，这样你就可以提供一个后台线程去画和使用OPENGL去实现你的图像。这个就相对重量级了，如果你的视图需要经常更新，然后由需要显示比较复杂的图像信息（尤其是在游戏和3D可视化），SurfaceView将是更好的选择。</p>
+<p>在这里我们讨论前者，后者后期再讨论。</p>
+<p> <strong>一般你需要重写2个方法： <br>1.onMeasure</strong><br>什么是onMeasure?</p>
+<p>下面转载一段文章：</p>
+<p>View在屏幕上显示出来要先经过measure（计算）和layout（布局）. <br>1、什么时候调用onMeasure方法？  <br>当控件的父元素正要放置该控件时调用.父元素会问子控件一个问题，“你想要用多大地方啊？”，然后传入两个参数——widthMeasureSpec和heightMeasureSpec. <br>这两个参数指明控件可获得的空间以及关于这个空间描述的元数据.</p>
+<p>更好的方法是你传递View的高度和宽度到setMeasuredDimension方法里,这样可以直接告诉父控件，需要多大地方放置子控件.</p>
+<p>widthMeasureSpec和heightMeasureSpec这2个参数都是整形是出于效率的考虑，所以经常要做的就是对其解码&#x3D;&gt;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. int specMode = MeasureSpec.getMode(measureSpec);</span><br><span class="line">1. int specSize = MeasureSpec.getSize(measureSpec);</span><br></pre></td></tr></table></figure>
+<p>  </p>
+<ol>
+<li><p>依据specMode的值，（MeasureSpec有3种模式分别是UNSPECIFIED, EXACTLY和AT_MOST）</p>
+</li>
+<li><p>如果是AT_MOST，specSize 代表的是最大可获得的空间； <br>如果是EXACTLY，specSize 代表的是精确的尺寸； <br>如果是UNSPECIFIED，对于控件尺寸来说，没有任何参考意义。</p>
+</li>
+</ol>
+<p> </p>
+<p>2、那么这些模式和我们平时设置的layout参数fill_parent, wrap_content有什么关系呢？ <br>经过代码测试就知道，当我们设置width或height为fill_parent时，容器在布局时调用子 view的measure方法传入的模式是EXACTLY，因为子view会占据剩余容器的空间，所以它大小是确定的。 <br>而当设置为 wrap_content时，容器传进去的是AT_MOST, 表示子view的大小最多是多少，这样子view会根据这个上限来设置自己的尺寸。当子view的大小设置为精确值时，容器传入的是EXACTLY, 而MeasureSpec的UNSPECIFIED模式表示你没有指定大小。</p>
+<ol>
+<li>View的onMeasure方法默认行为是当模式为UNSPECIFIED时，设置尺寸为mMinWidth(通常为0)或者背景drawable的最小尺寸，当模式为EXACTLY或者AT_MOST时，尺寸设置为传入的MeasureSpec的大小。  <br>有个观念需要纠正的是，fill_parent应该是子view会占据剩下容器的空间，而不会覆盖前面已布局好的其他view空间，当然后面布局子 view就没有空间给分配了，所以fill_parent属性对布局顺序很重要。以前所想的是把所有容器的空间都占满了，难怪google在2.2版本里 把fill_parent的名字改为match_parent. <br>在两种情况下，你必须绝对的处理这些限制。在一些情况下，它可能会返回超出这些限制的尺寸，在这种情况下，你可以让父元素选择如何对待超出的View，使用裁剪还是滚动等技术。 <br>接下来的框架代码给出了处理View测量的典型实现：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) &#123;</span><br><span class="line">    int measuredHeight = measureHeight(heightMeasureSpec);</span><br><span class="line">    int measuredWidth = measureWidth(widthMeasureSpec);</span><br><span class="line"> </span><br><span class="line">    setMeasuredDimension(measuredHeight, measuredWidth); // 记住这句可不能省。</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">private int measureHeight(int measureSpec) &#123;</span><br><span class="line">    int specMode = MeasureSpec.getMode(measureSpec);</span><br><span class="line">    int specSize = MeasureSpec.getSize(measureSpec);</span><br><span class="line"> </span><br><span class="line">    // Default size if no limits are specified.</span><br><span class="line">    int result = 500;</span><br><span class="line"> </span><br><span class="line">    if (specMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">        // Calculate the ideal size of your</span><br><span class="line">        // control within this maximum size.</span><br><span class="line">        // If your control fills the available</span><br><span class="line">        // space return the outer bound.</span><br><span class="line">        result = specSize;</span><br><span class="line">    &#125; else if (specMode == MeasureSpec.EXACTLY) &#123;</span><br><span class="line">        // If your control can fit within these bounds return that value.</span><br><span class="line">        result = specSize;</span><br><span class="line">    &#125;</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">private int measureWidth(int measureSpec) &#123;</span><br><span class="line">    // 代码基本类似measureHeight</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>总结：</strong></p>
+<p><strong>通过</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int specMode = MeasureSpec.getMode(measureSpec); </span><br><span class="line">int specSize = MeasureSpec.getSize(measureSpec);</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>这2个值，然后计算自己想要占有的宽和高。</strong></p>
+<p><strong>2.onDraw</strong></p>
+<p>这个不解释了。（后期会细说canvas和paint）</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/android/" rel="tag"># android</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/p/zh-CN/36850.html" rel="prev" title="Android值类型转换">
+                  <i class="fa fa-angle-left"></i> Android值类型转换
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/p/zh-CN/45182.html" rel="next" title="移动应用图片的福音--七牛云存储">
+                  移动应用图片的福音--七牛云存储 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Ruffianjiang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

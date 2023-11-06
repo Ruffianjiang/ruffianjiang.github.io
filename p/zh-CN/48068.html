@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha256-CTSx/A06dm1B063156EVh15m6Y67pAjZZaQc89LLSrU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"lossingdawn.top","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="序言这个是从抖音上学来的，一开始刷抖音，遇到不少字符串跳舞的视频，因此来实践一下 主要分为三个部分 静态图片转静态图片 gif转gif 视频转视频  视频转视频主要用到了FFmpeg这个工具，利用命令对视频文件进行操作。首先根据自己调的参数进行图片的截取（本文的是1秒10帧的参数），图片转换，然后分离音频，最后字符图片和音频合成目标视频。 FFmpeg的代码库： https:&#x2F;&#x2F;github.co">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图片转字符图片（三）">
+<meta property="og:url" content="https://lossingdawn.top/p/zh-CN/48068.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="序言这个是从抖音上学来的，一开始刷抖音，遇到不少字符串跳舞的视频，因此来实践一下 主要分为三个部分 静态图片转静态图片 gif转gif 视频转视频  视频转视频主要用到了FFmpeg这个工具，利用命令对视频文件进行操作。首先根据自己调的参数进行图片的截取（本文的是1秒10帧的参数），图片转换，然后分离音频，最后字符图片和音频合成目标视频。 FFmpeg的代码库： https:&#x2F;&#x2F;github.co">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog-lossingdawn.oss-cn-shanghai.aliyuncs.com/img2text/3-0.png?x-oss-process=style/default_blog">
+<meta property="og:image" content="https://blog-lossingdawn.oss-cn-shanghai.aliyuncs.com/img2text/3-1.png?x-oss-process=style/default_blog">
+<meta property="article:published_time" content="2018-08-20T17:11:00.000Z">
+<meta property="article:modified_time" content="2023-11-06T02:17:14.858Z">
+<meta property="article:author" content="Ruffianjiang">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="fun">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog-lossingdawn.oss-cn-shanghai.aliyuncs.com/img2text/3-0.png?x-oss-process=style/default_blog">
+
+
+<link rel="canonical" href="https://lossingdawn.top/p/zh-CN/48068.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://lossingdawn.top/p/zh-CN/48068.html","path":"p/zh-CN/48068.html","title":"图片转字符图片（三）"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>图片转字符图片（三） | Hexo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Hexo</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">今天又是充满希望的一天</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BA%8F%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">序言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%88%86%E4%B8%BA%E4%B8%89%E4%B8%AA%E9%83%A8%E5%88%86"><span class="nav-number">2.</span> <span class="nav-text">主要分为三个部分</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%86%E9%A2%91%E8%BD%AC%E8%A7%86%E9%A2%91"><span class="nav-number">3.</span> <span class="nav-text">视频转视频</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%88%E6%9E%9C%E5%A6%82%E4%B8%8B"><span class="nav-number">3.1.</span> <span class="nav-text">效果如下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E4%BB%A3%E7%A0%81"><span class="nav-number">3.2.</span> <span class="nav-text">测试代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%A6%82%E4%B8%8B"><span class="nav-number">3.3.</span> <span class="nav-text">代码如下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%EF%BC%9A"><span class="nav-number">3.4.</span> <span class="nav-text">环境：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81%E5%A6%82%E4%B8%8B"><span class="nav-number">3.5.</span> <span class="nav-text">完整代码如下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%E5%9C%B0%E5%9D%80%EF%BC%9A"><span class="nav-number">3.6.</span> <span class="nav-text">源码地址：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%EF%BC%9A"><span class="nav-number">3.7.</span> <span class="nav-text">参考：</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ruffianjiang</p>
+  <div class="site-description" itemprop="description">今天又是充满希望的一天</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://lossingdawn.top/p/zh-CN/48068.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ruffianjiang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+      <meta itemprop="description" content="今天又是充满希望的一天">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="图片转字符图片（三） | Hexo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          图片转字符图片（三）
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-08-21 01:11:00" itemprop="dateCreated datePublished" datetime="2018-08-21T01:11:00+08:00">2018-08-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-11-06 10:17:14" itemprop="dateModified" datetime="2023-11-06T10:17:14+08:00">2023-11-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/java/fun/" itemprop="url" rel="index"><span itemprop="name">fun</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h1><p>这个是从抖音上学来的，一开始刷抖音，遇到不少字符串跳舞的视频，因此来实践一下</p>
+<h1 id="主要分为三个部分"><a href="#主要分为三个部分" class="headerlink" title="主要分为三个部分"></a>主要分为三个部分</h1><ol>
+<li>静态图片转静态图片</li>
+<li>gif转gif</li>
+<li>视频转视频</li>
+</ol>
+<h1 id="视频转视频"><a href="#视频转视频" class="headerlink" title="视频转视频"></a>视频转视频</h1><p>主要用到了FFmpeg这个工具，利用命令对视频文件进行操作。首先根据自己调的参数进行图片的截取（本文的是1秒10帧的参数），图片转换，然后分离音频，最后字符图片和音频合成目标视频。</p>
+<p>FFmpeg的代码库：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/FFmpeg/FFmpeg">https://github.com/FFmpeg/FFmpeg</a></p>
+<p>FFmpeg下载地址：</p>
+<p><a target="_blank" rel="noopener" href="https://ffmpeg.org/download.html">https://ffmpeg.org/download.html</a></p>
+<p>本位使用的版本：</p>
+<p><a target="_blank" rel="noopener" href="https://blog-lossingdawn.oss-cn-shanghai.aliyuncs.com/img2text/ffmpeg-20180201-b1af0e2-win64-static.zip">https://blog-lossingdawn.oss-cn-shanghai.aliyuncs.com/img2text/ffmpeg-20180201-b1af0e2-win64-static.zip</a></p>
+<h2 id="效果如下"><a href="#效果如下" class="headerlink" title="效果如下"></a>效果如下</h2><p>没做细致的调整，视频的转换可以调调参数  </p>
+<p><a target="_blank" rel="noopener" href="https://blog-lossingdawn.oss-cn-shanghai.aliyuncs.com/img2text/123.mp4"><img src="https://blog-lossingdawn.oss-cn-shanghai.aliyuncs.com/img2text/3-0.png?x-oss-process=style/default_blog" alt="Watch the video"></a> </p>
+<p><a target="_blank" rel="noopener" href="https://blog-lossingdawn.oss-cn-shanghai.aliyuncs.com/img2text/1234.mp4"><img src="https://blog-lossingdawn.oss-cn-shanghai.aliyuncs.com/img2text/3-1.png?x-oss-process=style/default_blog" alt="Watch the video"></a></p>
+<h2 id="测试代码"><a href="#测试代码" class="headerlink" title="测试代码"></a>测试代码</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">videoTest</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">String</span> <span class="variable">srcVideoPath</span> <span class="operator">=</span> <span class="string">&quot;F:/123/123.mp4&quot;</span>;</span><br><span class="line">    <span class="type">String</span> <span class="variable">tarImagePath</span> <span class="operator">=</span> <span class="string">&quot;F:/123/mp/&quot;</span>;</span><br><span class="line">    <span class="type">String</span> <span class="variable">tarAudioPath</span> <span class="operator">=</span> <span class="string">&quot;F:/123/mp/audio.aac&quot;</span>;</span><br><span class="line">    <span class="type">String</span> <span class="variable">tarVideoPath</span> <span class="operator">=</span> <span class="string">&quot;F:/123/1234.mp4&quot;</span>;</span><br><span class="line">    VideoUtil.readVideo(srcVideoPath,tarImagePath,tarAudioPath,tarVideoPath);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h2><p>主要用到的几个命令，其他按帧截图命令参考文末链接4：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 截图</span><br><span class="line">ffmpeg -ss 10 -i input.flv -y -f image2  -vframes 100 -s 352x240 b-%03d.jpg</span><br><span class="line">// 分离音频</span><br><span class="line">ffmpeg -i 3.mp4 -vn -y -acodec copy 3.aac</span><br><span class="line">// 合成视频</span><br><span class="line">ffmpeg -threads2 -y -r 10 -i /tmpdir/image%04d.jpg -i audio.mp3 -absf aac_adtstoasc output.mp4</span><br></pre></td></tr></table></figure>
+
+<h2 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h2><p>JDK 1.8</p>
+<h2 id="完整代码如下"><a href="#完整代码如下" class="headerlink" title="完整代码如下"></a>完整代码如下</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ffmpeg -ss 10 -i input.flv -y -f image2  -vframes 100 -s 352x240 b-%03d.jpg  </span></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * ffmpeg 截图，并指定图片的大小</span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> srcVideoPath</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> tarImagePath</span></span><br><span class="line"><span class="comment">     *            截取后图片路径</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> width</span></span><br><span class="line"><span class="comment">     *            截图的宽</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> hight</span></span><br><span class="line"><span class="comment">     *            截图的高</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> offsetValue</span></span><br><span class="line"><span class="comment">     *            表示相对于文件开始处的时间偏移值 可以是分秒</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> vframes</span></span><br><span class="line"><span class="comment">     *            表示截图的桢数</span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">processFfmpegImage</span><span class="params">(String srcVideoPath, String tarImagePath, <span class="type">int</span> width, <span class="type">int</span> hight,</span></span><br><span class="line"><span class="params">            <span class="type">float</span> offsetValue, <span class="type">float</span> vframes)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (!checkfile(srcVideoPath)) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;【&quot;</span> + srcVideoPath + <span class="string">&quot;】  不存在 !&quot;</span>);</span><br><span class="line">            <span class="comment">// logger.error(&quot;【&quot; + srcVideoPath + &quot;】 不存在 !&quot;);</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        List&lt;String&gt; commend = <span class="keyword">new</span> <span class="title class_">java</span>.util.ArrayList&lt;String&gt;();</span><br><span class="line"></span><br><span class="line">        commend.add(ffmpegPath);</span><br><span class="line"></span><br><span class="line">        commend.add(<span class="string">&quot;-i&quot;</span>);</span><br><span class="line"></span><br><span class="line">        commend.add(srcVideoPath);</span><br><span class="line"></span><br><span class="line">        commend.add(<span class="string">&quot;-y&quot;</span>);</span><br><span class="line"></span><br><span class="line">        commend.add(<span class="string">&quot;-f&quot;</span>);</span><br><span class="line"></span><br><span class="line">        commend.add(<span class="string">&quot;image2&quot;</span>);</span><br><span class="line"></span><br><span class="line">        commend.add(<span class="string">&quot;-ss&quot;</span>);</span><br><span class="line"></span><br><span class="line">        commend.add(offsetValue + <span class="string">&quot;&quot;</span>); <span class="comment">// 在视频的某个插入时间截图，例子为5秒后</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// commend.add(&quot;-vframes&quot;);</span></span><br><span class="line"></span><br><span class="line">        commend.add(<span class="string">&quot;-t&quot;</span>);<span class="comment">// 添加参数＂-t＂，该参数指定持续时间</span></span><br><span class="line"></span><br><span class="line">        commend.add(vframes + <span class="string">&quot;&quot;</span>); <span class="comment">// 截图的桢数,添加持续时间为1毫秒</span></span><br><span class="line"></span><br><span class="line">        commend.add(<span class="string">&quot;-s&quot;</span>);</span><br><span class="line"></span><br><span class="line">        commend.add(width + <span class="string">&quot;x&quot;</span> + hight); <span class="comment">// 截图的的大小</span></span><br><span class="line"></span><br><span class="line">        commend.add(tarImagePath);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">ProcessBuilder</span> <span class="variable">builder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ProcessBuilder</span>();</span><br><span class="line">            builder.command(commend);</span><br><span class="line">            builder.redirectErrorStream(<span class="literal">true</span>);</span><br><span class="line">            <span class="comment">// builder.redirectOutput(new File(&quot;F:/123/log/log.log&quot;));</span></span><br><span class="line">            <span class="type">Process</span> <span class="variable">process</span> <span class="operator">=</span> builder.start();</span><br><span class="line">            doWaitFor(process);</span><br><span class="line">            process.destroy();</span><br><span class="line">            <span class="keyword">if</span> (!checkfile(tarImagePath)) &#123;</span><br><span class="line">                System.out.println(tarImagePath + <span class="string">&quot; is not exit!  processFfmpegImage 转换不成功 !&quot;</span>);</span><br><span class="line">                <span class="comment">// logger.info(tarImagePath + &quot; is not exit! processFfmpegImage</span></span><br><span class="line">                <span class="comment">// 转换不成功 !&quot;);</span></span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            System.out.println(<span class="string">&quot;【&quot;</span> + srcVideoPath + <span class="string">&quot;】 processFfmpegImage  转换不成功 !&quot;</span>);</span><br><span class="line">            <span class="comment">// logger.error(&quot;【&quot; + srcVideoPath + &quot;】 processFfmpegImage 转换不成功</span></span><br><span class="line">            <span class="comment">// !&quot;);</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">processFfmpegAudio</span><span class="params">(String srcVideoPath, String tarAudioPath)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (!checkfile(srcVideoPath)) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;【&quot;</span> + srcVideoPath + <span class="string">&quot;】  不存在 !&quot;</span>);</span><br><span class="line">            <span class="comment">// logger.error(&quot;【&quot; + srcVideoPath + &quot;】 不存在 !&quot;);</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// https://blog.csdn.net/xiaocao9903/article/details/53420519</span></span><br><span class="line">        <span class="comment">// ffmpeg -i 3.mp4 -vn -y -acodec copy 3.aac</span></span><br><span class="line">        <span class="comment">// ffmpeg -i 3.mp4 -vn -y -acodec copy 3.m4a</span></span><br><span class="line">        </span><br><span class="line">        List&lt;String&gt; commend = <span class="keyword">new</span> <span class="title class_">java</span>.util.ArrayList&lt;String&gt;();</span><br><span class="line">        </span><br><span class="line">        commend.add(ffmpegPath);</span><br><span class="line">        </span><br><span class="line">        commend.add(<span class="string">&quot;-i&quot;</span>);</span><br><span class="line">        </span><br><span class="line">        commend.add(srcVideoPath);</span><br><span class="line">        </span><br><span class="line">        commend.add(<span class="string">&quot;-vn&quot;</span>);</span><br><span class="line"></span><br><span class="line">        commend.add(<span class="string">&quot;-y&quot;</span>);</span><br><span class="line">        </span><br><span class="line">        commend.add(<span class="string">&quot;-acodec&quot;</span>);</span><br><span class="line">        </span><br><span class="line">        commend.add(<span class="string">&quot;copy&quot;</span>); <span class="comment">// 在视频的某个插入时间截图，例子为5秒后</span></span><br><span class="line">        </span><br><span class="line">        commend.add(tarAudioPath);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">ProcessBuilder</span> <span class="variable">builder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ProcessBuilder</span>();</span><br><span class="line">            builder.command(commend);</span><br><span class="line">            builder.redirectErrorStream(<span class="literal">true</span>);</span><br><span class="line">            <span class="type">Process</span> <span class="variable">process</span> <span class="operator">=</span> builder.start();</span><br><span class="line">            doWaitFor(process);</span><br><span class="line">            process.destroy();</span><br><span class="line">            <span class="keyword">if</span> (!checkfile(tarAudioPath)) &#123;</span><br><span class="line">                System.out.println(tarAudioPath + <span class="string">&quot; is not exit!  processFfmpegAudio 转换不成功 !&quot;</span>);</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            System.out.println(<span class="string">&quot;【&quot;</span> + srcVideoPath + <span class="string">&quot;】 processFfmpegAudio  转换不成功 !&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * ffmpeg 合成视频</span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> srcVideoPath</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> tarImagePath</span></span><br><span class="line"><span class="comment">     *            截取后图片路径</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> width</span></span><br><span class="line"><span class="comment">     *            截图的宽</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> hight</span></span><br><span class="line"><span class="comment">     *            截图的高</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> offsetValue</span></span><br><span class="line"><span class="comment">     *            表示相对于文件开始处的时间偏移值 可以是分秒</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> vframes</span></span><br><span class="line"><span class="comment">     *            表示截图的桢数</span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">processFfmpegVideo</span><span class="params">(String imagePath, String audioPath, String tarVideoPath, <span class="type">int</span> step)</span> &#123;</span><br><span class="line">        <span class="comment">// https://blog.csdn.net/wangshuainan/article/details/77914508?fps=1&amp;locationNum=4</span></span><br><span class="line">        <span class="comment">// 带音频</span></span><br><span class="line">        <span class="comment">// ffmpeg -threads2 -y -r 10 -i /tmpdir/image%04d.jpg -i audio.mp3 -absf</span></span><br><span class="line">        <span class="comment">// aac_adtstoasc output.mp4</span></span><br><span class="line"></span><br><span class="line">        List&lt;String&gt; commend = <span class="keyword">new</span> <span class="title class_">java</span>.util.ArrayList&lt;String&gt;();</span><br><span class="line"></span><br><span class="line">        commend.add(ffmpegPath);</span><br><span class="line"></span><br><span class="line">        commend.add(<span class="string">&quot;-threads&quot;</span>);</span><br><span class="line">        </span><br><span class="line">        commend.add(<span class="string">&quot;2&quot;</span>);</span><br><span class="line"></span><br><span class="line">        commend.add(<span class="string">&quot;-y&quot;</span>);</span><br><span class="line"></span><br><span class="line">        commend.add(<span class="string">&quot;-r&quot;</span>);</span><br><span class="line"></span><br><span class="line">        commend.add(step + <span class="string">&quot;&quot;</span>);</span><br><span class="line"></span><br><span class="line">        commend.add(<span class="string">&quot;-i&quot;</span>);</span><br><span class="line"></span><br><span class="line">        commend.add(imagePath); <span class="comment">// 图片</span></span><br><span class="line"></span><br><span class="line">        commend.add(<span class="string">&quot;-i&quot;</span>);</span><br><span class="line"></span><br><span class="line">         commend.add(audioPath);</span><br><span class="line"></span><br><span class="line">        commend.add(<span class="string">&quot;-absf&quot;</span>);<span class="comment">// </span></span><br><span class="line"></span><br><span class="line">        commend.add(<span class="string">&quot;aac_adtstoasc&quot;</span>); <span class="comment">// </span></span><br><span class="line"></span><br><span class="line">        commend.add(tarVideoPath);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">ProcessBuilder</span> <span class="variable">builder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ProcessBuilder</span>();</span><br><span class="line">            builder.command(commend);</span><br><span class="line">            builder.redirectErrorStream(<span class="literal">true</span>);</span><br><span class="line">             builder.redirectOutput(<span class="keyword">new</span> <span class="title class_">File</span>(<span class="string">&quot;F:/123/log/log.log&quot;</span>));</span><br><span class="line">            <span class="type">Process</span> <span class="variable">process</span> <span class="operator">=</span> builder.start();</span><br><span class="line">            doWaitFor(process);</span><br><span class="line">            process.destroy();</span><br><span class="line">            <span class="keyword">if</span> (!checkfile(tarVideoPath)) &#123;</span><br><span class="line">                System.out.println(tarVideoPath + <span class="string">&quot; is not exit!  processFfmpegVideo 转换不成功 !&quot;</span>);</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            System.out.println(<span class="string">&quot;【&quot;</span> + tarVideoPath + <span class="string">&quot;】 processFfmpegVideo  转换不成功 !&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="源码地址："><a href="#源码地址：" class="headerlink" title="源码地址："></a>源码地址：</h2><p><a target="_blank" rel="noopener" href="https://github.com/Ruffianjiang/java4fun/tree/master/img2text">https://github.com/Ruffianjiang/java4fun/tree/master/img2text</a></p>
+<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/i_likechard/article/details/79032931">https://blog.csdn.net/i_likechard&#x2F;article&#x2F;details&#x2F;79032931</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/xiaocao9903/article/details/53420519">https://blog.csdn.net/xiaocao9903/article/details/53420519</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/wangshuainan/article/details/77914508?fps=1&locationNum=4">https://blog.csdn.net/wangshuainan/article/details/77914508?fps=1&locationNum=4</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/yourijing/article/details/50786758">https://blog.csdn.net/yourijing/article/details/50786758</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
+              <a href="/tags/fun/" rel="tag"># fun</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/p/zh-CN/10184.html" rel="prev" title="图片转字符图片（二）">
+                  <i class="fa fa-angle-left"></i> 图片转字符图片（二）
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/p/zh-CN/35012.html" rel="next" title="我的众安面试经历（题库）">
+                  我的众安面试经历（题库） <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Ruffianjiang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
